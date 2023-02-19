@@ -61,3 +61,6 @@ koonduvad korduval genereerimisel.
 
 Korduvkäivitamiseks tsüklis võid kasutada bashi skripti `run-n-times.sh`
 
+Kaustas runs/ leiduvate raportite alusel kandidaatide nimede
+esinemiskordade ülelugemiseks lisasin skripti `extract-counts-in-runs.sh`,
+mis kirjutab väljundi faili `stats.txt`.
