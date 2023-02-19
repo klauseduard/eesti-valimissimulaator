@@ -50,19 +50,14 @@ see ei mõjuta valimistulemust ja vajaks eraldi
 simulatsioonialgoritmi sammude realiseerimist.
 
 ## Kuidas rakendust kasutada?
+Käsurealt käivitamiseks:
+    
+        ./gradlew run
 
-Tekita kaust `runs/` -- sinna salvestatakse iga käivitamise järel
+Enne tekita kaust `runs/` -- sinna salvestatakse iga käivitamise järel
 simuleeritud valimistulemus. Mitu korda tasub rakendust käivitada
 seepärast, et tulemused on tõenäosuslikud tõenäosused loodetavasti
 koonduvad korduval genereerimisel.
 
-Tööriistad, mida taoliste tulemusfailide pealt statistika
-tegemiseks ise kasutaksin on `vim` (liigsete tulpade eemaldamiseks),
-`cat` failide kokkuliitmiseks, `sort` tulemuste sorteerimiseks ja
-`uniq -c` ridade korduvuse väljaselgitamiseks.
-
-
-Käsurealt käivitamiseks:
-    
-        ./gradlew run
+Korduvkäivitamiseks tsüklis võid kasutada bashi skripti `run-n-times.sh`
 
