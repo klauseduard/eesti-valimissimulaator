@@ -131,6 +131,9 @@ private fun kirjutaJagatudMandaadidFaili(k6ikMandaadid: MutableList<Kandidaat>) 
   val filename = "runs/" + timestamp + "-mandaadid.txt"
   val file = File(filename)
   file.writeText(k6ikMandaadid.joinToString("\n"))
+  // ensure the file ends with EOF
+  file.appendText("\n")
+  // ensure the file is closed
 }
 
 private fun trükiMandaatideSummad(
