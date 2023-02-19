@@ -64,3 +64,11 @@ Korduvkäivitamiseks tsüklis võid kasutada bashi skripti `run-n-times.sh`
 Kaustas runs/ leiduvate raportite alusel kandidaatide nimede
 esinemiskordade ülelugemiseks lisasin skripti `extract-counts-in-runs.sh`,
 mis kirjutab väljundi faili `stats.txt`.
+
+Käivita näiteks run-n-times.sh parameetriga 100 ja
+extract-counts-in-runs.sh väljendab seejärel justkui
+protsentides iga kandidaadi valituks saamise tõenäosust.
+
+Kui tahad puhtalt lehelt alustada, pead kaustas runs/ olevad failid
+ära kustutama käsitsi.
+
