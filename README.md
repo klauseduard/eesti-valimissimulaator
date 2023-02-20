@@ -50,25 +50,29 @@ see ei mõjuta valimistulemust ja vajaks eraldi
 simulatsioonialgoritmi sammude realiseerimist.
 
 ## Kuidas rakendust kasutada?
-Käsurealt käivitamiseks:
+
+Rakenduse käivitamiseks käsurealt kirjuta:
     
         ./gradlew run
+        
+Enne käivitamist tekita kaust nimega "runs/", kuhu iga käivitamise järel
+salvestatakse simuleeritud valimistulemus. Mitu korda tasub rakendust
+käivitada seepärast, et tulemused on tõenäosuslikud ning korduval
+gnereerimisel tõenäosused koonduvad.
 
-Enne tekita kaust `runs/` -- sinna salvestatakse iga käivitamise järel
-simuleeritud valimistulemus. Mitu korda tasub rakendust käivitada
-seepärast, et tulemused on tõenäosuslikud tõenäosused loodetavasti
-koonduvad korduval genereerimisel.
-
-Korduvkäivitamiseks tsüklis võid kasutada bashi skripti `run-n-times.sh`
-
-Kaustas runs/ leiduvate raportite alusel kandidaatide nimede
-esinemiskordade ülelugemiseks lisasin skripti `extract-counts-in-runs.sh`,
+Kui soovid rakendust käivitada tsüklis, võid kasutada bashi skripti
+`run-n-times.sh`. Kaustas `runs/` leiduvate raportite alusel kandidaatide
+nimede esinemiskordade ülelugemiseks lisasin skripti `extract-counts-in-runs.sh`,
 mis kirjutab väljundi faili `stats.txt`.
 
-Käivita näiteks run-n-times.sh parameetriga 100 ja
-extract-counts-in-runs.sh väljendab seejärel justkui
-protsentides iga kandidaadi valituks saamise tõenäosust.
+Näiteks, kui soovid käivitada rakendust 100 korda, kirjuta:
+
+         run-n-times.sh 100
+         
+Pärast seda saad kasutada skripti `extract-counts-in-runs.sh`, mis
+liidab kokku iga kandidaadi nime esinemiskorrad väljundfailides.
+Kui käivitasid algoritmi sada korda, väljendab see ühtlasi
+iga kandidaadi valituks saamise tõenäosust.
 
 Kui tahad puhtalt lehelt alustada, pead kaustas runs/ olevad failid
 ära kustutama käsitsi.
-
