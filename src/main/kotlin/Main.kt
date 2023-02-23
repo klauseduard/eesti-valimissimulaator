@@ -1,5 +1,6 @@
 import andmed.AndmeFailideLugeja
 import andmed.MANDAATE_KOKKU
+import andmed.Reiting
 import andmed.erakonnad
 import andmed.hääletanud
 import andmed.valimisringkonnad
@@ -13,6 +14,20 @@ import java.util.*
 val erakondadeHääledRingkondadeKaupa = mutableMapOf<String, MutableMap<Int, Int>>()
 
 fun main() {
+
+  var reitingud = loeReitingud()
+
+  // uuenda erakondade massiivis toetusprotsentide andmed
+  for (erakond in erakonnad) {
+    val toetusedRingkondades = mutableMapOf<Int, Double>()
+    erakond.toetusprotsentValimisringkonnas = toetusedRingkondades
+
+    reitingud.filter { it.erakonnaNimi == erakond.nimetus }.forEach() {
+      toetusedRingkondades[it.ringkond] = it.reiting
+    }
+  }
+
+
   trükiHääletanuteArv()
 
   val kandidaadid = loeKandidaatideAndmed()
@@ -84,6 +99,7 @@ private fun eraldaKandidaatidestRingkonnamandaadiSaanud(
   kandidaadid: MutableList<Kandidaat>
 ): MutableList<Kandidaat> {
   val ringkonnamandaadid = mutableListOf<Kandidaat>()
+
 
   // trüki iga ringkonna ringkonnamandaadi saanud kandidaadid võttes arvesse erakonnale antud ringkonnamandaatide arvu
   // eemalda kandidaadinimistust juba mandaadi saanud kandidaadid
@@ -188,6 +204,11 @@ private fun trükiHääletanuteArv() {
 private fun loeKandidaatideAndmed(): MutableList<Kandidaat> {
   var andmelugeja = AndmeFailideLugeja()
   return andmelugeja.loeKandidaadikirjed().toMutableList()
+}
+
+private fun loeReitingud(): MutableList<Reiting> {
+  var andmelugeja = AndmeFailideLugeja()
+  return andmelugeja.loeJSONiFailistReitingud()
 }
 
 

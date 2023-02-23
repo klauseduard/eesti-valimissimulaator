@@ -21,13 +21,23 @@ val hääletanud = mapOf(
   12 to 40659,
 )
 
+// konstandid erakondade nimedega
+val ISAMAA_ERAKOND = "ISAMAA Erakond"
+val KONSERVATIIVID = "Eesti Konservatiivne Rahvaerakond"
+val REFORMIERAKOND = "Eesti Reformierakond"
+val KESKERAKOND = "Eesti Keskerakond"
+val SDE = "Sotsiaaldemokraatlik Erakond"
+val E200 = "Erakond Eesti 200"
+val ROHELISED = "Erakond Eestimaa Rohelised"
+val PAREMPOOLSED = "Erakond Parempoolsed"
+
 /**
  * Konstant, mis sisaldab erakondade toetusi valimisringkondades ERRis avaldatud küsitlusandmete põhjal.
  * Siin ei ole ära toodud vea määrasid, mis teeksid andmed usaldusväärsemaks ja algoritmid keerulisemaks.
  */
 val erakonnad = arrayOf(
   Erakond(
-    "ISAMAA Erakond", mapOf(
+    ISAMAA_ERAKOND, mapOf(
       1 to 5.9,
       2 to 3.0,
       3 to 6.7,
@@ -43,7 +53,7 @@ val erakonnad = arrayOf(
     )
   ),
   Erakond(
-    "Eesti Konservatiivne Rahvaerakond", mapOf(
+    KONSERVATIIVID, mapOf(
       1 to 12.1,
       2 to 9.4,
       3 to 18.0,
@@ -59,7 +69,7 @@ val erakonnad = arrayOf(
     )
   ),
   Erakond(
-    "Eesti Reformierakond", mapOf(
+    REFORMIERAKOND, mapOf(
       1 to 29.2,
       2 to 27.1,
       3 to 32.7,
@@ -75,7 +85,7 @@ val erakonnad = arrayOf(
     )
   ),
   Erakond(
-    "Eesti Keskerakond", mapOf(
+    KESKERAKOND, mapOf(
       1 to 17.5,
       2 to 34.2,
       3 to 20.5,
@@ -91,7 +101,7 @@ val erakonnad = arrayOf(
     )
   ),
   Erakond(
-    "Erakond Eesti 200", mapOf(
+    E200, mapOf(
       1 to 13.7,
       2 to 8.2,
       3 to 11.9,
@@ -107,7 +117,7 @@ val erakonnad = arrayOf(
     )
   ),
   Erakond(
-    "Sotsiaaldemokraatlik Erakond", mapOf(
+    SDE, mapOf(
       1 to 11.9,
       2 to 10.9,
       3 to 5.2,

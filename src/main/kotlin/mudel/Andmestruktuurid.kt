@@ -1,6 +1,6 @@
 package mudel
 
-data class Erakond(val nimetus: String, val toetusprotsentValimisringkonnas: Map<Int, Double>)
+data class Erakond(val nimetus: String, var toetusprotsentValimisringkonnas: Map<Int, Double>)
 
 data class Valimisringkond(val nr: Int, val nimetus: String, val mandaatideArv: Int)
 

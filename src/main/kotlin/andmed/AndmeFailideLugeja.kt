@@ -1,5 +1,7 @@
 package andmed
 
+import com.google.gson.Gson
+import mudel.Erakond
 import mudel.Kandidaat
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -131,5 +133,106 @@ class AndmeFailideLugeja {
     return kandidaadid
   }
 
+  fun loeJSONiFailistReitingud(): MutableList<Reiting> {
+    // Algoritmi kirjeldus:
+    // JSON-fail reitingud/reitingud-2023-02-20.json sisaldab erakondade reitinguid ringkondades.
+    // 1. ringkonna andmed on elemendis .props.chartData.data[16][-1], kus -1 osutab tagantpoolt esimesele elemendile.
+    // 2. ringkonna andmed on elemendis .props.chartData.data[77][-1] jne.
+    // Viimaks, 12. ringkonna andmed on elemendis .props.chartData.data[27][-1]
+    // Iga ringkonna andmed on struktuuris
+    // [
+    //  "24.01-20.02.2023",
+    //  "14.8%",
+    //  "32.5%",
+    //  "32.4%",
+    //  "7.5%",
+    //  "3.4%",
+    //  "1.3%",
+    //  "7.3%",
+    //  "0.4%"
+    // ],
+    // kus esimesel real on kuupäevavahemik ja järgmisel kaheksal real kaheksa erakonna reitingud protsentides.
+    // Loe andmed sellest failist andmestruktuuri.
+
+    // Algoritm:
+    // 1. loe failist andmed
+    // 2. loe andmed ringkondade kaupa
+    // 3. loe andmed erakondade kaupa
+    // 4. salvesta andmed andmebaasi
+
+    val fileName = "reitingud/reitingud-2023-02-20.json"
+    val inputStream = AndmeFailideLugeja::class.java.getResourceAsStream("/$fileName")
+    val reader = BufferedReader(InputStreamReader(inputStream))
+
+    val gson = Gson()
+
+    val reitingud = gson.fromJson(reader, Reitingud::class.java)
+
+    val reitingudList = mutableListOf<Reiting>()
+
+    for (i in 0..11) {
+      val ringkonnaReitingud = reitingud.props.chartData.data[i+16].last()
+      // example value of ringkonnaReitingud:
+      // [
+      //  "24.01-20.02.2023",
+      //  "14.8%",
+      //  "32.5%",
+      //  "32.4%",
+      //  "7.5%",
+      //  "3.4%",
+      //  "1.3%",
+      //  "7.3%",
+      //  "0.4%"
+      // ]
+
+
+      for (j in 0..7) {
+        val erakonnaNimi = reitingud.props.chartData.labels[j]
+
+        val pikkus = ringkonnaReitingud[j+1].length
+        // kui pikkus on null, on reiting 0.0
+        if (pikkus == 0) {
+          reitingudList.add(Reiting(erakonnaNimi, 0.0, i+1))
+        } else {
+          val reiting = ringkonnaReitingud[j + 1].substring(0, ringkonnaReitingud[j + 1].length - 1).toDouble()
+          println("$i-$j : $erakonnaNimi $reiting")
+          reitingudList.add(Reiting(erakonnaNimi, reiting, i + 1))
+        }
+      }
+    }
+
+    reitingudList.forEach {
+      println("${it.erakonnaNimi}, ${it.reiting}, ${it.ringkond}")
+    }
+
+    return reitingudList
+
+
+  }
+
 
 }
+
+class Reitingud {
+  val props = Props()
+}
+
+class Props {
+  val chartData = ChartData()
+}
+
+class ChartData {
+  val data = mutableListOf<Array<Array<String>>>()
+  var labels = mutableListOf<String>(
+    KESKERAKOND,
+    KONSERVATIIVID,
+    REFORMIERAKOND,
+    ISAMAA_ERAKOND,
+    SDE,
+    ROHELISED,
+    E200,
+    PAREMPOOLSED)
+}
+
+data class Reiting(val erakonnaNimi: String, val reiting: Double, val ringkond: Int)
+
