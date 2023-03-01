@@ -137,7 +137,7 @@ class AndmeFailideLugeja {
     // Algoritmi kirjeldus:
     // JSON-fail reitingud/reitingud-2023-02-20.json sisaldab erakondade reitinguid ringkondades.
     // 1. ringkonna andmed on elemendis .props.chartData.data[16][-1], kus -1 osutab tagantpoolt esimesele elemendile.
-    // 2. ringkonna andmed on elemendis .props.chartData.data[77][-1] jne.
+    // 2. ringkonna andmed on elemendis .props.chartData.data[17][-1] jne.
     // Viimaks, 12. ringkonna andmed on elemendis .props.chartData.data[27][-1]
     // Iga ringkonna andmed on struktuuris
     // [
@@ -160,7 +160,7 @@ class AndmeFailideLugeja {
     // 3. loe andmed erakondade kaupa
     // 4. salvesta andmed andmebaasi
 
-    val fileName = "reitingud/reitingud-2023-02-20.json"
+    val fileName = "reitingud/reitingud-2023-02-27.json"
     val inputStream = AndmeFailideLugeja::class.java.getResourceAsStream("/$fileName")
     val reader = BufferedReader(InputStreamReader(inputStream))
 
