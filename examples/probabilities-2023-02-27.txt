@@ -1,6 +1,13 @@
 #  27. veebruari toetusnumbrite seisu põhjal reitingud.ee lehelt
 #
-#  ERAKONDADE MANDAATIDE KOGUSUMMA: {ISAMAA Erakond=8, Eesti Konservatiivne Rahvaerakond=24, Eesti Reformierakond=32, Eesti Keskerakond=21, Erakond Eesti 200=9, Sotsiaaldemokraatlik Erakond=7}
+#  ERAKONDADE MANDAATIDE KOGUSUMMA: {
+#       ISAMAA Erakond=8,
+#       Eesti Konservatiivne Rahvaerakond=24,
+#       Eesti Reformierakond=32,
+#       Eesti Keskerakond=21,
+#       Erakond Eesti 200=9,
+#       Sotsiaaldemokraatlik Erakond=7
+#   }
 ################################################# 
 
     100 Kandidaat(nimi=YANA TOOM, erakond=Eesti Keskerakond, valimisringkond=7
