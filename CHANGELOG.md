@@ -1,3 +1,13 @@
+## 2023-03-04
+
+### Added
+
+  * Fix: make sure no leftover votes remain when dividing party votes between
+  candidates.
+
+  * Fix: examples/probabilities-2023-03-03.txt [updated with correct
+  run data]
+
 ## 2023-03-03
 
 ### Added
@@ -5,7 +15,7 @@
   * New data: pollster data from reitingud.ee --
   src/main/resources/reitingud-2023-03-03.json
 
-  * New calculations: examples/probabilities-2023-03-03.txt
+  * New calculations: examples/probabilities-2023-03-03.txt [wrong run data though!]
 
 
 

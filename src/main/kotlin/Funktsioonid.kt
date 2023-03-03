@@ -24,5 +24,10 @@ fun jagadaArvNiksJuhuslikuksOsaks(arv: Int, n: Int): List<Int> {
     osad.add(osa)
     jääk -= osa
   }
+
+  // kui jääk > 0 lisa see esimesele osale
+  if (jääk > 0) {
+    osad[0] += jääk
+  }
   return osad
 }
