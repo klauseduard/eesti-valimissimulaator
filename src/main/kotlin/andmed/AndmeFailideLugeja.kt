@@ -160,7 +160,7 @@ class AndmeFailideLugeja {
     // 3. loe andmed erakondade kaupa
     // 4. salvesta andmed andmebaasi
 
-    val fileName = "reitingud/reitingud-2023-02-27.json"
+    val fileName = "reitingud/reitingud-2023-03-03.json"
     val inputStream = AndmeFailideLugeja::class.java.getResourceAsStream("/$fileName")
     val reader = BufferedReader(InputStreamReader(inputStream))
 

@@ -1,3 +1,24 @@
+## 2023-03-03
+
+### Added
+
+  * New data: pollster data from reitingud.ee --
+  src/main/resources/reitingud-2023-03-03.json
+
+  * New calculations: examples/probabilities-2023-03-03.txt
+
+
+
+## 2023-03-01
+
+### Added
+
+  * New data: pollster data from reitingud.ee --
+  src/main/resources/reitingud-2023-02-27.json
+
+  * New calculations: examples/probabilities-2023-02-27.txt
+
+
 
 ## 2023-02-23
 
@@ -13,7 +34,7 @@
   notable divergence in the proportion of seats that each party receives.
 
   * New data: pollster data from reitingud.ee --
-  src/main/resources/reitingud-2021-02-23.json
+  src/main/resources/reitingud-2023-02-23.json
    
   * New calculations: examples/probabilities-2023-02-23.txt
 
