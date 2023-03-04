@@ -74,6 +74,7 @@ Näiteks, kui soovid käivitada rakendust 100 korda, kirjuta:
 
          run-n-times.sh 100
 või
+
          run-emor-n-times.sh 100
          
 Pärast seda saad kasutada skripti `extract-counts-in-runs.sh`, mis
