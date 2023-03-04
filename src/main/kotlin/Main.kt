@@ -13,19 +13,29 @@ import java.util.*
 // andmestruktuur, mis seostab erakonna nimega tema häälte arvu igas ringkonnas
 val erakondadeHääledRingkondadeKaupa = mutableMapOf<String, MutableMap<Int, Int>>()
 
-fun main() {
+fun main(args: Array<String>) {
 
-  var reitingud = loeReitingud()
+ // kui programmi käsureaargumendina on antud --pollster=emor, siis jäta järgmised sammud vahele
+  if (args.isNotEmpty() && args[0] == "--pollster=emor") {
+    // kasutame Emori andemeid, mis initsialiseeritakse failis Andmed.kt
 
-  // uuenda erakondade massiivis toetusprotsentide andmed
-  for (erakond in erakonnad) {
-    val toetusedRingkondades = mutableMapOf<Int, Double>()
-    erakond.toetusprotsentValimisringkonnas = toetusedRingkondades
+  } else {
+    // trüki instruktsioonid, kuidas kasutada Emori andmeid
+    println("Kasutamiseks vali Emori andmed: --pollster=emor")
+    // vaikimisi kasutame Norstati andmeid, mis loetakse reitingufailidest
+    var reitingud = loeReitingud()
 
-    reitingud.filter { it.erakonnaNimi == erakond.nimetus }.forEach() {
-      toetusedRingkondades[it.ringkond] = it.reiting
+    // uuenda erakondade massiivis toetusprotsentide andmed
+    for (erakond in erakonnad) {
+      val toetusedRingkondades = mutableMapOf<Int, Double>()
+      erakond.toetusprotsentValimisringkonnas = toetusedRingkondades
+
+      reitingud.filter { it.erakonnaNimi == erakond.nimetus }.forEach() {
+        toetusedRingkondades[it.ringkond] = it.reiting
+      }
     }
   }
+
 
 
   trükiHääletanuteArv()

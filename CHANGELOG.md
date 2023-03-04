@@ -5,6 +5,10 @@
   * Fix: make sure no leftover votes remain when dividing party votes between
   candidates.
 
+  * New feature: add ability to pass command-line instruction to use Emor's
+  poll data instead of the default Norstat data. (Emor's data is hardcoded
+  in a Kotlin file.)
+
   * Fix: examples/probabilities-2023-03-03.txt [updated with correct
   run data]
 
