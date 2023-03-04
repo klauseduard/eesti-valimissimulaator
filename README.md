@@ -55,19 +55,26 @@ Rakenduse käivitamiseks käsurealt kirjuta:
     
         ./gradlew run
         
+See käivitab simulatsiooni Norstati reitingute pealt. Kui soovid kasutada
+Emori reitinguid, käivita
+
+        ./gradlew run --args='--pollster=emor'
+        
 Enne käivitamist tekita kaust nimega "runs/", kuhu iga käivitamise järel
 salvestatakse simuleeritud valimistulemus. Mitu korda tasub rakendust
 käivitada seepärast, et tulemused on tõenäosuslikud ning korduval
 gnereerimisel tõenäosused koonduvad.
 
 Kui soovid rakendust käivitada tsüklis, võid kasutada bashi skripti
-`run-n-times.sh`. Kaustas `runs/` leiduvate raportite alusel kandidaatide
-nimede esinemiskordade ülelugemiseks lisasin skripti `extract-counts-in-runs.sh`,
-mis kirjutab väljundi faili `stats.txt`.
+`run-n-times.sh` (või `run-emor-n-times.sh`). Kaustas `runs/` leiduvate raportite alusel
+kandidaatide nimede esinemiskordade ülelugemiseks lisasin skripti
+`extract-counts-in-runs.sh`, mis kirjutab väljundi faili `stats.txt`.
 
 Näiteks, kui soovid käivitada rakendust 100 korda, kirjuta:
 
          run-n-times.sh 100
+või
+         run-emor-n-times.sh 100
          
 Pärast seda saad kasutada skripti `extract-counts-in-runs.sh`, mis
 liidab kokku iga kandidaadi nime esinemiskorrad väljundfailides.
