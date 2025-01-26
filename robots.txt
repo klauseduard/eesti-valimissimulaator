@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://klauseduard.github.io/eesti-valimissimulaator/sitemap.xml 
