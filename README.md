@@ -1,3 +1,14 @@
+## Projekti kood / Project Code
+
+Projekti lähtekood on avalikult saadaval GitHubis / Source code is available on GitHub:
+https://github.com/klausvs/eesti-valimissimulaator
+
+Projekti kloonimiseks / To clone the project:
+```bash
+git clone https://github.com/klausvs/eesti-valimissimulaator.git
+cd eesti-valimissimulaator
+```
+
 ## Saateks arvutiprogrammile
 
 Selle väikese viimistlemata rakenduse ülesandeks on simuleerida
@@ -48,10 +59,6 @@ võimalus mandaate võita. Väikeparteide jagu hääli on programmi
 käesolevas versioonis jäetud kandidaatide vahel jagamata, sest
 see ei mõjuta valimistulemust ja vajaks eraldi
 simulatsioonialgoritmi sammude realiseerimist.
-
-## Projekti kood
-
-Projekti lähtekood on avalikult saadaval GitHubis: https://github.com/klausvs/eesti-valimissimulaator
 
 ## Kuidas rakendust kasutada?
 
