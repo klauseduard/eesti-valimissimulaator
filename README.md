@@ -49,6 +49,10 @@ käesolevas versioonis jäetud kandidaatide vahel jagamata, sest
 see ei mõjuta valimistulemust ja vajaks eraldi
 simulatsioonialgoritmi sammude realiseerimist.
 
+## Projekti kood
+
+Projekti lähtekood on avalikult saadaval GitHubis: https://github.com/klausvs/eesti-valimissimulaator
+
 ## Kuidas rakendust kasutada?
 
 Rakenduse käivitamiseks käsurealt kirjuta:
