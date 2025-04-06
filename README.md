@@ -1,7 +1,7 @@
 ## Projekti kood / Project Code
 
 Projekti lähtekood on avalikult saadaval GitHubis / Source code is available on GitHub:
-https://github.com/klausvs/eesti-valimissimulaator
+https://github.com/klauseduard/eesti-valimissimulaator
 
 Projekti kloonimiseks / To clone the project:
 ```bash
