@@ -5,7 +5,7 @@ https://github.com/klauseduard/eesti-valimissimulaator
 
 Projekti kloonimiseks / To clone the project:
 ```bash
-git clone https://github.com/klausvs/eesti-valimissimulaator.git
+git clone https://github.com/klauseduard/eesti-valimissimulaator.git
 cd eesti-valimissimulaator
 ```
 
