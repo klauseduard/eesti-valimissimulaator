@@ -5,7 +5,6 @@ import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.NumberAxis
 import javafx.scene.chart.XYChart
 import javafx.stage.Stage
-import javafx.application.Platform
 import javafx.scene.layout.VBox
 import javafx.scene.control.Label
 import javafx.geometry.Pos
@@ -18,9 +17,9 @@ class MandateVisualization : Application() {
         
         fun showResults(data: Map<String, Int>) {
             mandateData = data
-            Platform.startup {
-                launch(MandateVisualization::class.java)
-            }
+            // launch tuleb välja kutsuda väljaspool JavaFX rakenduslõime;
+            // kutse blokeerub, kuni kasutaja akna sulgeb
+            launch(MandateVisualization::class.java)
         }
     }
 

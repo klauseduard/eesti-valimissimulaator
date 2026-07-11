@@ -15,8 +15,11 @@ val erakondadeHääledRingkondadeKaupa = mutableMapOf<String, MutableMap<Int, In
 
 fun main(args: Array<String>) {
 
+  // graafiline kokkuvõte avatakse ainult --gui lipuga, et mitte blokeerida skriptidega tehtavaid hulgikäivitusi
+  val näitaGraafikut = args.contains("--gui")
+
  // kui programmi käsureaargumendina on antud --pollster=emor, siis jäta järgmised sammud vahele
-  if (args.isNotEmpty() && args[0] == "--pollster=emor") {
+  if (args.contains("--pollster=emor")) {
     // kasutame Emori andemeid, mis initsialiseeritakse failis Andmed.kt
 
   } else {
@@ -102,7 +105,9 @@ fun main(args: Array<String>) {
 
   val erakondadeMandaatideSumma = trükiMandaatideSummad(erakondadeMandaatideSummaKoguRiigis, erakondadeKompensatsioonimandaatideArv)
 
-  MandateVisualization.showResults(erakondadeMandaatideSumma)
+  if (näitaGraafikut) {
+    MandateVisualization.showResults(erakondadeMandaatideSumma)
+  }
 }
 
 private fun eraldaKandidaatidestRingkonnamandaadiSaanud(
@@ -158,6 +163,7 @@ private fun kirjutaJagatudMandaadidFaili(k6ikMandaadid: MutableList<Kandidaat>) 
   val timestamp = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
   val filename = "runs/" + timestamp + "-mandaadid.txt"
   val file = File(filename)
+  file.parentFile.mkdirs()
   file.writeText(k6ikMandaadid.joinToString("\n"))
   // ensure the file ends with EOF
   file.appendText("\n")

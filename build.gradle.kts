@@ -21,7 +21,8 @@ tasks.test {
 }
 
 kotlin {
-    jvmToolchain(8)
+    // JavaFX 17 nõuab vähemalt Java 11
+    jvmToolchain(11)
 }
 
 application {
