@@ -176,10 +176,14 @@ private fun leiaJaJärjestaMandaadidErakondadeKaupa(
 }
 
 private fun kirjutaJagatudMandaadidFaili(k6ikMandaadid: MutableList<Kandidaat>) {
-  val timestamp = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
-  val filename = "runs/" + timestamp + "-mandaadid.txt"
-  val file = File(filename)
+  val timestamp = SimpleDateFormat("yyyyMMddHHmmssSSS").format(Date())
+  var file = File("runs/" + timestamp + "-mandaadid.txt")
   file.parentFile.mkdirs()
+  // kui sama ajatempliga fail on juba olemas, lisa järjekorranumber, et ükski tulemus ei kaoks
+  var lisanr = 1
+  while (file.exists()) {
+    file = File("runs/" + timestamp + "-" + lisanr++ + "-mandaadid.txt")
+  }
   file.writeText(k6ikMandaadid.joinToString("\n"))
   // ensure the file ends with EOF
   file.appendText("\n")
