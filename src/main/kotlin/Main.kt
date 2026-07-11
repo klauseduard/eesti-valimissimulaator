@@ -15,6 +15,12 @@ val erakondadeHääledRingkondadeKaupa = mutableMapOf<String, MutableMap<Int, In
 
 fun main(args: Array<String>) {
 
+  // --report ei simuleeri, vaid koostab varasemate käivituste põhjal HTML-koondraporti
+  if (args.contains("--report")) {
+    raport.genereeriRaport()
+    return
+  }
+
   // graafiline kokkuvõte avatakse ainult --gui lipuga, et mitte blokeerida skriptidega tehtavaid hulgikäivitusi
   val näitaGraafikut = args.contains("--gui")
 
@@ -82,6 +88,7 @@ fun main(args: Array<String>) {
   println("Häälte jaotus üle riigi: " + erakondadeHääledKoguRiigis)
 
   val ringkonnamandaadid = eraldaKandidaatidestRingkonnamandaadiSaanud(kandidaadidSorteeritud, erakondadeRingkonnamandaadidRingkondadeKaupa, kandidaadid)
+  ringkonnamandaadid.forEach { it.mandaadiliik = "ringkond" }
 
   // Edasine arvestus käib tegelikult kohale saanud kandidaatide järgi, mitte
   // jaotustabeli järgi: kui erakonnal ei jagu ringkonnas piisavalt sobivaid
@@ -103,6 +110,7 @@ fun main(args: Array<String>) {
   // jaga kompensatsioonimandaadid üleriiklike nimekirjade vahel d'Hondti meetodil
   var jagatudMandaadidErakondadeKaupa = erakondadeMandaatideSummaKoguRiigis.toMutableMap()
   val kompensatsioonimandaadid = arvutaKompensatsioonimandaadid(kandidaadid, jagamataMandaate = kompensatsiooniMandaatideArv, jagatudMandaadidErakondadeKaupa, erakondadeHääledKoguRiigis)
+  kompensatsioonimandaadid.forEach { it.mandaadiliik = "kompensatsioon" }
 
 
   val erakondadeKompensatsioonimandaatideArv = mutableMapOf<String, Int>()
