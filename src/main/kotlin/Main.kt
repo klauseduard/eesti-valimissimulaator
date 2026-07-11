@@ -18,6 +18,10 @@ fun main(args: Array<String>) {
   // graafiline kokkuvõte avatakse ainult --gui lipuga, et mitte blokeerida skriptidega tehtavaid hulgikäivitusi
   val näitaGraafikut = args.contains("--gui")
 
+  // kui tugevasti koonduvad erakonna hääled nimekirja esinumbritele (vt jagaHääledKandidaatideVahel)
+  val kahanemistegur = args.firstOrNull { it.startsWith("--decay=") }
+    ?.substringAfter("=")?.toDoubleOrNull() ?: VAIKIMISI_KAHANEMISTEGUR
+
  // kui programmi käsureaargumendina on antud --pollster=emor, siis jäta järgmised sammud vahele
   if (args.contains("--pollster=emor")) {
     // kasutame Emori andemeid, mis initsialiseeritakse failis Andmed.kt
@@ -46,7 +50,7 @@ fun main(args: Array<String>) {
   val kandidaadid = loeKandidaatideAndmed()
 
   // leia igale erakonnale igas ringkonnas antud häälte arv
-  leiaErakondadeHääledRingkonniti(kandidaadid)
+  leiaErakondadeHääledRingkonniti(kandidaadid, kahanemistegur)
 
   val erakondadeRingkonnamandaadidRingkondadeKaupa : Map<Int, Map<String, Int>>
       = arvutaRingkonnaMandaadid()
@@ -189,7 +193,7 @@ private fun trükiMandaatideSummad(
   return erakondadeMandaatideSumma
 }
 
-private fun leiaErakondadeHääledRingkonniti(kandidaadid: MutableList<Kandidaat>) {
+private fun leiaErakondadeHääledRingkonniti(kandidaadid: MutableList<Kandidaat>, kahanemistegur: Double) {
   erakonnad.map { erakond ->
     valimisringkonnad.map { ringkond ->
       val hääli = arvutaHäälteArv(hääletanud[ringkond.nr]!!, erakond.toetusprotsentValimisringkonnas[ringkond.nr]!!)
@@ -200,10 +204,11 @@ private fun leiaErakondadeHääledRingkonniti(kandidaadid: MutableList<Kandidaat
       }
       currentMap[ringkond.nr] = hääli
 
-      // jaota hääled erakonna selle ringkonna kandidaatide vahel juhuslikult
+      // jaota hääled erakonna selle ringkonna kandidaatide vahel: nimekirja ees paiknevad
+      // kandidaadid saavad suurema oodatava osa, kuid iga hääl loositakse eraldi
       val kandidaadidRingkonnas =
         kandidaadid.filter { it.erakond == erakond.nimetus && it.valimisringkond == ringkond.nr }
-      val kandidaatideHääled = jagadaArvNiksJuhuslikuksOsaks(hääli, kandidaadidRingkonnas.size)
+      val kandidaatideHääled = jagaHääledKandidaatideVahel(hääli, kandidaadidRingkonnas.size, kahanemistegur)
       for (i in kandidaadidRingkonnas.indices) {
         kandidaadidRingkonnas[i].hääli = kandidaatideHääled[i]
       }
