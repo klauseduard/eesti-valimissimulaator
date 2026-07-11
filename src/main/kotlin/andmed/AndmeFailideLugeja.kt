@@ -99,7 +99,9 @@ class AndmeFailideLugeja {
           }
 
           val kandidaat = kandidaadid.find { it.nimi == nimi && it.erakond == erakond }
-          kandidaat!!.jrkNr = i++
+            ?: throw RuntimeException(
+              "Üleriigilises nimekirjas olevat kandidaati '$nimi' ($erakond) ei leidu ringkonnanimekirjades")
+          kandidaat.jrkNr = i++
         }
       }
     }
@@ -129,6 +131,17 @@ class AndmeFailideLugeja {
       loeFailistKandidaadid("ringkond12.txt", 12)
 
     loeYleriigiline(kandidaadid)
+
+    // Kandidaat, kellele üleriigilisest nimekirjast järjekorranumbrit ei leitud,
+    // jääks vaikeväärtusega 0 kompensatsioonimandaatide järjekorras ekslikult
+    // esimeseks -- parem on andmeveast kohe valjult teada anda.
+    // Üksikkandidaadid üleriigilisse nimekirja ei kuulugi.
+    val järjekorranumbrita = kandidaadid.filter { it.jrkNr < 1 && it.erakond != ÜKSIKKANDIDAADID }
+    if (järjekorranumbrita.isNotEmpty()) {
+      throw RuntimeException(
+        "Kandidaatidel puudub üleriigilise nimekirja järjekorranumber: " +
+          järjekorranumbrita.joinToString { "${it.nimi} (${it.erakond}, ringkond ${it.valimisringkond})" })
+    }
 
     return kandidaadid
   }

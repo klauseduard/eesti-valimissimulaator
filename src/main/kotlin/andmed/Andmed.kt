@@ -35,6 +35,9 @@ val E200 = "Erakond Eesti 200"
 val ROHELISED = "Erakond Eestimaa Rohelised"
 val PAREMPOOLSED = "Erakond Parempoolsed"
 
+/* üksikkandidaadid ei kuulu üleriigilisse nimekirja ega saa kompensatsioonimandaate */
+val ÜKSIKKANDIDAADID = "Üksikkandidaadid"
+
 /**
  * Konstant, mis sisaldab erakondade toetusi valimisringkondades ERRis avaldatud küsitlusandmete põhjal.
  * Siin ei ole ära toodud vea määrasid, mis teeksid andmed usaldusväärsemaks ja algoritmid keerulisemaks.
