@@ -6,6 +6,22 @@ fun arvutaHäälteArv(hääled: Int, toetusprotsent: Double): Int {
   return (hääled * toetusprotsent / 100).toInt()
 }
 
+/** Vaikimisi küsitlusvea standardhälve protsendipunktides (vt [lisaKüsitlusviga]). */
+const val VAIKIMISI_KÜSITLUSVIGA = 2.0
+
+private val gaussiGeneraator = java.util.Random()
+
+/**
+ * Lisab toetusprotsendile normaaljaotusega küsitlusvea, et korduvad käivitused
+ * peegeldaksid küsitluste määramatust ka erakondade tasandil. Ilma selleta on
+ * erakondade häältesaak (valimisaktiivsus x toetusprotsent) igal käivitusel
+ * identne. Standardhälve on protsendipunktides; 0 lülitab vea lisamise välja.
+ */
+fun lisaKüsitlusviga(toetusprotsent: Double, standardhälve: Double): Double {
+  if (standardhälve <= 0.0) return toetusprotsent
+  return maxOf(0.0, toetusprotsent + gaussiGeneraator.nextGaussian() * standardhälve)
+}
+
 fun leiaDHondtiJagaja(saadudMandaatideArv: Int): Double {
   return (saadudMandaatideArv + 1).toDouble().pow(0.9)
 }

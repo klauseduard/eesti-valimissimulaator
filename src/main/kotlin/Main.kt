@@ -22,6 +22,10 @@ fun main(args: Array<String>) {
   val kahanemistegur = args.firstOrNull { it.startsWith("--decay=") }
     ?.substringAfter("=")?.toDoubleOrNull() ?: VAIKIMISI_KAHANEMISTEGUR
 
+  // küsitlusvea standardhälve protsendipunktides; --sigma=0 annab deterministlikud erakondade häälesaagid
+  val küsitlusviga = args.firstOrNull { it.startsWith("--sigma=") }
+    ?.substringAfter("=")?.toDoubleOrNull() ?: VAIKIMISI_KÜSITLUSVIGA
+
  // kui programmi käsureaargumendina on antud --pollster=emor, siis jäta järgmised sammud vahele
   if (args.contains("--pollster=emor")) {
     // kasutame Emori andemeid, mis initsialiseeritakse failis Andmed.kt
@@ -50,7 +54,7 @@ fun main(args: Array<String>) {
   val kandidaadid = loeKandidaatideAndmed()
 
   // leia igale erakonnale igas ringkonnas antud häälte arv
-  leiaErakondadeHääledRingkonniti(kandidaadid, kahanemistegur)
+  leiaErakondadeHääledRingkonniti(kandidaadid, kahanemistegur, küsitlusviga)
 
   val erakondadeRingkonnamandaadidRingkondadeKaupa : Map<Int, Map<String, Int>>
       = arvutaRingkonnaMandaadid()
@@ -193,10 +197,11 @@ private fun trükiMandaatideSummad(
   return erakondadeMandaatideSumma
 }
 
-private fun leiaErakondadeHääledRingkonniti(kandidaadid: MutableList<Kandidaat>, kahanemistegur: Double) {
+private fun leiaErakondadeHääledRingkonniti(kandidaadid: MutableList<Kandidaat>, kahanemistegur: Double, küsitlusviga: Double) {
   erakonnad.map { erakond ->
     valimisringkonnad.map { ringkond ->
-      val hääli = arvutaHäälteArv(hääletanud[ringkond.nr]!!, erakond.toetusprotsentValimisringkonnas[ringkond.nr]!!)
+      val toetus = lisaKüsitlusviga(erakond.toetusprotsentValimisringkonnas[ringkond.nr]!!, küsitlusviga)
+      val hääli = arvutaHäälteArv(hääletanud[ringkond.nr]!!, toetus)
       var currentMap = erakondadeHääledRingkondadeKaupa[erakond.nimetus]
       if (currentMap == null) {
         currentMap = mutableMapOf()
