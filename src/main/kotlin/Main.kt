@@ -83,11 +83,21 @@ fun main(args: Array<String>) {
 
   val ringkonnamandaadid = eraldaKandidaatidestRingkonnamandaadiSaanud(kandidaadidSorteeritud, erakondadeRingkonnamandaadidRingkondadeKaupa, kandidaadid)
 
-  // arvuta iga erakonna jaoks ringkondade kaupa võidetud ringkonnamandaatide summa
-  val erakondadeMandaatideSummaKoguRiigis = leiaSummaÜleRingkondade(erakondadeRingkonnamandaadidRingkondadeKaupa)
+  // Edasine arvestus käib tegelikult kohale saanud kandidaatide järgi, mitte
+  // jaotustabeli järgi: kui erakonnal ei jagu ringkonnas piisavalt sobivaid
+  // kandidaate, liigub täitmata koht kompensatsioonimandaatide hulka ega kao.
+  if (ringkonnamandaadid.size < jagatudRingkonnamandaatideArv) {
+    println("Täitmata ringkonnamandaate: ${jagatudRingkonnamandaatideArv - ringkonnamandaadid.size} (liiguvad kompensatsioonimandaatide hulka)")
+  }
+
+  val erakondadeMandaatideSummaKoguRiigis = mutableMapOf<String, Int>()
+  künniseÜletanudErakonnad.forEach { erakondadeMandaatideSummaKoguRiigis[it] = 0 }
+  ringkonnamandaadid.forEach {
+    erakondadeMandaatideSummaKoguRiigis[it.erakond] = erakondadeMandaatideSummaKoguRiigis[it.erakond]!! + 1
+  }
 
   // leia ülejäänud mandaadid
-  val kompensatsiooniMandaatideArv = MANDAATE_KOKKU - jagatudRingkonnamandaatideArv
+  val kompensatsiooniMandaatideArv = MANDAATE_KOKKU - ringkonnamandaadid.size
 
 
   // jaga kompensatsioonimandaadid üleriiklike nimekirjade vahel d'Hondti meetodil
@@ -147,18 +157,6 @@ private fun eraldaKandidaatidestRingkonnamandaadiSaanud(
     }
   }
   return ringkonnamandaadid
-}
-
-private fun leiaSummaÜleRingkondade(erakondadeRingkonnamandaadidRingkondadeKaupa: Map<Int, Map<String, Int>>): MutableMap<String, Int> {
-  val erakondadeMandaatideSummaKoguRiigis = mutableMapOf<String, Int>()
-  for ((ringkond, kanded) in erakondadeRingkonnamandaadidRingkondadeKaupa) {
-    for ((erakond, mandaadid) in kanded) {
-      if (erakondadeMandaatideSummaKoguRiigis[erakond] == null)
-        erakondadeMandaatideSummaKoguRiigis[erakond] = 0 // kui erakonnal veel ei ole mandaate, siis lisa 0
-      erakondadeMandaatideSummaKoguRiigis[erakond] = erakondadeMandaatideSummaKoguRiigis[erakond]!! + mandaadid
-    }
-  }
-  return erakondadeMandaatideSummaKoguRiigis
 }
 
 private fun leiaJaJärjestaMandaadidErakondadeKaupa(

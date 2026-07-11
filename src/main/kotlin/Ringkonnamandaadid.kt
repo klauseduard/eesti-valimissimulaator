@@ -26,7 +26,7 @@ private fun arvutaRingkonnaMandaadid(
 
   val lihtkvoot = hääletanud[ringkond.nr]!! / ringkond.mandaatideArv.toDouble();
 
-  arvutaMandaadid(erakondadeHääledSorteeritult, ringkonnamandaadidErakondadeKaupa, lihtkvoot)
+  arvutaMandaadid(erakondadeHääledSorteeritult, ringkonnamandaadidErakondadeKaupa, lihtkvoot, ringkond.mandaatideArv)
 
   trükiRingkonnamandaadid(ringkond, ringkonnamandaadidErakondadeKaupa)
 
@@ -46,13 +46,28 @@ private fun trükiRingkonnamandaadid(
 private fun arvutaMandaadid(
   erakondadeHääledSorteeritult: List<Pair<String, Int>>,
   ringkonnamandaadidErakondadeKaupa: MutableMap<String, Int>,
-  lihtkvoot: Double
+  lihtkvoot: Double,
+  mandaatideArv: Int
 ) {
+  var jagatud = 0
+
+  // kõigepealt täiskvootidele vastavad mandaadid; suurema häältesaagiga erakonnad on järjekorras eespool
   for ((erakond, hääled) in erakondadeHääledSorteeritult) {
-    ringkonnamandaadidErakondadeKaupa[erakond] = (hääled / lihtkvoot).toInt()
-    if (((hääled % lihtkvoot) / lihtkvoot) >= 0.75) {
-      ringkonnamandaadidErakondadeKaupa[erakond] = ringkonnamandaadidErakondadeKaupa[erakond]!! + 1
-    }
+    val täiskvoote = minOf((hääled / lihtkvoot).toInt(), mandaatideArv - jagatud)
+    ringkonnamandaadidErakondadeKaupa[erakond] = täiskvoote
+    jagatud += täiskvoote
+  }
+
+  // seejärel 0.75 reegli ümardusmandaadid jäägi suuruse järjekorras, kuid ainult
+  // seni, kuni ringkonnas kohti jätkub -- muidu võiks ringkond üle jaotada
+  val ümardusteJärjekord = erakondadeHääledSorteeritult
+    .map { (erakond, hääled) -> erakond to (hääled % lihtkvoot) / lihtkvoot }
+    .filter { it.second >= 0.75 }
+    .sortedByDescending { it.second }
+  for ((erakond, _) in ümardusteJärjekord) {
+    if (jagatud >= mandaatideArv) break
+    ringkonnamandaadidErakondadeKaupa[erakond] = ringkonnamandaadidErakondadeKaupa[erakond]!! + 1
+    jagatud++
   }
 }
 
