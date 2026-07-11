@@ -45,11 +45,29 @@ fun arvutaKompensatsioonimandaadid(
   return kompensatsiooniMandaadid;
 }
 
+/** lubatud ujukomahälve võrdlusarvude võrdsuse tuvastamisel */
+private const val VÕRDSUSE_EPSILON = 1e-9
+
 private fun jagaJärgmineMandaat(
   erakondadeVõrdlusarvud: MutableMap<String, Double>,
   kandidaadid: MutableList<Kandidaat>
 ): Kandidaat {
-  val suurimaVõrdlusarvugaErakond = erakondadeVõrdlusarvud.maxBy { it.value }.key
+  // erakond, kellel ei ole enam valimata kandidaate, ei saa mandaati vastu võtta
+  val osalevadErakonnad = erakondadeVõrdlusarvud
+    .filterKeys { erakond -> kandidaadid.any { it.erakond == erakond } }
+
+  val suurimVõrdlusarv = osalevadErakonnad.values.max()
+
+  // Võrdsete võrdlusarvude korral saab seaduse järgi mandaadi erakond, kelle
+  // kandidaadid paiknesid koondnimekirjas tagapool. Koondnimekirja simulatsioonis
+  // ei ole; lähendusena võrdleme erakonna järgmise valimata kandidaadi kohta
+  // üleriigilises nimekirjas (suurem järjekorranumber = tagapool).
+  val võrdsedErakonnad = osalevadErakonnad
+    .filterValues { it >= suurimVõrdlusarv - VÕRDSUSE_EPSILON }.keys
+  val suurimaVõrdlusarvugaErakond = võrdsedErakonnad.maxBy { erakond ->
+    kandidaadid.filter { it.erakond == erakond }.minOf { it.jrkNr }
+  }
+
   val kandidaadidErakonnas =
     kandidaadid.filter { it.erakond == suurimaVõrdlusarvugaErakond }.sortedWith(compareBy { it.jrkNr })
   return kandidaadidErakonnas.first()
