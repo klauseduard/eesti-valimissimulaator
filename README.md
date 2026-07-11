@@ -59,9 +59,20 @@ See käivitab simulatsiooni Norstati reitingute pealt. Kui soovid kasutada
 Emori reitinguid, käivita
 
         ./gradlew run --args='--pollster=emor'
-        
-Enne käivitamist tekita kaust nimega "runs/", kuhu iga käivitamise järel
-salvestatakse simuleeritud valimistulemus. Mitu korda tasub rakendust
+
+Täiendavad valikulised lipud:
+
+  * `--gui` -- näita pärast simulatsiooni mandaatide jaotust tulpdiagrammina
+    (aken blokeerib programmi kuni sulgemiseni, seega hulgikäivitustel ära kasuta);
+  * `--sigma=2.0` -- küsitlusvea standardhälve protsendipunktides, mis lisatakse
+    igal käivitusel iga erakonna toetusele igas ringkonnas (vaikimisi 2.0;
+    `--sigma=0` annab deterministlikud erakondade häälesaagid);
+  * `--decay=0.7` -- kui tugevasti koonduvad erakonna hääled ringkonnanimekirja
+    esinumbritele: kandidaadi kaal positsioonil i on decay^(i-1)
+    (vaikimisi 0.7; `--decay=1.0` jaotab hääled ühtlaselt).
+
+Kaust "runs/", kuhu iga käivitamise järel salvestatakse simuleeritud
+valimistulemus, tekitatakse automaatselt. Mitu korda tasub rakendust
 käivitada seepärast, et tulemused on tõenäosuslikud ning korduval
 gnereerimisel tõenäosused koonduvad.
 

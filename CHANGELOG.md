@@ -1,3 +1,39 @@
+## 2026-07-11
+
+### Added
+
+  * New feature: JavaFX bar chart of the final seat distribution, shown only
+  with the `--gui` flag so batch runs stay headless (#1, #2).
+
+  * New feature: per-run polling error sampled from a normal distribution and
+  added to every party's district support, tunable with `--sigma=` (#4).
+  Previously party-level results were identical on every run.
+
+  * New feature: votes are now split between a party's district candidates
+  with an explicit, tunable front-load model (weight `decay^(i-1)` at list
+  position i, `--decay=` flag) instead of an accidental order-dependent
+  geometric decay (#3).
+
+### Fixed
+
+  * Apply the 5% national election threshold to district list and
+  compensation mandates (#5).
+
+  * Require at least 10% of the district's simple quota for a candidate to
+  win a district list mandate (#6).
+
+  * Mandate conservation: the 0.75 round-up rule can no longer over-allocate
+  a district, and mandates a party cannot fill flow into the compensation
+  round instead of vanishing; the total is always 101 (#9).
+
+  * Validate national-list position matching: unmatched candidates now abort
+  the run with a clear error instead of silently jumping the compensation
+  queue (independent candidates are exempt) (#7).
+
+  * Break compensation-mandate ties per the law's intent instead of
+  arbitrarily; parties with no remaining candidates no longer crash the
+  compensation round (#8).
+
 ## 2023-03-04
 
 ### Added
