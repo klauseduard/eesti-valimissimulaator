@@ -4,21 +4,22 @@ import andmed.valimisringkonnad
 import mudel.Valimisringkond
 
 
-/** arvuta ringkonnamandaadid */
-fun arvutaRingkonnaMandaadid() : Map<Int, Map<String, Int>> {
+/** arvuta ringkonnamandaadid; nimekirjamandaate jagatakse ainult valimiskünnise ületanud erakondadele */
+fun arvutaRingkonnaMandaadid(künniseÜletanudErakonnad: Set<String>) : Map<Int, Map<String, Int>> {
   val mandaadidRingkondadeKaupa = mutableMapOf<Int, Map<String, Int>>()
 
   for (ringkond in valimisringkonnad) {
-    arvutaRingkonnaMandaadid(ringkond, mandaadidRingkondadeKaupa)
+    arvutaRingkonnaMandaadid(ringkond, mandaadidRingkondadeKaupa, künniseÜletanudErakonnad)
   }
   return mandaadidRingkondadeKaupa
 }
 
 private fun arvutaRingkonnaMandaadid(
   ringkond: Valimisringkond,
-  mandaadidRingkondadeKaupa: MutableMap<Int, Map<String, Int>>
+  mandaadidRingkondadeKaupa: MutableMap<Int, Map<String, Int>>,
+  künniseÜletanudErakonnad: Set<String>
 ) {
-  val erakondadeHääledSorteeritult = järjestaErakonnadHäälteArvuJärgi(ringkond)
+  val erakondadeHääledSorteeritult = järjestaErakonnadHäälteArvuJärgi(ringkond, künniseÜletanudErakonnad)
   println("Ringkond ${ringkond.nr} (${erakondadeHääledSorteeritult})")
 
   val ringkonnamandaadidErakondadeKaupa = mutableMapOf<String, Int>()
@@ -47,19 +48,22 @@ private fun arvutaMandaadid(
   ringkonnamandaadidErakondadeKaupa: MutableMap<String, Int>,
   lihtkvoot: Double
 ) {
-  for (i in erakonnad.indices) {
-    val erakond = erakondadeHääledSorteeritult[i].first
-    ringkonnamandaadidErakondadeKaupa[erakond] = (erakondadeHääledSorteeritult[i].second / lihtkvoot).toInt()
-    if (((erakondadeHääledSorteeritult[i].second % lihtkvoot) / lihtkvoot) >= 0.75) {
+  for ((erakond, hääled) in erakondadeHääledSorteeritult) {
+    ringkonnamandaadidErakondadeKaupa[erakond] = (hääled / lihtkvoot).toInt()
+    if (((hääled % lihtkvoot) / lihtkvoot) >= 0.75) {
       ringkonnamandaadidErakondadeKaupa[erakond] = ringkonnamandaadidErakondadeKaupa[erakond]!! + 1
     }
   }
 }
 
-private fun järjestaErakonnadHäälteArvuJärgi(ringkond: Valimisringkond): List<Pair<String, Int>> {
+private fun järjestaErakonnadHäälteArvuJärgi(
+  ringkond: Valimisringkond,
+  künniseÜletanudErakonnad: Set<String>
+): List<Pair<String, Int>> {
   val ringkonnaHääledErakondadeKaupa = mutableMapOf<String, Int>()
 
   for (erakond in erakonnad) {
+    if (erakond.nimetus !in künniseÜletanudErakonnad) continue
     ringkonnaHääledErakondadeKaupa[erakond.nimetus] = erakondadeHääledRingkondadeKaupa[erakond.nimetus]!![ringkond.nr]!!
   }
 

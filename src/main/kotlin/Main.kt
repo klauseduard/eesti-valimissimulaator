@@ -56,8 +56,14 @@ fun main(args: Array<String>) {
   // leia igale erakonnale igas ringkonnas antud häälte arv
   leiaErakondadeHääledRingkonniti(kandidaadid, kahanemistegur, küsitlusviga)
 
+  // Riigikogu valimise seaduse järgi osalevad nimekirja- ja kompensatsioonimandaatide
+  // jagamisel ainult erakonnad, kes kogusid vähemalt 5% häältest üle riigi.
+  // (Künnisest sõltumatuid isikumandaate simulatsioon ei modelleeri.)
+  val künniseÜletanudErakonnad = leiaKünniseÜletanudErakonnad()
+  println("Valimiskünnise (5%) ületasid: $künniseÜletanudErakonnad")
+
   val erakondadeRingkonnamandaadidRingkondadeKaupa : Map<Int, Map<String, Int>>
-      = arvutaRingkonnaMandaadid()
+      = arvutaRingkonnaMandaadid(künniseÜletanudErakonnad)
 
   // leia struktuurist Map<Int, Map<String, Int>> sisemise Mapi väärtuste summa
   val jagatudRingkonnamandaatideArv : Int
@@ -223,6 +229,14 @@ private fun leiaErakondadeHääledRingkonniti(kandidaadid: MutableList<Kandidaat
       hääli
     }
   }
+}
+
+/** Leiab erakonnad, kes kogusid vähemalt 5% kõigist antud häältest üle riigi. */
+private fun leiaKünniseÜletanudErakonnad(): Set<String> {
+  val hääliKokku = hääletanud.values.sum()
+  return erakondadeHääledRingkondadeKaupa
+    .filterValues { it.values.sum() >= 0.05 * hääliKokku }
+    .keys
 }
 
 private fun trükiHääletanuteArv() {
