@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.8.0"
+    id("org.openjfx.javafxplugin") version "0.0.13"
     application
 }
 
@@ -25,4 +26,9 @@ kotlin {
 
 application {
     mainClass.set("MainKt")
+}
+
+javafx {
+    version = "17.0.2"
+    modules = listOf("javafx.controls", "javafx.graphics")
 }

@@ -100,7 +100,9 @@ fun main(args: Array<String>) {
 
   kirjutaJagatudMandaadidFaili(k6ikMandaadid)
 
-  trükiMandaatideSummad(erakondadeMandaatideSummaKoguRiigis, erakondadeKompensatsioonimandaatideArv)
+  val erakondadeMandaatideSumma = trükiMandaatideSummad(erakondadeMandaatideSummaKoguRiigis, erakondadeKompensatsioonimandaatideArv)
+
+  MandateVisualization.showResults(erakondadeMandaatideSumma)
 }
 
 private fun eraldaKandidaatidestRingkonnamandaadiSaanud(
@@ -165,7 +167,7 @@ private fun kirjutaJagatudMandaadidFaili(k6ikMandaadid: MutableList<Kandidaat>) 
 private fun trükiMandaatideSummad(
   erakondadeMandaatideSummaKoguRiigis: MutableMap<String, Int>,
   erakondadeKompensatsioonimandaatideArv: MutableMap<String, Int>
-) {
+): Map<String, Int> {
   println("RINGKONNAMANDAATIDE JAOTUS: $erakondadeMandaatideSummaKoguRiigis")
   println("KOMPENSATSIOONIMANDAATIDE JAOTUS: $erakondadeKompensatsioonimandaatideArv")
 
@@ -178,6 +180,7 @@ private fun trükiMandaatideSummad(
   }
 
   println("ERAKONDADE MANDAATIDE KOGUSUMMA: $erakondadeMandaatideSumma")
+  return erakondadeMandaatideSumma
 }
 
 private fun leiaErakondadeHääledRingkonniti(kandidaadid: MutableList<Kandidaat>) {
