@@ -4,28 +4,29 @@ import andmed.valimisringkonnad
 import mudel.Valimisringkond
 
 
-/** arvuta ringkonnamandaadid */
-fun arvutaRingkonnaMandaadid() : Map<Int, Map<String, Int>> {
+/** arvuta ringkonnamandaadid; nimekirjamandaate jagatakse ainult valimiskünnise ületanud erakondadele */
+fun arvutaRingkonnaMandaadid(künniseÜletanudErakonnad: Set<String>) : Map<Int, Map<String, Int>> {
   val mandaadidRingkondadeKaupa = mutableMapOf<Int, Map<String, Int>>()
 
   for (ringkond in valimisringkonnad) {
-    arvutaRingkonnaMandaadid(ringkond, mandaadidRingkondadeKaupa)
+    arvutaRingkonnaMandaadid(ringkond, mandaadidRingkondadeKaupa, künniseÜletanudErakonnad)
   }
   return mandaadidRingkondadeKaupa
 }
 
 private fun arvutaRingkonnaMandaadid(
   ringkond: Valimisringkond,
-  mandaadidRingkondadeKaupa: MutableMap<Int, Map<String, Int>>
+  mandaadidRingkondadeKaupa: MutableMap<Int, Map<String, Int>>,
+  künniseÜletanudErakonnad: Set<String>
 ) {
-  val erakondadeHääledSorteeritult = järjestaErakonnadHäälteArvuJärgi(ringkond)
+  val erakondadeHääledSorteeritult = järjestaErakonnadHäälteArvuJärgi(ringkond, künniseÜletanudErakonnad)
   println("Ringkond ${ringkond.nr} (${erakondadeHääledSorteeritult})")
 
   val ringkonnamandaadidErakondadeKaupa = mutableMapOf<String, Int>()
 
   val lihtkvoot = hääletanud[ringkond.nr]!! / ringkond.mandaatideArv.toDouble();
 
-  arvutaMandaadid(erakondadeHääledSorteeritult, ringkonnamandaadidErakondadeKaupa, lihtkvoot)
+  arvutaMandaadid(erakondadeHääledSorteeritult, ringkonnamandaadidErakondadeKaupa, lihtkvoot, ringkond.mandaatideArv)
 
   trükiRingkonnamandaadid(ringkond, ringkonnamandaadidErakondadeKaupa)
 
@@ -45,21 +46,39 @@ private fun trükiRingkonnamandaadid(
 private fun arvutaMandaadid(
   erakondadeHääledSorteeritult: List<Pair<String, Int>>,
   ringkonnamandaadidErakondadeKaupa: MutableMap<String, Int>,
-  lihtkvoot: Double
+  lihtkvoot: Double,
+  mandaatideArv: Int
 ) {
-  for (i in erakonnad.indices) {
-    val erakond = erakondadeHääledSorteeritult[i].first
-    ringkonnamandaadidErakondadeKaupa[erakond] = (erakondadeHääledSorteeritult[i].second / lihtkvoot).toInt()
-    if (((erakondadeHääledSorteeritult[i].second % lihtkvoot) / lihtkvoot) >= 0.75) {
-      ringkonnamandaadidErakondadeKaupa[erakond] = ringkonnamandaadidErakondadeKaupa[erakond]!! + 1
-    }
+  var jagatud = 0
+
+  // kõigepealt täiskvootidele vastavad mandaadid; suurema häältesaagiga erakonnad on järjekorras eespool
+  for ((erakond, hääled) in erakondadeHääledSorteeritult) {
+    val täiskvoote = minOf((hääled / lihtkvoot).toInt(), mandaatideArv - jagatud)
+    ringkonnamandaadidErakondadeKaupa[erakond] = täiskvoote
+    jagatud += täiskvoote
+  }
+
+  // seejärel 0.75 reegli ümardusmandaadid jäägi suuruse järjekorras, kuid ainult
+  // seni, kuni ringkonnas kohti jätkub -- muidu võiks ringkond üle jaotada
+  val ümardusteJärjekord = erakondadeHääledSorteeritult
+    .map { (erakond, hääled) -> erakond to (hääled % lihtkvoot) / lihtkvoot }
+    .filter { it.second >= 0.75 }
+    .sortedByDescending { it.second }
+  for ((erakond, _) in ümardusteJärjekord) {
+    if (jagatud >= mandaatideArv) break
+    ringkonnamandaadidErakondadeKaupa[erakond] = ringkonnamandaadidErakondadeKaupa[erakond]!! + 1
+    jagatud++
   }
 }
 
-private fun järjestaErakonnadHäälteArvuJärgi(ringkond: Valimisringkond): List<Pair<String, Int>> {
+private fun järjestaErakonnadHäälteArvuJärgi(
+  ringkond: Valimisringkond,
+  künniseÜletanudErakonnad: Set<String>
+): List<Pair<String, Int>> {
   val ringkonnaHääledErakondadeKaupa = mutableMapOf<String, Int>()
 
   for (erakond in erakonnad) {
+    if (erakond.nimetus !in künniseÜletanudErakonnad) continue
     ringkonnaHääledErakondadeKaupa[erakond.nimetus] = erakondadeHääledRingkondadeKaupa[erakond.nimetus]!![ringkond.nr]!!
   }
 

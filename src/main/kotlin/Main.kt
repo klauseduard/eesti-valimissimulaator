@@ -15,8 +15,25 @@ val erakondadeHääledRingkondadeKaupa = mutableMapOf<String, MutableMap<Int, In
 
 fun main(args: Array<String>) {
 
+  // --report ei simuleeri, vaid koostab varasemate käivituste põhjal HTML-koondraporti
+  if (args.contains("--report")) {
+    raport.genereeriRaport()
+    return
+  }
+
+  // graafiline kokkuvõte avatakse ainult --gui lipuga, et mitte blokeerida skriptidega tehtavaid hulgikäivitusi
+  val näitaGraafikut = args.contains("--gui")
+
+  // kui tugevasti koonduvad erakonna hääled nimekirja esinumbritele (vt jagaHääledKandidaatideVahel)
+  val kahanemistegur = args.firstOrNull { it.startsWith("--decay=") }
+    ?.substringAfter("=")?.toDoubleOrNull() ?: VAIKIMISI_KAHANEMISTEGUR
+
+  // küsitlusvea standardhälve protsendipunktides; --sigma=0 annab deterministlikud erakondade häälesaagid
+  val küsitlusviga = args.firstOrNull { it.startsWith("--sigma=") }
+    ?.substringAfter("=")?.toDoubleOrNull() ?: VAIKIMISI_KÜSITLUSVIGA
+
  // kui programmi käsureaargumendina on antud --pollster=emor, siis jäta järgmised sammud vahele
-  if (args.isNotEmpty() && args[0] == "--pollster=emor") {
+  if (args.contains("--pollster=emor")) {
     // kasutame Emori andemeid, mis initsialiseeritakse failis Andmed.kt
 
   } else {
@@ -43,10 +60,16 @@ fun main(args: Array<String>) {
   val kandidaadid = loeKandidaatideAndmed()
 
   // leia igale erakonnale igas ringkonnas antud häälte arv
-  leiaErakondadeHääledRingkonniti(kandidaadid)
+  leiaErakondadeHääledRingkonniti(kandidaadid, kahanemistegur, küsitlusviga)
+
+  // Riigikogu valimise seaduse järgi osalevad nimekirja- ja kompensatsioonimandaatide
+  // jagamisel ainult erakonnad, kes kogusid vähemalt 5% häältest üle riigi.
+  // (Künnisest sõltumatuid isikumandaate simulatsioon ei modelleeri.)
+  val künniseÜletanudErakonnad = leiaKünniseÜletanudErakonnad()
+  println("Valimiskünnise (5%) ületasid: $künniseÜletanudErakonnad")
 
   val erakondadeRingkonnamandaadidRingkondadeKaupa : Map<Int, Map<String, Int>>
-      = arvutaRingkonnaMandaadid()
+      = arvutaRingkonnaMandaadid(künniseÜletanudErakonnad)
 
   // leia struktuurist Map<Int, Map<String, Int>> sisemise Mapi väärtuste summa
   val jagatudRingkonnamandaatideArv : Int
@@ -65,17 +88,29 @@ fun main(args: Array<String>) {
   println("Häälte jaotus üle riigi: " + erakondadeHääledKoguRiigis)
 
   val ringkonnamandaadid = eraldaKandidaatidestRingkonnamandaadiSaanud(kandidaadidSorteeritud, erakondadeRingkonnamandaadidRingkondadeKaupa, kandidaadid)
+  ringkonnamandaadid.forEach { it.mandaadiliik = "ringkond" }
 
-  // arvuta iga erakonna jaoks ringkondade kaupa võidetud ringkonnamandaatide summa
-  val erakondadeMandaatideSummaKoguRiigis = leiaSummaÜleRingkondade(erakondadeRingkonnamandaadidRingkondadeKaupa)
+  // Edasine arvestus käib tegelikult kohale saanud kandidaatide järgi, mitte
+  // jaotustabeli järgi: kui erakonnal ei jagu ringkonnas piisavalt sobivaid
+  // kandidaate, liigub täitmata koht kompensatsioonimandaatide hulka ega kao.
+  if (ringkonnamandaadid.size < jagatudRingkonnamandaatideArv) {
+    println("Täitmata ringkonnamandaate: ${jagatudRingkonnamandaatideArv - ringkonnamandaadid.size} (liiguvad kompensatsioonimandaatide hulka)")
+  }
+
+  val erakondadeMandaatideSummaKoguRiigis = mutableMapOf<String, Int>()
+  künniseÜletanudErakonnad.forEach { erakondadeMandaatideSummaKoguRiigis[it] = 0 }
+  ringkonnamandaadid.forEach {
+    erakondadeMandaatideSummaKoguRiigis[it.erakond] = erakondadeMandaatideSummaKoguRiigis[it.erakond]!! + 1
+  }
 
   // leia ülejäänud mandaadid
-  val kompensatsiooniMandaatideArv = MANDAATE_KOKKU - jagatudRingkonnamandaatideArv
+  val kompensatsiooniMandaatideArv = MANDAATE_KOKKU - ringkonnamandaadid.size
 
 
   // jaga kompensatsioonimandaadid üleriiklike nimekirjade vahel d'Hondti meetodil
   var jagatudMandaadidErakondadeKaupa = erakondadeMandaatideSummaKoguRiigis.toMutableMap()
   val kompensatsioonimandaadid = arvutaKompensatsioonimandaadid(kandidaadid, jagamataMandaate = kompensatsiooniMandaatideArv, jagatudMandaadidErakondadeKaupa, erakondadeHääledKoguRiigis)
+  kompensatsioonimandaadid.forEach { it.mandaadiliik = "kompensatsioon" }
 
 
   val erakondadeKompensatsioonimandaatideArv = mutableMapOf<String, Int>()
@@ -100,7 +135,11 @@ fun main(args: Array<String>) {
 
   kirjutaJagatudMandaadidFaili(k6ikMandaadid)
 
-  trükiMandaatideSummad(erakondadeMandaatideSummaKoguRiigis, erakondadeKompensatsioonimandaatideArv)
+  val erakondadeMandaatideSumma = trükiMandaatideSummad(erakondadeMandaatideSummaKoguRiigis, erakondadeKompensatsioonimandaatideArv)
+
+  if (näitaGraafikut) {
+    MandateVisualization.showResults(erakondadeMandaatideSumma)
+  }
 }
 
 private fun eraldaKandidaatidestRingkonnamandaadiSaanud(
@@ -116,28 +155,20 @@ private fun eraldaKandidaatidestRingkonnamandaadiSaanud(
   for (ringkond in valimisringkonnad) {
     println("Ringkond ${ringkond.nr} (${ringkond.nimetus})")
     val kandidaadidRingkonnas = kandidaadidSorteeritud.filter { it.valimisringkond == ringkond.nr }
-    // leiame iga erakonna ringkonnamandaatide arvu ja vastavalt sellele trükkime välja kandidaadid
-    for ((erakond, hääled) in erakondadeRingkonnamandaadidRingkondadeKaupa[ringkond.nr]!!) {
-      // arvestades ainult vaadeldava erakonna kandidaate, trüki välja esimesed hääled.size() kandidaati
-      println("  $erakond ${kandidaadidRingkonnas.filter { it.erakond == erakond }.take(hääled)}")
-      ringkonnamandaadid.addAll(kandidaadidRingkonnas.filter { it.erakond == erakond }.take(hääled))
-      // eemalda loendist kandidaadid need hääled.size() kandidaati, mis just välja trükkisime
-      kandidaadid.removeAll(kandidaadidRingkonnas.filter { it.erakond == erakond }.take(hääled))
+    // seaduse järgi saab nimekirjamandaadi ainult kandidaat, kes kogus vähemalt 10% lihtkvoodist
+    val kandidaadiKünnis = 0.1 * hääletanud[ringkond.nr]!! / ringkond.mandaatideArv
+    // leiame iga erakonna ringkonnamandaatide arvu ja vastavalt sellele mandaadi saanud kandidaadid
+    for ((erakond, mandaate) in erakondadeRingkonnamandaadidRingkondadeKaupa[ringkond.nr]!!) {
+      val mandaadiSaajad = kandidaadidRingkonnas
+        .filter { it.erakond == erakond && it.hääli >= kandidaadiKünnis }
+        .take(mandaate)
+      println("  $erakond $mandaadiSaajad")
+      ringkonnamandaadid.addAll(mandaadiSaajad)
+      // eemalda kandidaatide loendist mandaadi saanud kandidaadid
+      kandidaadid.removeAll(mandaadiSaajad)
     }
   }
   return ringkonnamandaadid
-}
-
-private fun leiaSummaÜleRingkondade(erakondadeRingkonnamandaadidRingkondadeKaupa: Map<Int, Map<String, Int>>): MutableMap<String, Int> {
-  val erakondadeMandaatideSummaKoguRiigis = mutableMapOf<String, Int>()
-  for ((ringkond, kanded) in erakondadeRingkonnamandaadidRingkondadeKaupa) {
-    for ((erakond, mandaadid) in kanded) {
-      if (erakondadeMandaatideSummaKoguRiigis[erakond] == null)
-        erakondadeMandaatideSummaKoguRiigis[erakond] = 0 // kui erakonnal veel ei ole mandaate, siis lisa 0
-      erakondadeMandaatideSummaKoguRiigis[erakond] = erakondadeMandaatideSummaKoguRiigis[erakond]!! + mandaadid
-    }
-  }
-  return erakondadeMandaatideSummaKoguRiigis
 }
 
 private fun leiaJaJärjestaMandaadidErakondadeKaupa(
@@ -153,9 +184,14 @@ private fun leiaJaJärjestaMandaadidErakondadeKaupa(
 }
 
 private fun kirjutaJagatudMandaadidFaili(k6ikMandaadid: MutableList<Kandidaat>) {
-  val timestamp = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
-  val filename = "runs/" + timestamp + "-mandaadid.txt"
-  val file = File(filename)
+  val timestamp = SimpleDateFormat("yyyyMMddHHmmssSSS").format(Date())
+  var file = File("runs/" + timestamp + "-mandaadid.txt")
+  file.parentFile.mkdirs()
+  // kui sama ajatempliga fail on juba olemas, lisa järjekorranumber, et ükski tulemus ei kaoks
+  var lisanr = 1
+  while (file.exists()) {
+    file = File("runs/" + timestamp + "-" + lisanr++ + "-mandaadid.txt")
+  }
   file.writeText(k6ikMandaadid.joinToString("\n"))
   // ensure the file ends with EOF
   file.appendText("\n")
@@ -165,7 +201,7 @@ private fun kirjutaJagatudMandaadidFaili(k6ikMandaadid: MutableList<Kandidaat>) 
 private fun trükiMandaatideSummad(
   erakondadeMandaatideSummaKoguRiigis: MutableMap<String, Int>,
   erakondadeKompensatsioonimandaatideArv: MutableMap<String, Int>
-) {
+): Map<String, Int> {
   println("RINGKONNAMANDAATIDE JAOTUS: $erakondadeMandaatideSummaKoguRiigis")
   println("KOMPENSATSIOONIMANDAATIDE JAOTUS: $erakondadeKompensatsioonimandaatideArv")
 
@@ -178,12 +214,14 @@ private fun trükiMandaatideSummad(
   }
 
   println("ERAKONDADE MANDAATIDE KOGUSUMMA: $erakondadeMandaatideSumma")
+  return erakondadeMandaatideSumma
 }
 
-private fun leiaErakondadeHääledRingkonniti(kandidaadid: MutableList<Kandidaat>) {
+private fun leiaErakondadeHääledRingkonniti(kandidaadid: MutableList<Kandidaat>, kahanemistegur: Double, küsitlusviga: Double) {
   erakonnad.map { erakond ->
     valimisringkonnad.map { ringkond ->
-      val hääli = arvutaHäälteArv(hääletanud[ringkond.nr]!!, erakond.toetusprotsentValimisringkonnas[ringkond.nr]!!)
+      val toetus = lisaKüsitlusviga(erakond.toetusprotsentValimisringkonnas[ringkond.nr]!!, küsitlusviga)
+      val hääli = arvutaHäälteArv(hääletanud[ringkond.nr]!!, toetus)
       var currentMap = erakondadeHääledRingkondadeKaupa[erakond.nimetus]
       if (currentMap == null) {
         currentMap = mutableMapOf()
@@ -191,10 +229,11 @@ private fun leiaErakondadeHääledRingkonniti(kandidaadid: MutableList<Kandidaat
       }
       currentMap[ringkond.nr] = hääli
 
-      // jaota hääled erakonna selle ringkonna kandidaatide vahel juhuslikult
+      // jaota hääled erakonna selle ringkonna kandidaatide vahel: nimekirja ees paiknevad
+      // kandidaadid saavad suurema oodatava osa, kuid iga hääl loositakse eraldi
       val kandidaadidRingkonnas =
         kandidaadid.filter { it.erakond == erakond.nimetus && it.valimisringkond == ringkond.nr }
-      val kandidaatideHääled = jagadaArvNiksJuhuslikuksOsaks(hääli, kandidaadidRingkonnas.size)
+      val kandidaatideHääled = jagaHääledKandidaatideVahel(hääli, kandidaadidRingkonnas.size, kahanemistegur)
       for (i in kandidaadidRingkonnas.indices) {
         kandidaadidRingkonnas[i].hääli = kandidaatideHääled[i]
       }
@@ -204,6 +243,14 @@ private fun leiaErakondadeHääledRingkonniti(kandidaadid: MutableList<Kandidaat
       hääli
     }
   }
+}
+
+/** Leiab erakonnad, kes kogusid vähemalt 5% kõigist antud häältest üle riigi. */
+private fun leiaKünniseÜletanudErakonnad(): Set<String> {
+  val hääliKokku = hääletanud.values.sum()
+  return erakondadeHääledRingkondadeKaupa
+    .filterValues { it.values.sum() >= 0.05 * hääliKokku }
+    .keys
 }
 
 private fun trükiHääletanuteArv() {

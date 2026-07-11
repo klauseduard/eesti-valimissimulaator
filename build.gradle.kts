@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.8.0"
+    id("org.openjfx.javafxplugin") version "0.0.13"
     application
 }
 
@@ -20,9 +21,15 @@ tasks.test {
 }
 
 kotlin {
-    jvmToolchain(8)
+    // JavaFX 17 nõuab vähemalt Java 11
+    jvmToolchain(11)
 }
 
 application {
     mainClass.set("MainKt")
+}
+
+javafx {
+    version = "17.0.2"
+    modules = listOf("javafx.controls", "javafx.graphics")
 }

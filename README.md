@@ -70,9 +70,20 @@ See käivitab simulatsiooni Norstati reitingute pealt. Kui soovid kasutada
 Emori reitinguid, käivita
 
         ./gradlew run --args='--pollster=emor'
-        
-Enne käivitamist tekita kaust nimega "runs/", kuhu iga käivitamise järel
-salvestatakse simuleeritud valimistulemus. Mitu korda tasub rakendust
+
+Täiendavad valikulised lipud:
+
+  * `--gui` -- näita pärast simulatsiooni mandaatide jaotust tulpdiagrammina
+    (aken blokeerib programmi kuni sulgemiseni, seega hulgikäivitustel ära kasuta);
+  * `--sigma=2.0` -- küsitlusvea standardhälve protsendipunktides, mis lisatakse
+    igal käivitusel iga erakonna toetusele igas ringkonnas (vaikimisi 2.0;
+    `--sigma=0` annab deterministlikud erakondade häälesaagid);
+  * `--decay=0.7` -- kui tugevasti koonduvad erakonna hääled ringkonnanimekirja
+    esinumbritele: kandidaadi kaal positsioonil i on decay^(i-1)
+    (vaikimisi 0.7; `--decay=1.0` jaotab hääled ühtlaselt).
+
+Kaust "runs/", kuhu iga käivitamise järel salvestatakse simuleeritud
+valimistulemus, tekitatakse automaatselt. Mitu korda tasub rakendust
 käivitada seepärast, et tulemused on tõenäosuslikud ning korduval
 gnereerimisel tõenäosused koonduvad.
 
@@ -95,3 +106,21 @@ iga kandidaadi valituks saamise tõenäosust.
 
 Kui tahad puhtalt lehelt alustada, pead kaustas runs/ olevad failid
 ära kustutama käsitsi.
+
+## Koondraport
+
+Kui kaustas runs/ on kogunenud simulatsioonitulemusi, saab neist koostada
+HTML-koondraporti:
+
+        ./gradlew run --args='--report'
+
+Tekib fail `raport.html`, mille saab avada otse brauseris (graafikud
+laetakse Chart.js CDN-ilt, seega vajab internetiühendust). Raport näitab:
+
+  * erakondade mandaatide vahemikke ja jaotusi käivituste lõikes;
+  * kuni kolme erakonna koalitsioonide enamuse (51+ kohta) tõenäosusi;
+  * "kaalukausil" kandidaate, kelle valituks osutumise sagedus jääb
+    vahemikku 5–95% ja kelle saatust võivad üksikud hääled mõjutada;
+  * kandidaatide valituks osutumise sagedusi erakondade kaupa koos
+    ringkonna- ja kompensatsioonimandaadi eristusega;
+  * erakondade keskmisi kohtade arve ringkondade kaupa.
