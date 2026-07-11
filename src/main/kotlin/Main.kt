@@ -147,13 +147,17 @@ private fun eraldaKandidaatidestRingkonnamandaadiSaanud(
   for (ringkond in valimisringkonnad) {
     println("Ringkond ${ringkond.nr} (${ringkond.nimetus})")
     val kandidaadidRingkonnas = kandidaadidSorteeritud.filter { it.valimisringkond == ringkond.nr }
-    // leiame iga erakonna ringkonnamandaatide arvu ja vastavalt sellele trükkime välja kandidaadid
-    for ((erakond, hääled) in erakondadeRingkonnamandaadidRingkondadeKaupa[ringkond.nr]!!) {
-      // arvestades ainult vaadeldava erakonna kandidaate, trüki välja esimesed hääled.size() kandidaati
-      println("  $erakond ${kandidaadidRingkonnas.filter { it.erakond == erakond }.take(hääled)}")
-      ringkonnamandaadid.addAll(kandidaadidRingkonnas.filter { it.erakond == erakond }.take(hääled))
-      // eemalda loendist kandidaadid need hääled.size() kandidaati, mis just välja trükkisime
-      kandidaadid.removeAll(kandidaadidRingkonnas.filter { it.erakond == erakond }.take(hääled))
+    // seaduse järgi saab nimekirjamandaadi ainult kandidaat, kes kogus vähemalt 10% lihtkvoodist
+    val kandidaadiKünnis = 0.1 * hääletanud[ringkond.nr]!! / ringkond.mandaatideArv
+    // leiame iga erakonna ringkonnamandaatide arvu ja vastavalt sellele mandaadi saanud kandidaadid
+    for ((erakond, mandaate) in erakondadeRingkonnamandaadidRingkondadeKaupa[ringkond.nr]!!) {
+      val mandaadiSaajad = kandidaadidRingkonnas
+        .filter { it.erakond == erakond && it.hääli >= kandidaadiKünnis }
+        .take(mandaate)
+      println("  $erakond $mandaadiSaajad")
+      ringkonnamandaadid.addAll(mandaadiSaajad)
+      // eemalda kandidaatide loendist mandaadi saanud kandidaadid
+      kandidaadid.removeAll(mandaadiSaajad)
     }
   }
   return ringkonnamandaadid
