@@ -8,60 +8,85 @@ import mudel.Kandidaat
  *   erakonna võrdlusarvud on võrdsed, saab mandaadi erakond, kelle kandidaadid paiknesid valimisringkonna
  *   kandidaatide koondnimekirjas tagapool.
  * </p>
+ * <p>
+ *   Erakonna mandaadi saab üleriigilises nimekirjas eespool olev kandidaat, kelle poolt antud häälte arv
+ *   on vähemalt 5% tema valimisringkonna lihtkvoodist. Kui selliseid kandidaate nimekirjas enam ei ole,
+ *   saab mandaadi sama nimekirja kandidaat, kes sai suurima osa oma ringkonna lihtkvoodist; võrdse osa
+ *   korral nimekirjas eespool olev kandidaat.
+ * </p>
+ * <p>
+ *   Erakond ei või saada rohkem mandaate, kui on tema nimekirjas kandidaate, seega jäetakse erakond,
+ *   kelle nimekirjas pole enam kandidaate, jagamisest välja.
+ * </p>
  *
- * (Vt Riigikogu valimise seadus)
+ * (Vt Riigikogu valimise seadus § 62 lg 4–8)
  *
- *  @param kandidaadid - kandidaatide nimekiri
+ *  @param kandidaadid - kandidaadid, kes ei ole veel mandaati saanud
  *  @param jagamataMandaate - mitu mandaati jagada
- *  @param jagatudMandaadidErakondadeKaupa - juba jagatud mandaatide arv erakondade kaupa
+ *  @param jagatudMandaadidErakondadeKaupa - jagamises osalevad erakonnad ja nende juba saadud mandaatide arv
  *  @param erakondadeHääledKoguRiigis - erakondade üleriiklik häältesaak
+ *  @param lihtkvoodid - ringkonna number -> ringkonna lihtkvoot
+ *  @param erakondadeKohtKoondnimekirjas - erakonna nimi -> koht kandidaatide koondnimekirjas; suurem arv on tagapool
  *  @return jagatud mandaadid
  */
 fun arvutaKompensatsioonimandaadid(
-  kandidaadid: MutableList<Kandidaat>,
+  kandidaadid: List<Kandidaat>,
   jagamataMandaate: Int,
-  jagatudMandaadidErakondadeKaupa: MutableMap<String, Int>,
-  erakondadeHääledKoguRiigis: MutableMap<String, Int>
+  jagatudMandaadidErakondadeKaupa: Map<String, Int>,
+  erakondadeHääledKoguRiigis: Map<String, Int>,
+  lihtkvoodid: Map<Int, Double>,
+  erakondadeKohtKoondnimekirjas: Map<String, Int>
 ): List<Kandidaat> {
+
+  // sisendeid ei muudeta, töötame koopiatega
+  val vabadKandidaadid = kandidaadid.toMutableList()
+  val jagatudMandaadid = jagatudMandaadidErakondadeKaupa.toMutableMap()
 
   val kompensatsiooniMandaadid = mutableListOf<Kandidaat>()
   var loendur = jagamataMandaate
 
   // iga mandaat arvutatakse ühekaupa lähtuvalt juba välja jagatud mandaatide arvust kuni jagatavate mandaatide arv otsa lõppeb
   while (loendur > 0) {
-    val erakondadeVõrdlusarvud = mutableMapOf<String, Double>()
+    // jagamises osalevad erakonnad, kelle nimekirjas on veel kandidaate
+    val osalevadErakonnad = jagatudMandaadid.filterKeys { erakond -> vabadKandidaadid.any { it.erakond == erakond } }
+    if (osalevadErakonnad.isEmpty()) break
 
     // arvuta erakondade võrdlusarvud juba saadud mandaatide alusel
-    arvutaUuedVõrdlusarvud(jagatudMandaadidErakondadeKaupa, erakondadeVõrdlusarvud, erakondadeHääledKoguRiigis)
+    val erakondadeVõrdlusarvud = arvutaVõrdlusarvud(osalevadErakonnad, erakondadeHääledKoguRiigis)
 
-    val järgmineMandaadigaKandidaat = jagaJärgmineMandaat(erakondadeVõrdlusarvud, kandidaadid)
+    val järgmineMandaadigaKandidaat =
+      jagaJärgmineMandaat(erakondadeVõrdlusarvud, vabadKandidaadid, lihtkvoodid, erakondadeKohtKoondnimekirjas)
 
     kompensatsiooniMandaadid.add(järgmineMandaadigaKandidaat)
 
-    kandidaadid.remove(järgmineMandaadigaKandidaat)
-    jagatudMandaadidErakondadeKaupa[järgmineMandaadigaKandidaat.erakond] = jagatudMandaadidErakondadeKaupa[järgmineMandaadigaKandidaat.erakond]!! + 1;
+    vabadKandidaadid.remove(järgmineMandaadigaKandidaat)
+    jagatudMandaadid[järgmineMandaadigaKandidaat.erakond] = jagatudMandaadid[järgmineMandaadigaKandidaat.erakond]!! + 1
     loendur = loendur.dec()
   }
-  return kompensatsiooniMandaadid;
+  return kompensatsiooniMandaadid
 }
 
 private fun jagaJärgmineMandaat(
-  erakondadeVõrdlusarvud: MutableMap<String, Double>,
-  kandidaadid: MutableList<Kandidaat>
+  erakondadeVõrdlusarvud: Map<String, Double>,
+  kandidaadid: List<Kandidaat>,
+  lihtkvoodid: Map<Int, Double>,
+  erakondadeKohtKoondnimekirjas: Map<String, Int>
 ): Kandidaat {
-  val suurimaVõrdlusarvugaErakond = erakondadeVõrdlusarvud.maxBy { it.value }.key
-  val kandidaadidErakonnas =
-    kandidaadid.filter { it.erakond == suurimaVõrdlusarvugaErakond }.sortedWith(compareBy { it.jrkNr })
-  return kandidaadidErakonnas.first()
+  // võrdsete võrdlusarvude korral saab mandaadi erakond, kelle kandidaadid on koondnimekirjas tagapool
+  val suurimaVõrdlusarvugaErakond = erakondadeVõrdlusarvud.entries
+    .maxWith(compareBy({ it.value }, { erakondadeKohtKoondnimekirjas[it.key]!! })).key
+  val kandidaadidErakonnas = kandidaadid.filter { it.erakond == suurimaVõrdlusarvugaErakond }
+  fun kvoodiOsakaal(k: Kandidaat) = k.hääli / lihtkvoodid[k.valimisringkond]!!
+
+  return kandidaadidErakonnas.filter { kvoodiOsakaal(it) >= 0.05 }.minByOrNull { it.jrkNr }
+    ?: kandidaadidErakonnas.maxWith(compareBy({ kvoodiOsakaal(it) }, { -it.jrkNr }))
 }
 
-private fun arvutaUuedVõrdlusarvud(
-  jagatudMandaadidErakondadeKaupa: MutableMap<String, Int>,
-  erakondadeVõrdlusarvud: MutableMap<String, Double>,
-  erakondadeHääledKoguRiigis: MutableMap<String, Int>
-) {
-  for ((erakond, mandaatideArv) in jagatudMandaadidErakondadeKaupa) {
-    val jagaja = leiaDHondtiJagaja(mandaatideArv)
-    erakondadeVõrdlusarvud[erakond] = erakondadeHääledKoguRiigis[erakond]!!.toDouble() / jagaja
+private fun arvutaVõrdlusarvud(
+  jagatudMandaadidErakondadeKaupa: Map<String, Int>,
+  erakondadeHääledKoguRiigis: Map<String, Int>
+): Map<String, Double> {
+  return jagatudMandaadidErakondadeKaupa.mapValues { (erakond, mandaatideArv) ->
+    erakondadeHääledKoguRiigis[erakond]!!.toDouble() / leiaDHondtiJagaja(mandaatideArv)
   }
 }

@@ -1,3 +1,40 @@
+## Unreleased
+
+### Changed
+
+  * Seat allocation now follows the remaining rules of the Riigikogu Election
+  Act: personal mandates for any candidate with at least the simple quota,
+  including independents; the 5% national threshold for district and
+  compensation mandates; at least 10% of the simple quota for a district
+  mandate; at least 5% of the simple quota for a compensation mandate, with
+  the fallback to the candidate with the highest share of the quota. District
+  mandates without an eligible candidate move to the compensation pool. With
+  the official 2023 votes, the program now reproduces all 101 official seats.
+  Simulated results change accordingly; the golden files were regenerated.
+
+  * Tie-breaks follow § 62 of the Riigikogu Election Act: equal votes for a
+  district mandate go to the candidate higher in the national list (lg 3);
+  equal comparison figures go to the party further back in the combined
+  district list, which is ordered by registration number (lg 5, § 33 lg 2);
+  equal quota shares in the fallback rule go to the candidate higher in the
+  list (lg 7). A party whose list is exhausted takes no further compensation
+  mandates (lg 8). `Kandidaat` now carries the registration number as its last
+  field, so the files in `runs/` gain a `regNr` field at the end of each line.
+
+  * Seat allocation (`jaotaMandaadid`) is now separate from vote simulation
+  (`simuleeriValimised`). It takes candidate votes and valid votes per district
+  as input and no longer reads or changes global state. Independent candidates
+  are no longer treated as a party list.
+
+### Added
+
+  * `--seed=N` command-line option for reproducible runs.
+
+  * Tests: unit tests for the quota and divisor rules, golden files that
+  compare seeded simulation output with the output before the refactor, and a
+  regression test against the official 2023 result
+  (https://opendata.valimised.ee/api/RK_2023/RESULTS.xml).
+
 ## 2023-03-04
 
 ### Added

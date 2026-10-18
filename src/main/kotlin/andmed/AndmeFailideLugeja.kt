@@ -52,7 +52,7 @@ class AndmeFailideLugeja {
             throw RuntimeException("Kandidaadil $nimi puudub erakond")
           }
 
-          kandidaadid.add(Kandidaat(nimi, erakond!!, ringkond ))
+          kandidaadid.add(Kandidaat(nimi, erakond!!, ringkond, regNr = number.toInt()))
         }
         line.startsWith("Kandidaate - ") -> {
           // ignoreeri seda rida
@@ -71,7 +71,8 @@ class AndmeFailideLugeja {
   }
 
 
-  private fun loeYleriigiline(kandidaadid : List<Kandidaat>) : Unit {
+  /** Määrab kandidaatidele järjekorranumbri erakonna üleriigilises nimekirjas (fail yleriigiline.txt). */
+  fun määraÜleriigilisedJärjekorranumbrid(kandidaadid : List<Kandidaat>) : Unit {
 
     val inputStream = AndmeFailideLugeja::class.java.getResourceAsStream("/yleriigiline.txt")
     val reader = BufferedReader(InputStreamReader(inputStream))
@@ -128,7 +129,7 @@ class AndmeFailideLugeja {
       loeFailistKandidaadid("ringkond11.txt", 11) +
       loeFailistKandidaadid("ringkond12.txt", 12)
 
-    loeYleriigiline(kandidaadid)
+    määraÜleriigilisedJärjekorranumbrid(kandidaadid)
 
     return kandidaadid
   }

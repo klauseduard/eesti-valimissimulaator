@@ -1,4 +1,5 @@
 import kotlin.math.pow
+import kotlin.random.Random
 
 /** meetod, mis arvutab erakonna häälte arvu ringkonnas */
 fun arvutaHäälteArv(hääled: Int, toetusprotsent: Double): Int {
@@ -10,7 +11,7 @@ fun leiaDHondtiJagaja(saadudMandaatideArv: Int): Double {
 }
 
 /** jaota arv n-iks juhuslikuks osaks */
-fun jagadaArvNiksJuhuslikuksOsaks(arv: Int, n: Int): List<Int> {
+fun jagadaArvNiksJuhuslikuksOsaks(arv: Int, n: Int, juhus: Random = Random): List<Int> {
   val osad = mutableListOf<Int>()
   var jääk: Int = arv
 
@@ -20,7 +21,7 @@ fun jagadaArvNiksJuhuslikuksOsaks(arv: Int, n: Int): List<Int> {
       osad.add(0)
       continue
     }
-    val osa: Int = (1..jääk).random()
+    val osa: Int = (1..jääk).random(juhus)
     osad.add(osa)
     jääk -= osa
   }

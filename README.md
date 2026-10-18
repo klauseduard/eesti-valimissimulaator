@@ -19,9 +19,15 @@ on kaasa pandud 2023. aasta valimiste kandidaatide
 ringkonna- ja üleriigilised nimekirjad, mis on kopeeritud
 ametlikelt veebilehtedelt.
 
-Programm ei ole valimisreeglites lõpuni täpne ja teeb vähemalt
-esialgu liiga nimekirjadele, kellel küsitluste andmetel
-parlamenti pääsemise lootust väga vähe.
+Programm jagab mandaadid Riigikogu valimise seaduse reeglite järgi:
+isikumandaadid (vähemalt lihtkvoot), ringkonnamandaadid 5% künnise
+ületanud erakondadele (0,75 jäägi reegel, kandidaadil vähemalt 10%
+lihtkvoodist) ja kompensatsioonimandaadid modifitseeritud d'Hondti
+meetodil (kandidaadil vähemalt 5% lihtkvoodist), sealhulgas viigireeglid
+(RKVS § 62). Test `Rk2023Test` jagab 2023.
+aasta tegelike häälte põhjal samad 101 mandaati nagu ametlik tulemus.
+Kandidaatidele seatud 10% ja 5% nõudeid need hääled ei rakenda, seega
+neid kontrollivad väikesed näited failis `MandaadijaotusTest.kt`.
 
 Programm ei ole väga ambitsioonikas, sest on loodud eelkõige
 käeharjutusena programmeerijat assisteeriva tööriista
@@ -95,3 +101,23 @@ iga kandidaadi valituks saamise tõenäosust.
 
 Kui tahad puhtalt lehelt alustada, pead kaustas runs/ olevad failid
 ära kustutama käsitsi.
+
+## Korratavus ja testid
+
+Kui soovid sama tulemust korduvalt saada, anna käivitamisel juhuslikkuse seeme:
+
+        ./gradlew run --args='--seed=1'
+
+Testide käivitamiseks kirjuta:
+
+        ./gradlew test
+
+Testid kontrollivad mandaatide jagamist kolmel viisil. Väikesed näited
+kontrollivad lihtkvooti, 0,75 jäägi reeglit, kompensatsioonimandaatide
+jagajaid, 5% künnist, isikumandaate, kandidaatide 10% ja 5% nõudeid ning
+varureeglit, kui 5% nõudele vastavaid kandidaate ei ole, ning viigireegleid. Kuldsed failid (`src/test/resources/kuldsed/`) kontrollivad, et
+sama seemne korral annab simulatsioon sama tulemuse. Test `Rk2023Test`
+jagab mandaadid 2023. aasta valimiste tegelike häälte põhjal ja võrdleb
+tulemust ametliku tulemusega (vt `src/test/resources/rk2023/LOEMIND.md`).
+Kui muudad mandaatide jagamise reegleid teadlikult, salvesta kuldsed
+failid uuesti ülaltoodud käsuga.
