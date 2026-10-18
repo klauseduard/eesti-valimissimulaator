@@ -1,3 +1,7 @@
+> **Märkus tehisintellekti kohta.** Selle faili teksti kirjutas
+> tehisintellekt (Claude, Anthropic, tööriistas Claude Code) 2026. aasta
+> oktoobris.
+
 # Valimisringkondade kaart
 
 See kaust ehitab faili `web/public/data/ringkonnad.topo.json`, mis sisaldab

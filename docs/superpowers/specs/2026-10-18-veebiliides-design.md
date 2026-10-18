@@ -1,3 +1,7 @@
+> **Note on AI authorship.** This document was written by AI (Claude by
+> Anthropic, in Claude Code), based on decisions agreed with the author in
+> conversation.
+
 # Web interface for the election simulator — design
 
 Agreed in conversation on 2026-10-18. The owner reviews the implementation

@@ -1,3 +1,7 @@
+> **Märkus tehisintellekti kohta.** Selle faili teksti kirjutas
+> tehisintellekt (Claude, Anthropic, tööriistas Claude Code) 2026. aasta
+> oktoobris.
+
 RESULTS.xml on 2023. aasta Riigikogu valimiste ametlik tulemuste fail.
 
 Allikas: https://opendata.valimised.ee/api/RK_2023/RESULTS.xml

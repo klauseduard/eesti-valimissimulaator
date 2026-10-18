@@ -1,3 +1,15 @@
+> **Märkus tehisintellekti kohta / Note on AI authorship.**
+> Suurema osa selle faili tekstist kirjutas 2026. aasta oktoobris
+> tehisintellekt (Claude, Anthropic, tööriistas Claude Code). Autori enda
+> kirjutatud on ainult jaotised „Projekti kood / Project Code" ja
+> „Saateks arvutiprogrammile" (2023), välja arvatud selle alguses olev
+> kursiivis märkus.
+>
+> Most of the text in this file was written in October 2026 by AI
+> (Claude by Anthropic, in Claude Code). Only the sections "Projekti kood /
+> Project Code" and "Saateks arvutiprogrammile" (2023), apart from the
+> italic note at its start, were written by the author.
+
 ## Veebileht / Web page
 
 Simulaatorit saab kasutada veebilehel / The simulator runs in the browser at

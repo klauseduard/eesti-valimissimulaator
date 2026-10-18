@@ -1,3 +1,7 @@
+> **Note on AI authorship.** The entries dated 2026 and the "Unreleased"
+> entries were written by AI (Claude by Anthropic, in Claude Code). The
+> entries dated 2023 were written by the author.
+
 ## Unreleased
 
 ### Changed
