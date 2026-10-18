@@ -3,11 +3,12 @@
   import { arv, protsent, t } from '../lib/i18n.svelte';
   import type { Kokkuvõte } from '../lib/protokoll';
   import type { Tulemus } from '../lib/simulaator';
-  import { statistika } from '../lib/statistika';
+  import { sagedaseimTulemus, statistika } from '../lib/statistika';
 
   let {
     tulemus,
     kokkuvõte,
+    kokkuvõteKehtib,
     mcKäib,
     mcViga,
     kordi,
@@ -15,6 +16,7 @@
   }: {
     tulemus: Tulemus;
     kokkuvõte: Kokkuvõte | null;
+    kokkuvõteKehtib: boolean;
     mcKäib: boolean;
     mcViga: string | null;
     kordi: number;
@@ -52,16 +54,32 @@
 
   const paigutus = kohad();
 
+  /**
+   * Näidatavad mandaadid: tegelike häältega üks kindel tulemus, muidu korduvate simulatsioonide kõige
+   * sagedasem terviktulemus (summa on alati 101). Enne esimesi kordusi mandaate ei näidata.
+   */
+  const sagedaseim = $derived(
+    !tegelikudHääled && kokkuvõte && kokkuvõte.kordi > 0 ? sagedaseimTulemus(kokkuvõte.mandaadid) : null,
+  );
+  const mandaadid = $derived.by((): Map<string, number> | null => {
+    if (tegelikudHääled) return new Map(tulemus.erakonnad.map((e) => [e.erakond, e.mandaate]));
+    if (!sagedaseim || !kokkuvõte) return null;
+    return new Map(kokkuvõte.erakonnad.map((e, i) => [e, sagedaseim.väärtused[i]]));
+  });
+  const mandaate = (erakond: string) => mandaadid?.get(erakond) ?? 0;
+
   const erakonnad = $derived(
-    [...tulemus.erakonnad].sort((a, b) => b.mandaate - a.mandaate || b.hääli - a.hääli),
+    [...tulemus.erakonnad].sort((a, b) => mandaate(b.erakond) - mandaate(a.erakond) || b.hääli - a.hääli),
   );
 
   /** iga koha erakond püsivas järjekorras */
   const kohtadeErakonnad = $derived(
-    [...tulemus.erakonnad]
-      .filter((e) => e.mandaate > 0)
-      .sort((a, b) => järjekorraNr(a.erakond) - järjekorraNr(b.erakond))
-      .flatMap((e) => Array<string>(e.mandaate).fill(e.erakond)),
+    mandaadid === null
+      ? []
+      : [...mandaadid.entries()]
+          .filter(([, m]) => m > 0)
+          .sort((a, b) => järjekorraNr(a[0]) - järjekorraNr(b[0]))
+          .flatMap(([e, m]) => Array<string>(m).fill(e)),
   );
 
   function vahemik(erakond: string) {
@@ -75,10 +93,25 @@
 </script>
 
 <h2 id="parlament-pealkiri">{t('parlament.pealkiri')}</h2>
+<p class="vaike vaigne alapealkiri" data-testid="parlamendi-alus">
+  {#if tegelikudHääled}
+    {t('parlament.alus.tegelikud')}
+  {:else if sagedaseim && kokkuvõte && kokkuvõteKehtib}
+    {t('parlament.alus.sagedaseim', { osakaal: protsent(sagedaseim.osakaal * 100, 0), kordi: kokkuvõte.kordi })}
+  {:else}
+    {t('parlament.alus.arvutan')}
+  {/if}
+</p>
 
-<svg viewBox="-1.06 -1.06 2.12 1.12" role="img" aria-labelledby="parlament-pealkiri parlament-kirjeldus" class="poolring">
+<svg
+  viewBox="-1.06 -1.06 2.12 1.12"
+  role="img"
+  aria-labelledby="parlament-pealkiri parlament-kirjeldus"
+  class="poolring"
+  class:uueneb={!tegelikudHääled && !kokkuvõteKehtib}
+>
   <desc id="parlament-kirjeldus">
-    {erakonnad.filter((e) => e.mandaate > 0).map((e) => `${e.erakond}: ${e.mandaate}`).join(', ')}
+    {erakonnad.filter((e) => mandaate(e.erakond) > 0).map((e) => `${e.erakond}: ${mandaate(e.erakond)}`).join(', ')}
   </desc>
   {#each paigutus.kohad as koht, i}
     {@const erakond = kohtadeErakonnad[i]}
@@ -102,10 +135,13 @@
       <tr>
         <th scope="col">{t('erakond')}</th>
         <th scope="col" class="arv">{t('parlament.kokku')}</th>
-        <th scope="col" class="arv" title={t('parlament.vahemik.selgitus', { kordi })}>{t('parlament.vahemik')}</th>
+        {#if tegelikudHääled}
+          <th scope="col" class="arv" title={t('parlament.ringkonnamandaadid.selgitus')}>{t('parlament.ringkonnamandaadid')}</th>
+          <th scope="col" class="arv" title={t('parlament.kompensatsioon.selgitus')}>{t('parlament.kompensatsioon')}</th>
+        {:else}
+          <th scope="col" class="arv" title={t('parlament.vahemik.selgitus', { kordi })}>{t('parlament.vahemik')}</th>
+        {/if}
         <th scope="col" class="arv">{t('parlament.hääled')}</th>
-        <th scope="col" class="arv" title={t('parlament.ringkonnamandaadid.selgitus')}>{t('parlament.ringkonnamandaadid')}</th>
-        <th scope="col" class="arv" title={t('parlament.kompensatsioon.selgitus')}>{t('parlament.kompensatsioon')}</th>
       </tr>
     </thead>
     <tbody>
@@ -113,7 +149,7 @@
         {@const info = erakonnaInfo(e.erakond)}
         {@const v = vahemik(e.erakond)}
         <tr
-          onmouseenter={() => (esiletõstetud = e.mandaate > 0 ? e.erakond : null)}
+          onmouseenter={() => (esiletõstetud = mandaate(e.erakond) > 0 ? e.erakond : null)}
           onmouseleave={() => (esiletõstetud = null)}
           class:alla={!e.ületasKünnise}
           data-testid="erakond-{info.lühend}"
@@ -123,19 +159,16 @@
             <abbr title={e.erakond}>{info.lühend}</abbr>
             {#if !e.ületasKünnise}<span class="märkus vaike vaigne">{t('parlament.allaKünnise')}</span>{/if}
           </th>
-          <td class="arv kokku-veerg" data-testid="mandaate-{info.lühend}">{e.mandaate}</td>
-          <td class="arv vaigne" title={v ? t('parlament.vahemik.täpsem', { min: v.min, max: v.max, keskmine: arv(v.keskmine, 1) }) : ''}>
-            {#if tegelikudHääled}
-              –
-            {:else if v}
-              {v.p05 === v.p95 ? v.p05 : `${v.p05}–${v.p95}`}
-            {:else}
-              …
-            {/if}
-          </td>
+          <td class="arv kokku-veerg" data-testid="mandaate-{info.lühend}">{mandaadid === null ? '…' : mandaate(e.erakond)}</td>
+          {#if tegelikudHääled}
+            <td class="arv">{e.ringkonnamandaate}</td>
+            <td class="arv">{e.kompensatsioonimandaate}</td>
+          {:else}
+            <td class="arv vaigne" title={v ? t('parlament.vahemik.täpsem', { min: v.min, max: v.max, keskmine: arv(v.keskmine, 1) }) : ''}>
+              {#if v}{v.p05 === v.p95 ? v.p05 : `${v.p05}–${v.p95}`}{:else}…{/if}
+            </td>
+          {/if}
           <td class="arv">{protsent(e.protsent)}</td>
-          <td class="arv">{e.ringkonnamandaate}</td>
-          <td class="arv">{e.kompensatsioonimandaate}</td>
         </tr>
       {/each}
     </tbody>
@@ -156,11 +189,20 @@
 </p>
 
 <style>
+  .alapealkiri {
+    margin: -0.3rem 0 0.4rem;
+    min-height: 1.4em;
+  }
+
   .poolring {
     width: 100%;
     max-width: 520px;
     display: block;
     margin: 0 auto 0.8rem;
+  }
+
+  .uueneb {
+    opacity: 0.45;
   }
 
   circle {

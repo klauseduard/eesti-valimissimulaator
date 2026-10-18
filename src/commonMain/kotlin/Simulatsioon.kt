@@ -47,8 +47,13 @@ data class Kokkuvõte(
   val valitudKordi: Map<KandidaadiVõti, Int>,
   /** erakonna nimi -> erakonna mandaatide arv igas korduses */
   val erakondadeMandaadid: Map<String, List<Int>>,
-  /** ringkonna number -> erakonna nimi -> erakonna mandaatide arv ringkonnas igas korduses */
+  /** ringkonna number -> erakonna nimi -> erakonna ringkonnamandaatide arv ringkonnas igas korduses */
   val ringkondadeMandaadid: Map<Int, Map<String, List<Int>>>,
+  /**
+   * ringkonna number -> erakonna nimi -> ringkonnast valitud kandidaatide arv igas korduses; erinevalt
+   * [ringkondadeMandaadid] on siin ka kompensatsioonimandaadi saanud kandidaadid
+   */
+  val ringkondadeValitud: Map<Int, Map<String, List<Int>>> = emptyMap(),
 )
 
 /**
@@ -65,6 +70,7 @@ class KorduvSimulatsioon(
   private val valitudKordi = mutableMapOf<KandidaadiVõti, Int>()
   private val mandaadidKordusteKaupa = mutableListOf<Map<String, Int>>()
   private val ringkondadeMandaadidKordusteKaupa = mutableListOf<Map<Int, Map<String, Int>>>()
+  private val ringkondadeValitudKordusteKaupa = mutableListOf<Map<Int, Map<String, Int>>>()
 
   val kordi: Int get() = mandaadidKordusteKaupa.size
 
@@ -81,19 +87,23 @@ class KorduvSimulatsioon(
       }
       mandaadidKordusteKaupa.add(valitud.groupingBy { it.erakond }.eachCount())
       ringkondadeMandaadidKordusteKaupa.add(jaotus.ringkonnamandaatideArv)
+      ringkondadeValitudKordusteKaupa.add(
+        valitud.groupBy { it.valimisringkond }.mapValues { (_, k) -> k.groupingBy { it.erakond }.eachCount() }
+      )
     }
   }
 
   fun kokkuvõte(): Kokkuvõte {
     val erakonnad = mandaadidKordusteKaupa.flatMap { it.keys }.distinct()
     val erakondadeMandaadid = erakonnad.associateWith { erakond -> mandaadidKordusteKaupa.map { it[erakond] ?: 0 } }
-    val ringkondadeMandaadid = ringkonnad.associate { ringkond ->
-      val ringkonnaErakonnad = ringkondadeMandaadidKordusteKaupa.flatMap { it[ringkond.nr]?.keys ?: emptySet() }.distinct()
-      ringkond.nr to ringkonnaErakonnad.associateWith { erakond ->
-        ringkondadeMandaadidKordusteKaupa.map { it[ringkond.nr]?.get(erakond) ?: 0 }
-      }
+    fun ringkondadeKaupa(kordused: List<Map<Int, Map<String, Int>>>) = ringkonnad.associate { ringkond ->
+      val ringkonnaErakonnad = kordused.flatMap { it[ringkond.nr]?.keys ?: emptySet() }.distinct()
+      ringkond.nr to ringkonnaErakonnad.associateWith { erakond -> kordused.map { it[ringkond.nr]?.get(erakond) ?: 0 } }
     }
-    return Kokkuvõte(kordi, valitudKordi.toMap(), erakondadeMandaadid, ringkondadeMandaadid)
+    return Kokkuvõte(
+      kordi, valitudKordi.toMap(), erakondadeMandaadid,
+      ringkondadeKaupa(ringkondadeMandaadidKordusteKaupa), ringkondadeKaupa(ringkondadeValitudKordusteKaupa)
+    )
   }
 }
 

@@ -8,9 +8,18 @@
   import { protsent, t } from '../lib/i18n.svelte';
   import { KAART_VÕITJA, type Olek } from '../lib/olek';
   import type { ToetuseAndmed } from '../lib/protokoll';
+  import type { Kokkuvõte } from '../lib/protokoll';
   import { RINGKONNAD, type Tulemus } from '../lib/simulaator';
+  import { sagedaseimTulemus } from '../lib/statistika';
 
-  let { tulemus, toetus, olek = $bindable() }: { tulemus: Tulemus; toetus: ToetuseAndmed; olek: Olek } = $props();
+  let {
+    tulemus,
+    toetus,
+    kokkuvõte,
+    kokkuvõteKehtib,
+    olek = $bindable(),
+  }: { tulemus: Tulemus; toetus: ToetuseAndmed; kokkuvõte: Kokkuvõte | null; kokkuvõteKehtib: boolean; olek: Olek } =
+    $props();
 
   type Ringkond = Feature<Geometry, { nr: number }>;
 
@@ -95,13 +104,26 @@
     return osad.reduce((suurim, osa) => (geoArea(osa) > geoArea(suurim) ? osa : suurim));
   }
 
-  /** valitud ringkondadest valitud kandidaatide arv erakonniti (kõik mandaadiliigid) */
+  /**
+   * ringkonnast valitud kandidaatide arv erakonniti (kõik mandaadiliigid): tegelike häältega selle
+   * tulemuse järgi, muidu korduvate simulatsioonide kõige sagedasem tulemus ringkonnas
+   */
   const ringkondadeMandaadid = $derived.by(() => {
     const kaart = new Map<number, Map<string, number>>();
-    for (const k of tulemus.valitud) {
-      const erakonnad = kaart.get(k.ringkond) ?? new Map<string, number>();
-      erakonnad.set(k.erakond, (erakonnad.get(k.erakond) ?? 0) + 1);
-      kaart.set(k.ringkond, erakonnad);
+    if (olek.tegelikudHääled) {
+      for (const k of tulemus.valitud) {
+        const erakonnad = kaart.get(k.ringkond) ?? new Map<string, number>();
+        erakonnad.set(k.erakond, (erakonnad.get(k.erakond) ?? 0) + 1);
+        kaart.set(k.ringkond, erakonnad);
+      }
+    } else if (kokkuvõte && kokkuvõte.kordi > 0) {
+      kokkuvõte.ringkondadeValitud.forEach((read, r) => {
+        const { väärtused } = sagedaseimTulemus(read);
+        kaart.set(
+          r + 1,
+          new Map(kokkuvõte.erakonnad.map((e, i) => [e, väärtused[i]] as [string, number]).filter(([, m]) => m > 0)),
+        );
+      });
     }
     return kaart;
   });
@@ -205,7 +227,7 @@
   </label>
 </div>
 
-<div class="ümbris" bind:this={ümbris}>
+<div class="ümbris" class:uueneb={!olek.tegelikudHääled && !kokkuvõteKehtib && !valitudErakond} bind:this={ümbris}>
   {#if laadimisViga}
     <div class="laadimisviga" role="alert">
       <p>{t('kaart.laadimisviga', { teade: laadimisViga })}</p>
@@ -313,7 +335,7 @@
   </div>
 {/if}
 
-<p class="vaike vaigne">{t('kaart.selgitus')}</p>
+<p class="vaike vaigne">{olek.tegelikudHääled ? t('kaart.selgitus.tegelikud') : t('kaart.selgitus')}</p>
 
 <details class="vaike">
   <summary>{t('kaart.tabelina')}</summary>
@@ -356,6 +378,11 @@
 
   .ümbris {
     position: relative;
+    transition: opacity 0.2s;
+  }
+
+  .uueneb {
+    opacity: 0.5;
   }
 
   svg {

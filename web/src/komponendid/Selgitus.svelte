@@ -26,6 +26,10 @@
   </label>
 </div>
 
+<p class="näidis vaike" data-testid="näidiskordus">
+  {olek.tegelikudHääled ? t('näidiskordus.tegelikud') : t('näidiskordus', { seeme: olek.seeme })}
+</p>
+
 <p class="vaigne">
   {t('selgitus.sissejuhatus', { mandaate: ringkond.mandaate, hääli: arv(arvutus.kehtivaidHääli) })}
 </p>
@@ -124,6 +128,13 @@
     gap: 0.5rem 1rem;
     justify-content: space-between;
     align-items: baseline;
+  }
+
+  .näidis {
+    background: var(--rohk-pind);
+    border-radius: 6px;
+    padding: 0.35rem 0.6rem;
+    margin: 0 0 0.6rem;
   }
 
   .sammud {

@@ -24,12 +24,10 @@
   "kokku": "Kokku",
   "häält": "häält",
   "viide": "RKVS § 62 lg {lõige}",
-
   "viga.link": "Lingi osi ei saanud kasutada ja need jäeti kõrvale: {osad}",
   "viga.sisend": "Sisend on vigane, seetõttu näidatakse viimast õnnestunud tulemust:",
   "viga.arvutus": "Mandaatide jagamine ebaõnnestus: {teade}",
   "viga.tööline": "Taustal korduvaid simulatsioone ei saanud käivitada.",
-
   "sisend.pealkiri": "Erakondade toetus",
   "sisend.selgitus": "Liugur muudab erakonna üleriigilist toetust. Erakonna toetus muutub igas ringkonnas sama teguriga, teiste erakondade toetus väheneb või kasvab ringkonniti võrdeliselt.",
   "sisend.künnis": "Kriips liuguri all on 5% künnis: väiksema toetusega erakond saab mandaadi ainult siis, kui mõni tema kandidaat kogub ringkonnas lihtkvoodi.",
@@ -38,7 +36,6 @@
   "sisend.ringkonnad.selgitus": "Muuda üksikut ringkonda, näiteks taktikalise hääletamise katsetamiseks. Protsendid on kehtivatest häältest; ülejäänu läheb teistele nimekirjadele.",
   "sisend.lahter": "{erakond} toetus ringkonnas {ringkond}",
   "sisend.liigaPalju": "Punasega märgitud ringkonnas on toetuste summa üle 100%. Paranda väärtusi, et simulatsioon jätkuks.",
-
   "parlament.pealkiri": "Mandaadid erakondade kaupa",
   "parlament.enamus": "enamuseks on vaja 51",
   "parlament.hääled": "Hääled",
@@ -51,24 +48,21 @@
   "parlament.vahemik.selgitus": "{kordi} korduse põhjal: 90% kordustest sai erakond nii palju mandaate",
   "parlament.vahemik.täpsem": "vähim {min}, suurim {max}, keskmine {keskmine}",
   "parlament.allaKünnise": "alla 5% künnise",
-
   "mc.käib": "Korduvad simulatsioonid: {tehtud} / {kordi}",
   "mc.valmis": "Vahemik ja sagedused {kordi} korduse põhjal; iga kordus jagab erakonna hääled kandidaatide vahel uuesti juhuslikult.",
   "mc.tegelikud": "Tegelike häältega on tulemus üks: juhuslikkust pole, seega vahemikku ei arvutata.",
   "mc.viga": "Korduvad simulatsioonid ebaõnnestusid: {teade}",
-
   "kaart.pealkiri": "Ringkonnad",
   "kaart.vaade": "Värv",
   "kaart.võitja": "enim mandaate saanud erakond",
   "kaart.toetus": "{erakond} toetus",
   "kaart.ringkond": "Ringkond {nr}, {nimi}, {mandaate} mandaati",
   "kaart.vihje.mandaate": "{mandaate} mandaati; siit valitud:",
-  "kaart.selgitus": "Arvud on ringkonnast valitud kandidaatide arv, ka kompensatsioonimandaadid. Klõpsa ringkonnal, et näha selle arvutust allpool.",
+  "kaart.selgitus": "Arvud on ringkonnast valitud kandidaatide arv, ka kompensatsioonimandaadid, kõige sagedasemas korduses. Klõpsa ringkonnal, et näha selle arvutust allpool.",
   "kaart.tabelina": "Näita tabelina",
   "kaart.valitud": "Valitud kandidaadid",
   "kaart.allikas": "Kaardi alus",
   "kaart.laadimisviga": "Kaarti ei õnnestunud laadida ({teade}).",
-
   "selgitus.pealkiri": "Kuidas ringkonnas mandaadid jagunesid",
   "selgitus.sissejuhatus": "Ringkonnas on {mandaate} mandaati ja {hääli} kehtivat häält.",
   "selgitus.kvoot.pealkiri": "Lihtkvoot",
@@ -89,7 +83,6 @@
   "selgitus.jagamata.pealkiri": "Jagamata mandaadid",
   "selgitus.jagamata": "Ringkonnas jagati {jaotatud} mandaati. {jagamata} mandaati jäi jagamata ja läheb üleriigilisse kompensatsioonimandaatide jaotusse.",
   "selgitus.jagamata.puudub": "Ringkonnas jagati kõik {jaotatud} mandaati.",
-
   "kompensatsioon.pealkiri": "Kompensatsioonimandaadid",
   "kompensatsioon.künnis.pealkiri": "5% künnis",
   "kompensatsioon.künnis": "Ringkonna- ja kompensatsioonimandaate saavad nimekirjad, kes kogusid vähemalt 5% kehtivatest häältest ehk {künnis} häält {kehtivaid} häälest:",
@@ -104,9 +97,8 @@
   "kompensatsioon.viik.selgitus": "Võrdlusarvud olid võrdsed; mandaadi sai erakond, kelle kandidaadid on koondnimekirjas tagapool (§ 62 lg 5).",
   "kompensatsioon.varureegel": "varureegel",
   "kompensatsioon.varureegel.selgitus": "Nimekirjas polnud 5% nõudele vastavaid kandidaate; mandaadi sai suurima lihtkvoodi osakaaluga kandidaat (§ 62 lg 7).",
-
   "kandidaadid.pealkiri": "Kandidaadid",
-  "kandidaadid.selgitus": "Valitud kandidaadid ja see, mitu protsenti korduvatest simulatsioonidest kandidaat valituks osutus. Erakonna hääled jagatakse kandidaatide vahel nimekirja järjekorras: esimene kandidaat saab keskmiselt poole erakonna häältest, järgmine poole ülejäänust jne. Seetõttu sõltub sagedus peamiselt kohast nimekirjas, mitte kandidaadi populaarsusest.",
+  "kandidaadid.selgitus": "Kandidaadid selle järgi, mitu protsenti korduvatest simulatsioonidest nad valituks osutusid; hääled ja mandaat on näidiskorduse omad. Erakonna hääled jagatakse kandidaatide vahel nimekirja järjekorras: esimene kandidaat saab keskmiselt poole erakonna häältest, järgmine poole ülejäänust jne. Seetõttu sõltub sagedus peamiselt kohast nimekirjas, mitte kandidaadi populaarsusest.",
   "kandidaadid.selgitus.tegelikud": "2023. aasta valimistel valitud kandidaadid koos tegelike häältega.",
   "kandidaadid.nimi": "Nimi",
   "kandidaadid.hääled": "Hääled",
@@ -114,15 +106,20 @@
   "kandidaadid.sagedus": "Valitud",
   "kandidaadid.kõik": "Näita kõiki ({arv})",
   "kandidaadid.vähem": "Näita vähem",
-
   "mandaat.isikumandaat": "isikumandaat",
   "mandaat.ringkonnamandaat": "ringkonnamandaat",
   "mandaat.kompensatsioonimandaat": "kompensatsioonimandaat",
-
   "jalus.mudel": "Simulatsioon, mitte prognoos: tulemus sõltub küsitluste andmetest ja eeldusest, kuidas erakonna hääled kandidaatide vahel jagunevad. Mandaatide jagamine ise järgib seadust ja annab 2023. aasta tegelike häältega ametliku tulemuse.",
   "jalus.seadus": "Mandaatide jagamise reeglid",
   "jalus.tulemus": "2023. aasta tulemus ja kehtivad hääled",
   "jalus.küsitlused": "Küsitlused",
   "jalus.kaart": "Ringkondade piirid",
-  "jalus.kood": "Lähtekood"
+  "jalus.kood": "Lähtekood",
+  "parlament.alus.sagedaseim": "Kõige sagedasem tulemus: {osakaal} {kordi} kordusest.",
+  "parlament.alus.tegelikud": "2023. aasta valimiste ametlik tulemus.",
+  "parlament.alus.arvutan": "Arvutan korduvaid simulatsioone…",
+  "näidiskordus": "Näidiskordus seemnega {seeme}: üks juhuslik häälte jaotus kandidaatide vahel. Teised kordused võivad anda teistsuguse tulemuse; ülal on kõige sagedasem tulemus.",
+  "näidiskordus.tegelikud": "2023. aasta valimistel kandidaatidele antud tegelikud hääled.",
+  "kaart.selgitus.tegelikud": "Arvud on ringkonnast valitud kandidaatide arv, ka kompensatsioonimandaadid. Klõpsa ringkonnal, et näha selle arvutust allpool.",
+  "kandidaadid.näidiskordus": "näidiskordus, seeme {seeme}"
 }

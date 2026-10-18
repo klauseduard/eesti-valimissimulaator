@@ -21,7 +21,7 @@
   const KORDI = 1000;
   const PARTII = 100;
   /** paus pärast viimast muudatust, enne kui taustal korduvad simulatsioonid algavad */
-  const OOTEAEG_MS = 350;
+  const OOTEAEG_MS = 150;
 
   const teadaolevad: Teadaolevad = {
     eelseadistused: EELSEADISTUSED,
@@ -72,6 +72,8 @@
 
   // korduvad simulatsioonid taustalõimes
   let kokkuvõte = $state<Kokkuvõte | null>(null);
+  /** kas kokkuvõte vastab praegusele sisendile; vana kokkuvõte jääb uuendamise ajaks tuhmilt nähtavaks */
+  let kokkuvõteKehtib = $state(false);
   let mcViga = $state<string | null>(null);
   let mcKäib = $state(false);
   let mcId = 0;
@@ -86,6 +88,7 @@
       if (s.id !== mcId) return;
       if (s.tüüp === 'vahetulemus') {
         kokkuvõte = s.kokkuvõte;
+        kokkuvõteKehtib = true;
         mcKäib = !s.valmis;
       } else {
         mcViga = s.teade;
@@ -108,6 +111,7 @@
     const vigane = sisendiVead.length > 0;
 
     clearTimeout(taimer);
+    kokkuvõteKehtib = false;
     mcId += 1;
     const id = mcId;
     tööline?.postMessage({ tüüp: 'peata', id: id - 1 } satisfies SõnumTöölisele);
@@ -160,10 +164,10 @@
       {#if tulemus}
         <div class="ylemine" class:aegunud={!arvutus.tulemus}>
           <section class="kaart-pind" aria-labelledby="parlament-pealkiri">
-            <Parlament {tulemus} {kokkuvõte} {mcKäib} {mcViga} kordi={KORDI} tegelikudHääled={olek.tegelikudHääled} />
+            <Parlament {tulemus} {kokkuvõte} {kokkuvõteKehtib} {mcKäib} {mcViga} kordi={KORDI} tegelikudHääled={olek.tegelikudHääled} />
           </section>
           <section class="kaart-pind" aria-labelledby="kaart-pealkiri">
-            <Kaart {tulemus} {toetus} bind:olek />
+            <Kaart {tulemus} {toetus} {kokkuvõte} {kokkuvõteKehtib} bind:olek />
           </section>
         </div>
 
@@ -172,11 +176,11 @@
         </section>
 
         <section class="kaart-pind" aria-labelledby="kompensatsioon-pealkiri">
-          <Kompensatsioon {tulemus} />
+          <Kompensatsioon {tulemus} seeme={olek.seeme} tegelikudHääled={olek.tegelikudHääled} />
         </section>
 
         <section class="kaart-pind" aria-labelledby="kandidaadid-pealkiri">
-          <Kandidaadid {tulemus} {kokkuvõte} tegelikudHääled={olek.tegelikudHääled} />
+          <Kandidaadid {tulemus} {kokkuvõte} tegelikudHääled={olek.tegelikudHääled} seeme={olek.seeme} />
         </section>
       {/if}
     </div>

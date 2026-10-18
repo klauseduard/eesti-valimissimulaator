@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { sagedused, statistika } from '../src/lib/statistika';
+import { sagedaseimTulemus, sagedused, statistika } from '../src/lib/statistika';
 import { partiid } from '../src/lib/protokoll';
 
 describe('statistika', () => {
@@ -30,5 +30,30 @@ describe('partiid', () => {
   it('vigane sisend on viga', () => {
     expect(() => partiid(0, 100)).toThrow();
     expect(() => partiid(10, 0)).toThrow();
+  });
+});
+
+describe('sagedaseim tulemus', () => {
+  it('leiab kordustest kõige sagedasema terviktulemuse ja selle osakaalu', () => {
+    // read: erakonnad, veerud: kordused
+    const mandaadid = [
+      [3, 2, 3, 3],
+      [1, 2, 1, 1],
+    ];
+    expect(sagedaseimTulemus(mandaadid)).toEqual({ väärtused: [3, 1], kordi: 3, osakaal: 0.75 });
+  });
+
+  it('võrdse sageduse korral valitakse esimesena esinenud tulemus', () => {
+    expect(sagedaseimTulemus([[1, 2], [2, 1]])).toEqual({ väärtused: [1, 2], kordi: 1, osakaal: 0.5 });
+  });
+
+  it('tulemuse summa on alati ühe korduse summa', () => {
+    const mandaadid = [[50, 51, 52], [51, 50, 49]];
+    const { väärtused } = sagedaseimTulemus(mandaadid);
+    expect(väärtused.reduce((a, b) => a + b, 0)).toBe(101);
+  });
+
+  it('kordusteta on viga', () => {
+    expect(() => sagedaseimTulemus([[]])).toThrow();
   });
 });

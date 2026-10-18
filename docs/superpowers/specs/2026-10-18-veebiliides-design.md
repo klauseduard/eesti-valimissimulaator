@@ -121,3 +121,9 @@ three; the last two follow later.
   the dark surface it keeps every pair distinguishable and misses only the
   lightness band for three colours. Every map district also carries the
   winning party's abbreviation, and every chart has a legend or table.
+- After the first review, the parliament diagram, the seat table and the
+  map show the most common complete outcome of the Monte Carlo runs, which
+  always sums to 101 seats. The single seeded run that the design put in the
+  main view had looked like the result of the runs. It now appears only as a
+  labelled example run in the explainer, the compensation table and the
+  candidates' votes.

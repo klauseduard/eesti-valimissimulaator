@@ -2,6 +2,13 @@
 
 ### Changed
 
+  * The web page's parliament diagram, seat table and map now show the most
+  common complete outcome of the 1000 Monte Carlo runs, with its share of the
+  runs, instead of a single random run. The explainer, the compensation table
+  and the candidates' votes are labelled as an example run with the chosen seed.
+  While the runs update, the previous result is dimmed. Repeated simulations
+  now also record the candidates elected per district.
+
   * The project is now a Kotlin Multiplatform build (Gradle 9.8.1, Kotlin
   2.4.21, JDK 21). Allocation, simulation and the data parsers are in
   `src/commonMain` and compile to the JVM and to JavaScript; the command-line

@@ -4,8 +4,12 @@
   import type { Kokkuvõte } from '../lib/protokoll';
   import { RINGKONNAD, type Tulemus } from '../lib/simulaator';
 
-  let { tulemus, kokkuvõte, tegelikudHääled }: { tulemus: Tulemus; kokkuvõte: Kokkuvõte | null; tegelikudHääled: boolean } =
-    $props();
+  let {
+    tulemus,
+    kokkuvõte,
+    tegelikudHääled,
+    seeme,
+  }: { tulemus: Tulemus; kokkuvõte: Kokkuvõte | null; tegelikudHääled: boolean; seeme: number } = $props();
 
   let erakond = $state('');
   let ringkond = $state(0);
@@ -74,13 +78,19 @@
 <div class="tabeli-ümbris">
   <table data-testid="kandidaatide-tabel">
     <thead>
+      {#if !tegelikudHääled}
+        <tr class="rühmad">
+          <td colspan="4"></td>
+          <th scope="colgroup" colspan="2" class="rühm">{t('kandidaadid.näidiskordus', { seeme })}</th>
+        </tr>
+      {/if}
       <tr>
         <th scope="col">{t('kandidaadid.nimi')}</th>
         <th scope="col">{t('erakond')}</th>
         <th scope="col" class="arv">{t('ringkond')}</th>
+        {#if !tegelikudHääled}<th scope="col" class="arv">{t('kandidaadid.sagedus')}</th>{/if}
         <th scope="col" class="arv">{t('kandidaadid.hääled')}</th>
         <th scope="col">{t('kandidaadid.mandaat')}</th>
-        {#if !tegelikudHääled}<th scope="col" class="arv">{t('kandidaadid.sagedus')}</th>{/if}
       </tr>
     </thead>
     <tbody>
@@ -89,16 +99,16 @@
           <th scope="row">{r.nimi}</th>
           <td><span class="varv" style:background={erakonnaInfo(r.erakond).värv}></span>{erakonnaInfo(r.erakond).lühend}</td>
           <td class="arv" title={RINGKONNAD[r.ringkond - 1]?.nimetus}>{r.ringkond}</td>
-          <td class="arv">{r.hääli === null ? '' : arv(r.hääli)}</td>
-          <td>{r.mandaat ? t(`mandaat.${r.mandaat}`) : ''}</td>
           {#if !tegelikudHääled}
-            <td class="arv">
+            <td class="arv sagedus">
               {#if r.sagedus !== null}
                 <span class="riba" style:--osa={r.sagedus} style:--värv={erakonnaInfo(r.erakond).värv}></span>
                 {protsent(r.sagedus * 100, 0)}
-              {:else}…{/if}
+              {:else if kokkuvõte}{protsent(0, 0)}{:else}…{/if}
             </td>
           {/if}
+          <td class="arv näidisveerg">{r.hääli === null ? '' : arv(r.hääli)}</td>
+          <td class="näidisveerg">{r.mandaat ? t(`mandaat.${r.mandaat}`) : ''}</td>
         </tr>
       {/each}
     </tbody>
@@ -130,6 +140,27 @@
 
   tr.valimata th,
   tr.valimata td {
+    color: var(--tekst-2);
+  }
+
+  .rühmad td,
+  .rühmad th {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .rühm {
+    text-align: left;
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: var(--tekst-3);
+  }
+
+  .sagedus {
+    font-weight: 600;
+  }
+
+  td.näidisveerg {
     color: var(--tekst-2);
   }
 

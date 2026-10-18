@@ -118,9 +118,20 @@ class KokkuvõteJs(
   val mandaadid: Array<Array<Int>>,
   /** ringkondadeMandaadid[r][i][k] on erakonna erakonnad[i] ringkonnamandaatide arv ringkonnas r + 1 korduses k */
   val ringkondadeMandaadid: Array<Array<Array<Int>>>,
+  /** ringkondadeValitud[r][i][k] on ringkonnast r + 1 valitud erakonna erakonnad[i] kandidaatide arv korduses k (ka kompensatsioonimandaadid) */
+  val ringkondadeValitud: Array<Array<Array<Int>>>,
   /** vähemalt korra valitud kandidaadid valituks osutumise kordade järgi kahanevalt */
   val kandidaadid: Array<KandidaadiSagedusJs>,
 )
+
+private fun ringkondadeMassiiv(
+  andmed: Map<Int, Map<String, List<Int>>>,
+  erakonnad: List<String>,
+  kordi: Int,
+): Array<Array<Array<Int>>> = valimisringkonnad.map { ringkond ->
+  val ringkonnaAndmed = andmed[ringkond.nr] ?: emptyMap()
+  erakonnad.map { erakond -> (ringkonnaAndmed[erakond] ?: List(kordi) { 0 }).toTypedArray() }.toTypedArray()
+}.toTypedArray()
 
 /** Korduv simulatsioon, mida saab jätkata osade kaupa. */
 @JsExport
@@ -139,12 +150,8 @@ class KorduvSimulatsioonJs internal constructor(private val simulatsioon: Korduv
       kordi = k.kordi,
       erakonnad = erakonnadMandaatidega.toTypedArray(),
       mandaadid = erakonnadMandaatidega.map { k.erakondadeMandaadid[it]!!.toTypedArray() }.toTypedArray(),
-      ringkondadeMandaadid = valimisringkonnad.map { ringkond ->
-        val ringkonnaMandaadid = k.ringkondadeMandaadid[ringkond.nr] ?: emptyMap()
-        erakonnadMandaatidega.map { erakond ->
-          (ringkonnaMandaadid[erakond] ?: List(k.kordi) { 0 }).toTypedArray()
-        }.toTypedArray()
-      }.toTypedArray(),
+      ringkondadeMandaadid = ringkondadeMassiiv(k.ringkondadeMandaadid, erakonnadMandaatidega, k.kordi),
+      ringkondadeValitud = ringkondadeMassiiv(k.ringkondadeValitud, erakonnadMandaatidega, k.kordi),
       kandidaadid = k.valitudKordi.entries
         .sortedWith(compareBy({ -it.value }, { it.key.nimi }))
         .map { (v, kordi) -> KandidaadiSagedusJs(v.nimi, v.erakond, v.valimisringkond, kordi) }

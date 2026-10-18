@@ -9,15 +9,36 @@ test('2023 tegelike häältega näitab ametlikke mandaate', async ({ page }) => 
   await expect(page.getByTestId('tegelikud-hääled')).toBeChecked();
 });
 
+/** ootab, kuni 1000 kordust on tehtud ja parlamendi joonis näitab kõige sagedasemat tulemust */
+async function ootaKordusi(page: import('@playwright/test').Page) {
+  await expect(page.getByTestId('parlamendi-alus')).toContainText('1000', { timeout: 45_000 });
+}
+
 test('liugur muudab tulemust', async ({ page }) => {
-  await page.goto('/#v=norstat-2023-03-03&s=1');
+  await page.goto('/#v=norstat-2023-03-03&s=1&k=et');
+  await ootaKordusi(page);
   const enne = Number(await page.getByTestId('mandaate-REF').textContent());
   await page.getByTestId('liugur-REF').fill('45');
   await expect.poll(async () => Number(await page.getByTestId('mandaate-REF').textContent())).toBeGreaterThan(enne);
   // muudatus jõuab URL-i
   await expect(page).toHaveURL(/p\.REF=/);
   await page.getByTestId('taasta').click();
+  await ootaKordusi(page);
   await expect(page.getByTestId('mandaate-REF')).toHaveText(String(enne));
+});
+
+test('uus seeme muudab näidiskordust, kuid mandaadid tulevad korduvatest simulatsioonidest', async ({ page }) => {
+  await page.goto('/#v=norstat-2023-03-03&s=1&k=et');
+  await ootaKordusi(page);
+  await expect(page.getByTestId('näidiskordus')).toContainText('seemnega 1');
+  const enne = await page.getByTestId('mandaate-REF').textContent();
+  await page.getByTestId('seeme').fill('2');
+  await page.getByTestId('seeme').press('Enter');
+  await expect(page.getByTestId('näidiskordus')).toContainText('seemnega 2');
+  // kuni uued kordused pole valmis, ei näidata ühe korduse mandaate
+  await ootaKordusi(page);
+  await expect(page.getByTestId('parlamendi-alus')).toContainText('Kõige sagedasem tulemus');
+  expect(await page.getByTestId('mandaate-REF').textContent()).toBe(enne);
 });
 
 test('jagatud link taastab oleku', async ({ page }) => {
@@ -39,7 +60,7 @@ test('kaart joonistab kõik ringkonnad ja korduvad simulatsioonid lõpevad', asy
   await page.goto('/#v=norstat-2023-03-03&s=1&k=et');
   // 12 ringkonda põhikaardil ja Tallinna 3 ringkonda lisakaardil
   await expect(page.locator('[data-testid="kaart"] path[data-ringkond]')).toHaveCount(15);
-  await expect(page.getByText(/1000 korduse põhjal/)).toBeVisible({ timeout: 45_000 });
+  await ootaKordusi(page);
   await page.locator('[data-testid="kaart"] path[data-ringkond="7"]').first().click();
   await expect(page.getByTestId('selgituse-ringkond')).toHaveValue('7');
 });

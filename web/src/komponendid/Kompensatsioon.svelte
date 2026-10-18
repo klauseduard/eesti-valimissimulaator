@@ -3,7 +3,7 @@
   import { arv, protsent, t } from '../lib/i18n.svelte';
   import { RINGKONNAD, type Tulemus } from '../lib/simulaator';
 
-  let { tulemus }: { tulemus: Tulemus } = $props();
+  let { tulemus, seeme, tegelikudHääled }: { tulemus: Tulemus; seeme: number; tegelikudHääled: boolean } = $props();
 
   const kehtivaid = $derived(RINGKONNAD.reduce((s, r) => s + r.kehtivaidHääli, 0));
   const ringkondades = $derived(tulemus.valitud.length - tulemus.kompensatsioon.length);
@@ -18,6 +18,7 @@
 </script>
 
 <h2 id="kompensatsioon-pealkiri">{t('kompensatsioon.pealkiri')}</h2>
+<p class="näidis vaike">{tegelikudHääled ? t('näidiskordus.tegelikud') : t('näidiskordus', { seeme })}</p>
 
 <ol class="sammud">
   <li>
@@ -87,6 +88,13 @@
 {/if}
 
 <style>
+  .näidis {
+    background: var(--rohk-pind);
+    border-radius: 6px;
+    padding: 0.35rem 0.6rem;
+    margin: 0 0 0.6rem;
+  }
+
   .sammud {
     padding-left: 1.3rem;
     margin: 0 0 0.8rem;
