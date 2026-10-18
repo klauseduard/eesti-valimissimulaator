@@ -17,18 +17,21 @@ async function ootaKordusi(page: import('@playwright/test').Page) {
 test('liugur muudab tulemust', async ({ page }) => {
   await page.goto('/#v=norstat-2023-03-03&s=1&k=et');
   await ootaKordusi(page);
-  const enne = Number(await page.getByTestId('mandaate-REF').textContent());
+  // eesti keeles on kümnendkoht komaga
+  const arvuna = (tekst: string | null) => Number((tekst ?? '').replace(',', '.'));
+  const enne = (await page.getByTestId('mandaate-REF').textContent()) ?? '';
   await page.getByTestId('liugur-REF').fill('45');
-  await expect.poll(async () => Number(await page.getByTestId('mandaate-REF').textContent())).toBeGreaterThan(enne);
+  await expect.poll(async () => arvuna(await page.getByTestId('mandaate-REF').textContent())).toBeGreaterThan(arvuna(enne));
   // muudatus jõuab URL-i
   await expect(page).toHaveURL(/p\.REF=/);
   await page.getByTestId('taasta').click();
   await ootaKordusi(page);
-  await expect(page.getByTestId('mandaate-REF')).toHaveText(String(enne));
+  await expect(page.getByTestId('mandaate-REF')).toHaveText(enne);
 });
 
 test('uus seeme muudab näidiskordust, kuid mandaadid tulevad korduvatest simulatsioonidest', async ({ page }) => {
-  await page.goto('/#v=norstat-2023-03-03&s=1&k=et');
+  // küsitluse veata on erakondade hääled igas korduses samad, seega seeme keskmisi ei muuda
+  await page.goto('/#v=norstat-2023-03-03&s=1&k=et&e=0');
   await ootaKordusi(page);
   await expect(page.getByTestId('näidiskordus')).toContainText('seemnega 1');
   const enne = await page.getByTestId('mandaate-REF').textContent();
@@ -37,8 +40,21 @@ test('uus seeme muudab näidiskordust, kuid mandaadid tulevad korduvatest simula
   await expect(page.getByTestId('näidiskordus')).toContainText('seemnega 2');
   // kuni uued kordused pole valmis, ei näidata ühe korduse mandaate
   await ootaKordusi(page);
-  await expect(page.getByTestId('parlamendi-alus')).toContainText('Kõige sagedasem tulemus');
+  await expect(page.getByTestId('parlamendi-alus')).toContainText('küsitluse viga arvestamata');
   expect(await page.getByTestId('mandaate-REF').textContent()).toBe(enne);
+});
+
+test('küsitluse viga laiendab mandaatide vahemikku', async ({ page }) => {
+  await page.goto('/#v=norstat-2023-03-03&s=1&k=et');
+  await ootaKordusi(page);
+  await expect(page.getByTestId('parlamendi-alus')).toContainText('küsitluse viga arvestatud');
+  const vahemik = page.getByTestId('erakond-REF').locator('td').nth(1);
+  await expect(vahemik).toContainText('–');
+  await page.getByTestId('küsitluse-viga').uncheck();
+  await expect(page).toHaveURL(/e=0/);
+  await ootaKordusi(page);
+  await expect(page.getByTestId('parlamendi-alus')).toContainText('küsitluse viga arvestamata');
+  await expect(vahemik).not.toContainText('–');
 });
 
 test('jagatud link taastab oleku', async ({ page }) => {

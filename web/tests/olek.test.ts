@@ -15,12 +15,20 @@ describe('URL-i olek', () => {
       seeme: 42,
       keel: 'en' as const,
       ringkond: 7,
+      viga: false,
       kaart: 'EKRE',
       muudatused: { REF: [30.55, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ÜK: Array(12).fill(0.5) },
     };
     const { olek: tagasi, vead } = dekodeeri(kodeeri(olek), teadaolevad);
     expect(vead).toEqual([]);
     expect(tagasi).toEqual(olek);
+  });
+
+  it('küsitluse viga on vaikimisi arvestatud ja link salvestab ainult väljalülitamise', () => {
+    expect(vaikimisiOlek(teadaolevad).viga).toBe(true);
+    expect(kodeeri(vaikimisiOlek(teadaolevad))).not.toContain('e=');
+    expect(dekodeeri('#e=0', teadaolevad).olek.viga).toBe(false);
+    expect(dekodeeri('#e=x', teadaolevad).vead).toEqual(['e=x']);
   });
 
   it('tühi fragment annab vaikimisi oleku', () => {

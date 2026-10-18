@@ -55,7 +55,7 @@ describe('simulaator veebilehel', () => {
 
   it('korduva simulatsiooni kokkuvõte teisendub tavaliseks objektiks', () => {
     const toetus = eelseadistuseToetus('emor-2023-03');
-    const korduv = simulaator.korduv(new ToetusJs(toetus.erakonnad, toetus.protsendid), 1);
+    const korduv = simulaator.korduv(new ToetusJs(toetus.erakonnad, toetus.protsendid), 1, true);
     korduv.korda(20);
     const kokkuvõte = tavaliseks(korduv.kokkuvõte());
     // tavaline objekt läbib struktuurse kloonimise (postMessage) muutumatult
@@ -69,7 +69,7 @@ describe('simulaator veebilehel', () => {
     const olek = { ...vaikimisiOlek(teadaolevad), eelseadistus: 'emor-2023-03', seeme: 5 };
     const toetus = olekuToetus(olek);
     const üksik = jaota(olek, toetus).valitud.map((k) => k.nimi).sort();
-    const korduv = simulaator.korduv(new ToetusJs(toetus.erakonnad, toetus.protsendid), 5);
+    const korduv = simulaator.korduv(new ToetusJs(toetus.erakonnad, toetus.protsendid), 5, false);
     korduv.korda(1);
     expect(tavaliseks(korduv.kokkuvõte()).kandidaadid.map((k) => k.nimi).sort()).toEqual(üksik);
   });

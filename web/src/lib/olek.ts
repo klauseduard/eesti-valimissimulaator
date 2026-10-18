@@ -5,6 +5,7 @@
 //   s      juhuslikkuse seeme
 //   k      keel (et või en)
 //   h      1: kasuta 2023. aasta tegelikke hääli (ainult eelseadistusel rk2023 ja muutmata toetusega)
+//   e      0: ära arvesta korduvates simulatsioonides küsitluse viga (vaikimisi arvestatakse)
 //   r      selgituses valitud ringkond (1–12)
 //   kaart  kaardi vaade: voitja või erakonna lühend (erakonna toetus)
 //   p.X    erakonna X muudetud toetus 12 ringkonnas, komaga eraldatud
@@ -21,6 +22,8 @@ export interface Olek {
   seeme: number;
   keel: Keel;
   tegelikudHääled: boolean;
+  /** kas korduvad simulatsioonid kõigutavad toetust küsitluse vea võrra */
+  viga: boolean;
   ringkond: number;
   kaart: string;
 }
@@ -38,6 +41,7 @@ export function vaikimisiOlek(teadaolevad: Teadaolevad, keel: Keel = 'et'): Olek
     seeme: 1,
     keel,
     tegelikudHääled: false,
+    viga: true,
     ringkond: 1,
     kaart: KAART_VÕITJA,
   };
@@ -55,6 +59,7 @@ export function kodeeri(olek: Olek): string {
     `k=${olek.keel}`,
   ];
   if (olek.tegelikudHääled) osad.push('h=1');
+  if (!olek.viga) osad.push('e=0');
   osad.push(`r=${olek.ringkond}`);
   osad.push(`kaart=${encodeURIComponent(olek.kaart)}`);
   for (const [lühend, protsendid] of Object.entries(olek.muudatused)) {
@@ -99,6 +104,9 @@ export function dekodeeri(fragment: string, teadaolevad: Teadaolevad, vaikimisiK
       else vead.push(osa);
     } else if (võti === 'h') {
       olek.tegelikudHääled = väärtus === '1';
+    } else if (võti === 'e') {
+      if (väärtus === '0' || väärtus === '1') olek.viga = väärtus === '1';
+      else vead.push(osa);
     } else if (võti === 'r') {
       const ringkond = Number(väärtus);
       if (Number.isInteger(ringkond) && ringkond >= 1 && ringkond <= 12) olek.ringkond = ringkond;

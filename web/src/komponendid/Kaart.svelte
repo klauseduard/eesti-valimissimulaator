@@ -5,12 +5,11 @@
   import type { Feature, FeatureCollection, Geometry, Polygon } from 'geojson';
   import type { Topology, GeometryCollection } from 'topojson-specification';
   import { erakonnaInfo, järjekorraNr, nimiLühendist } from '../lib/erakonnad';
-  import { protsent, t } from '../lib/i18n.svelte';
+  import { arv, protsent, t } from '../lib/i18n.svelte';
   import { KAART_VÕITJA, type Olek } from '../lib/olek';
   import type { ToetuseAndmed } from '../lib/protokoll';
   import type { Kokkuvõte } from '../lib/protokoll';
   import { RINGKONNAD, type Tulemus } from '../lib/simulaator';
-  import { sagedaseimTulemus } from '../lib/statistika';
 
   let {
     tulemus,
@@ -106,7 +105,7 @@
 
   /**
    * ringkonnast valitud kandidaatide arv erakonniti (kõik mandaadiliigid): tegelike häältega selle
-   * tulemuse järgi, muidu korduvate simulatsioonide kõige sagedasem tulemus ringkonnas
+   * tulemuse järgi, muidu keskmine korduvates simulatsioonides
    */
   const ringkondadeMandaadid = $derived.by(() => {
     const kaart = new Map<number, Map<string, number>>();
@@ -118,15 +117,20 @@
       }
     } else if (kokkuvõte && kokkuvõte.kordi > 0) {
       kokkuvõte.ringkondadeValitud.forEach((read, r) => {
-        const { väärtused } = sagedaseimTulemus(read);
+        const keskmised = read.map((rida) => rida.reduce((a, b) => a + b, 0) / rida.length);
         kaart.set(
           r + 1,
-          new Map(kokkuvõte.erakonnad.map((e, i) => [e, väärtused[i]] as [string, number]).filter(([, m]) => m > 0)),
+          new Map(kokkuvõte.erakonnad.map((e, i) => [e, keskmised[i]] as [string, number]).filter(([, m]) => m >= 0.05)),
         );
       });
     }
     return kaart;
   });
+
+  /** mandaatide arv tekstina: tegelikud täisarvud, keskmised ühe kümnendkohaga */
+  function mandaate(m: number): string {
+    return olek.tegelikudHääled ? String(m) : arv(m, 1);
+  }
 
   /** ringkonna võitja: enim mandaate, võrdsuse korral rohkem hääli ringkonnas */
   function võitja(nr: number): string | null {
@@ -172,14 +176,14 @@
     if (erakonnaToetus) return protsent(erakonnaToetus[nr - 1], 0);
     const v = võitja(nr);
     if (!v) return '';
-    return `${erakonnaInfo(v).lühend} ${ringkondadeMandaadid.get(nr)?.get(v) ?? 0}`;
+    return `${erakonnaInfo(v).lühend} ${mandaate(ringkondadeMandaadid.get(nr)?.get(v) ?? 0)}`;
   }
 
   function kirjeldus(nr: number): string {
     const ringkond = RINGKONNAD[nr - 1];
     const mandaadid = [...(ringkondadeMandaadid.get(nr)?.entries() ?? [])]
       .sort((a, b) => järjekorraNr(a[0]) - järjekorraNr(b[0]))
-      .map(([e, m]) => `${erakonnaInfo(e).lühend} ${m}`)
+      .map(([e, m]) => `${erakonnaInfo(e).lühend} ${mandaate(m)}`)
       .join(', ');
     return t('kaart.ringkond', { nr, nimi: ringkond.nimetus, mandaate: ringkond.mandaate }) + (mandaadid ? `: ${mandaadid}` : '');
   }
@@ -318,8 +322,8 @@
           <div>{erakonnaInfo(valitudErakond).lühend}: {protsent(erakonnaToetus[nr - 1])}</div>
         {/if}
         <ul>
-          {#each [...(ringkondadeMandaadid.get(nr)?.entries() ?? [])].sort((a, b) => b[1] - a[1]) as [erakond, mandaate]}
-            <li><span class="varv" style:background={erakonnaInfo(erakond).värv}></span>{erakonnaInfo(erakond).lühend} {mandaate}</li>
+          {#each [...(ringkondadeMandaadid.get(nr)?.entries() ?? [])].sort((a, b) => b[1] - a[1]) as [erakond, arvMandaate]}
+            <li><span class="varv" style:background={erakonnaInfo(erakond).värv}></span>{erakonnaInfo(erakond).lühend} {mandaate(arvMandaate)}</li>
           {/each}
         </ul>
       </div>
@@ -351,7 +355,7 @@
             <td>
               {[...(ringkondadeMandaadid.get(ringkond.nr)?.entries() ?? [])]
                 .sort((a, b) => b[1] - a[1])
-                .map(([e, m]) => `${erakonnaInfo(e).lühend} ${m}`)
+                .map(([e, m]) => `${erakonnaInfo(e).lühend} ${mandaate(m)}`)
                 .join(', ')}
             </td>
           </tr>

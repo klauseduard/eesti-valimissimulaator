@@ -2,6 +2,25 @@
 
 ### Changed
 
+  * Repeated simulations now model poll uncertainty. Each run multiplies every
+  party's support by a random factor with a national part shared by all
+  districts and a smaller district part, then rescales each district to its
+  original total. The spread (0.156 nationally, 0.251 by district, on a log
+  scale) is the measured error of the last 2023 polls against the result; a
+  test recomputes it from the data. `--ilma-veata` and a switch on the web page
+  turn it off. Single runs and the web page's example run use the poll exactly.
+
+  * The web page shows each party's average seats, its 90% range, the share of
+  runs with at least one seat and a small histogram of the seat counts. The
+  parliament diagram distributes the averages to 101 seats by the largest
+  remainder method, and the map shows average seats per district.
+
+  * The files in `examples/` were regenerated with the poll error.
+
+## Unreleased
+
+### Changed
+
   * The web page's parliament diagram, seat table and map now show the most
   common complete outcome of the 1000 Monte Carlo runs, with its share of the
   runs, instead of a single random run. The explainer, the compensation table

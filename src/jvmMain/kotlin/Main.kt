@@ -52,7 +52,8 @@ private fun simuleeriÜksKord(seaded: Seaded, juhus: Random) {
 }
 
 private fun simuleeriJaKirjutaSagedused(seaded: Seaded, kordi: Int, juhus: Random) {
-  val kokkuvõte = simuleeriKorduvalt(seaded.küsitleja, kordi, juhus, seaded.reitingufail)
+  val viga = if (seaded.arvestaViga) Küsitluseviga.KALIBREERITUD else null
+  val kokkuvõte = simuleeriKorduvalt(seaded.küsitleja, kordi, juhus, seaded.reitingufail, viga)
 
   val andmed = when (seaded.küsitleja) {
     Küsitleja.NORSTAT -> "Norstat, reitingufail ${seaded.reitingufail ?: VAIKIMISI_REITINGUFAIL}"
@@ -63,6 +64,8 @@ private fun simuleeriJaKirjutaSagedused(seaded: Seaded, kordi: Int, juhus: Rando
     "",
     "andmed: $andmed",
     "kordusi: ${kokkuvõte.kordi}, seeme: ${seaded.seeme ?: "juhuslik"}",
+    if (viga != null) "küsitluse viga: üleriigiline ${viga.üleriigiline}, ringkondlik ${viga.ringkondlik} (2023. aasta küsitluste järgi)"
+    else "küsitluse viga: arvestamata",
     "",
     "erakondade mandaadid (vähim–suurim, keskmine):",
   )
@@ -78,7 +81,7 @@ private fun simuleeriJaKirjutaSagedused(seaded: Seaded, kordi: Int, juhus: Rando
   val failinimi = "runs/" + ajatempel() + "-sagedused.txt"
   File(failinimi).writeText(sisu)
 
-  päis.drop(5).forEach { println(it) }
+  päis.drop(6).forEach { println(it) }
   println("\nKandidaatide valituks osutumise sagedused on failis $failinimi")
 }
 

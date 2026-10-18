@@ -127,3 +127,10 @@ three; the last two follow later.
   main view had looked like the result of the runs. It now appears only as a
   labelled example run in the explainer, the compensation table and the
   candidates' votes.
+- The Monte Carlo runs model poll uncertainty, calibrated on the error of the
+  last 2023 polls (0.156 nationally and 0.251 by district, on a log scale).
+  With the error included, a single complete seat combination rarely repeats,
+  so the main view shows each party's average seats with its 90% range, the
+  share of runs with at least one seat and a histogram. The parliament
+  diagram distributes the averages to 101 seats by the largest remainder
+  method.

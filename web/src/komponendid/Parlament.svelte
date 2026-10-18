@@ -1,9 +1,11 @@
 <script lang="ts">
+  import Jaotus from './Jaotus.svelte';
   import { erakonnaInfo, järjekorraNr } from '../lib/erakonnad';
   import { arv, protsent, t } from '../lib/i18n.svelte';
+  import type { Olek } from '../lib/olek';
   import type { Kokkuvõte } from '../lib/protokoll';
   import type { Tulemus } from '../lib/simulaator';
-  import { sagedaseimTulemus, statistika } from '../lib/statistika';
+  import { jaotaSuurimaJäägiga, statistika } from '../lib/statistika';
 
   let {
     tulemus,
@@ -12,7 +14,7 @@
     mcKäib,
     mcViga,
     kordi,
-    tegelikudHääled,
+    olek = $bindable(),
   }: {
     tulemus: Tulemus;
     kokkuvõte: Kokkuvõte | null;
@@ -20,7 +22,7 @@
     mcKäib: boolean;
     mcViga: string | null;
     kordi: number;
-    tegelikudHääled: boolean;
+    olek: Olek;
   } = $props();
 
   const MANDAATE = 101;
@@ -53,65 +55,86 @@
   }
 
   const paigutus = kohad();
+  const tegelikud = $derived(olek.tegelikudHääled);
+  const kordustest = $derived(!tegelikud && kokkuvõte !== null && kokkuvõte.kordi > 0);
 
-  /**
-   * Näidatavad mandaadid: tegelike häältega üks kindel tulemus, muidu korduvate simulatsioonide kõige
-   * sagedasem terviktulemus (summa on alati 101). Enne esimesi kordusi mandaate ei näidata.
-   */
-  const sagedaseim = $derived(
-    !tegelikudHääled && kokkuvõte && kokkuvõte.kordi > 0 ? sagedaseimTulemus(kokkuvõte.mandaadid) : null,
+  /** erakonna mandaatide arv igas korduses (ka nende erakondade jaoks, kes kordagi mandaati ei saanud) */
+  function korduseMandaadid(erakond: string): number[] {
+    if (!kokkuvõte) return [];
+    const i = kokkuvõte.erakonnad.indexOf(erakond);
+    return i < 0 ? Array<number>(kokkuvõte.kordi).fill(0) : kokkuvõte.mandaadid[i];
+  }
+
+  const read = $derived(
+    tulemus.erakonnad.map((e) => {
+      const mandaadid = kordustest ? korduseMandaadid(e.erakond) : [];
+      const stat = mandaadid.length > 0 ? statistika(mandaadid) : null;
+      return {
+        e,
+        info: erakonnaInfo(e.erakond),
+        mandaadid,
+        stat,
+        mandaadiga: mandaadid.length > 0 ? mandaadid.filter((m) => m > 0).length / mandaadid.length : null,
+      };
+    }),
   );
-  const mandaadid = $derived.by((): Map<string, number> | null => {
-    if (tegelikudHääled) return new Map(tulemus.erakonnad.map((e) => [e.erakond, e.mandaate]));
-    if (!sagedaseim || !kokkuvõte) return null;
-    return new Map(kokkuvõte.erakonnad.map((e, i) => [e, sagedaseim.väärtused[i]]));
-  });
-  const mandaate = (erakond: string) => mandaadid?.get(erakond) ?? 0;
 
-  const erakonnad = $derived(
-    [...tulemus.erakonnad].sort((a, b) => mandaate(b.erakond) - mandaate(a.erakond) || b.hääli - a.hääli),
+  /** diagrammi kohad: tegelike häältega selle tulemuse järgi, muidu keskmised mandaadid 101 kohaks jagatuna */
+  const diagrammiMandaadid = $derived.by((): Map<string, number> | null => {
+    if (tegelikud) return new Map(tulemus.erakonnad.map((e) => [e.erakond, e.mandaate]));
+    if (!kordustest) return null;
+    const jaotus = jaotaSuurimaJäägiga(read.map((r) => r.stat?.keskmine ?? 0), MANDAATE);
+    return new Map(read.map((r, i) => [r.e.erakond, jaotus[i]]));
+  });
+
+  const järjestatud = $derived(
+    [...read].sort((a, b) =>
+      tegelikud
+        ? b.e.mandaate - a.e.mandaate || b.e.hääli - a.e.hääli
+        : (b.stat?.keskmine ?? 0) - (a.stat?.keskmine ?? 0) || b.e.hääli - a.e.hääli,
+    ),
   );
 
   /** iga koha erakond püsivas järjekorras */
   const kohtadeErakonnad = $derived(
-    mandaadid === null
+    diagrammiMandaadid === null
       ? []
-      : [...mandaadid.entries()]
+      : [...diagrammiMandaadid.entries()]
           .filter(([, m]) => m > 0)
           .sort((a, b) => järjekorraNr(a[0]) - järjekorraNr(b[0]))
           .flatMap(([e, m]) => Array<string>(m).fill(e)),
   );
-
-  function vahemik(erakond: string) {
-    if (!kokkuvõte) return null;
-    const i = kokkuvõte.erakonnad.indexOf(erakond);
-    const mandaadid = i < 0 ? Array<number>(kokkuvõte.kordi).fill(0) : kokkuvõte.mandaadid[i];
-    return statistika(mandaadid);
-  }
 
   let esiletõstetud = $state<string | null>(null);
 </script>
 
 <h2 id="parlament-pealkiri">{t('parlament.pealkiri')}</h2>
 <p class="vaike vaigne alapealkiri" data-testid="parlamendi-alus">
-  {#if tegelikudHääled}
+  {#if tegelikud}
     {t('parlament.alus.tegelikud')}
-  {:else if sagedaseim && kokkuvõte && kokkuvõteKehtib}
-    {t('parlament.alus.sagedaseim', { osakaal: protsent(sagedaseim.osakaal * 100, 0), kordi: kokkuvõte.kordi })}
+  {:else if kordustest && kokkuvõte && kokkuvõteKehtib}
+    {olek.viga ? t('parlament.alus.veaga', { kordi: kokkuvõte.kordi }) : t('parlament.alus.veata', { kordi: kokkuvõte.kordi })}
   {:else}
     {t('parlament.alus.arvutan')}
   {/if}
 </p>
+
+{#if !tegelikud}
+  <label class="vaike lüliti">
+    <input type="checkbox" bind:checked={olek.viga} data-testid="küsitluse-viga" />
+    <span>{t('parlament.viga')}</span>
+  </label>
+{/if}
 
 <svg
   viewBox="-1.06 -1.06 2.12 1.12"
   role="img"
   aria-labelledby="parlament-pealkiri parlament-kirjeldus"
   class="poolring"
-  class:uueneb={!tegelikudHääled && !kokkuvõteKehtib}
+  class:uueneb={!tegelikud && !kokkuvõteKehtib}
 >
   <desc id="parlament-kirjeldus">
-    {erakonnad.filter((e) => mandaate(e.erakond) > 0).map((e) => `${e.erakond}: ${mandaate(e.erakond)}`).join(', ')}
+    {järjestatud.filter((r) => (diagrammiMandaadid?.get(r.e.erakond) ?? 0) > 0).map((r) => `${r.e.erakond}: ${diagrammiMandaadid?.get(r.e.erakond)}`).join(', ')}
   </desc>
   {#each paigutus.kohad as koht, i}
     {@const erakond = kohtadeErakonnad[i]}
@@ -134,41 +157,56 @@
     <thead>
       <tr>
         <th scope="col">{t('erakond')}</th>
-        <th scope="col" class="arv">{t('parlament.kokku')}</th>
-        {#if tegelikudHääled}
+        {#if tegelikud}
+          <th scope="col" class="arv">{t('parlament.kokku')}</th>
           <th scope="col" class="arv" title={t('parlament.ringkonnamandaadid.selgitus')}>{t('parlament.ringkonnamandaadid')}</th>
           <th scope="col" class="arv" title={t('parlament.kompensatsioon.selgitus')}>{t('parlament.kompensatsioon')}</th>
         {:else}
+          <th scope="col" class="arv" title={t('parlament.keskmine.selgitus')}>{t('parlament.keskmine')}</th>
           <th scope="col" class="arv" title={t('parlament.vahemik.selgitus', { kordi })}>{t('parlament.vahemik')}</th>
+          <th scope="col" class="arv" title={t('parlament.mandaadiga.selgitus')}>{t('parlament.mandaadiga')}</th>
+          <th scope="col" class="jaotuse-veerg">{t('parlament.jaotus')}</th>
         {/if}
-        <th scope="col" class="arv">{t('parlament.hääled')}</th>
+        {#if tegelikud}
+          <th scope="col" class="arv" title={t('parlament.hääled.selgitus')}>{t('parlament.hääled')}</th>
+        {/if}
       </tr>
     </thead>
     <tbody>
-      {#each erakonnad as e (e.erakond)}
-        {@const info = erakonnaInfo(e.erakond)}
-        {@const v = vahemik(e.erakond)}
+      {#each järjestatud as r (r.e.erakond)}
         <tr
-          onmouseenter={() => (esiletõstetud = mandaate(e.erakond) > 0 ? e.erakond : null)}
+          onmouseenter={() => (esiletõstetud = (diagrammiMandaadid?.get(r.e.erakond) ?? 0) > 0 ? r.e.erakond : null)}
           onmouseleave={() => (esiletõstetud = null)}
-          class:alla={!e.ületasKünnise}
-          data-testid="erakond-{info.lühend}"
+          class:alla={tegelikud ? !r.e.ületasKünnise : (r.mandaadiga ?? 0) === 0}
+          data-testid="erakond-{r.info.lühend}"
         >
           <th scope="row">
-            <span class="varv" style:background={info.värv}></span>
-            <abbr title={e.erakond}>{info.lühend}</abbr>
-            {#if !e.ületasKünnise}<span class="märkus vaike vaigne">{t('parlament.allaKünnise')}</span>{/if}
+            <span class="varv" style:background={r.info.värv}></span>
+            <abbr title={r.e.erakond}>{r.info.lühend}</abbr>
           </th>
-          <td class="arv kokku-veerg" data-testid="mandaate-{info.lühend}">{mandaadid === null ? '…' : mandaate(e.erakond)}</td>
-          {#if tegelikudHääled}
-            <td class="arv">{e.ringkonnamandaate}</td>
-            <td class="arv">{e.kompensatsioonimandaate}</td>
+          {#if tegelikud}
+            <td class="arv kokku-veerg" data-testid="mandaate-{r.info.lühend}">{r.e.mandaate}</td>
+            <td class="arv">{r.e.ringkonnamandaate}</td>
+            <td class="arv">{r.e.kompensatsioonimandaate}</td>
           {:else}
-            <td class="arv vaigne" title={v ? t('parlament.vahemik.täpsem', { min: v.min, max: v.max, keskmine: arv(v.keskmine, 1) }) : ''}>
-              {#if v}{v.p05 === v.p95 ? v.p05 : `${v.p05}–${v.p95}`}{:else}…{/if}
+            <td class="arv kokku-veerg" data-testid="mandaate-{r.info.lühend}">{r.stat ? arv(r.stat.keskmine, 1) : '…'}</td>
+            <td class="arv vaigne" title={r.stat ? t('parlament.vahemik.täpsem', { min: r.stat.min, max: r.stat.max }) : ''}>
+              {#if r.stat}{r.stat.p05 === r.stat.p95 ? r.stat.p05 : `${r.stat.p05}–${r.stat.p95}`}{:else}…{/if}
+            </td>
+            <td class="arv vaigne">{r.mandaadiga === null ? '…' : protsent(r.mandaadiga * 100, 0)}</td>
+            <td class="jaotuse-veerg">
+              {#if r.stat && r.stat.max > 0}
+                <Jaotus
+                  väärtused={r.mandaadid}
+                  värv={r.info.värv}
+                  p05={r.stat.p05}
+                  p95={r.stat.p95}
+                  silt={t('parlament.jaotus.silt', { erakond: r.info.lühend, min: r.stat.min, max: r.stat.max })}
+                />
+              {/if}
             </td>
           {/if}
-          <td class="arv">{protsent(e.protsent)}</td>
+          {#if tegelikud}<td class="arv">{protsent(r.e.protsent)}</td>{/if}
         </tr>
       {/each}
     </tbody>
@@ -176,7 +214,7 @@
 </div>
 
 <p class="vaike vaigne mc" aria-live="polite">
-  {#if tegelikudHääled}
+  {#if tegelikud}
     {t('mc.tegelikud')}
   {:else if mcViga}
     <span class="viga">{t('mc.viga', { teade: mcViga })}</span>
@@ -184,7 +222,7 @@
     <progress max={kordi} value={kokkuvõte?.kordi ?? 0}></progress>
     {t('mc.käib', { tehtud: kokkuvõte?.kordi ?? 0, kordi })}
   {:else if kokkuvõte}
-    {t('mc.valmis', { kordi: kokkuvõte.kordi })}
+    {olek.viga ? t('mc.valmis.veaga', { kordi: kokkuvõte.kordi }) : t('mc.valmis.veata', { kordi: kokkuvõte.kordi })}
   {/if}
 </p>
 
@@ -240,10 +278,27 @@
     font-weight: 600;
   }
 
-  .märkus {
-    display: block;
-    font-weight: 400;
-    padding-left: 1.1em;
+  .lüliti {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    margin-bottom: 0.4rem;
+  }
+
+  /* kitsas kaart: pealkirjad võivad murduda, et jaotuse veerg mahuks ära */
+  .erakonnad thead th {
+    white-space: normal;
+    vertical-align: bottom;
+  }
+
+  .erakonnad th,
+  .erakonnad td {
+    padding: 0.3em 0.4em;
+  }
+
+  .jaotuse-veerg {
+    width: 100px;
+    vertical-align: middle;
   }
 
   .kokku-veerg {
@@ -258,9 +313,11 @@
   .mc {
     margin: 0.6rem 0 0;
     min-height: 1.5em;
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
+  }
+
+  .mc progress {
+    vertical-align: middle;
+    margin-right: 0.4rem;
   }
 
   progress {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { sagedaseimTulemus, sagedused, statistika } from '../src/lib/statistika';
+import { jaotaSuurimaJäägiga, sagedused, statistika } from '../src/lib/statistika';
 import { partiid } from '../src/lib/protokoll';
 
 describe('statistika', () => {
@@ -33,27 +33,22 @@ describe('partiid', () => {
   });
 });
 
-describe('sagedaseim tulemus', () => {
-  it('leiab kordustest kõige sagedasema terviktulemuse ja selle osakaalu', () => {
-    // read: erakonnad, veerud: kordused
-    const mandaadid = [
-      [3, 2, 3, 3],
-      [1, 2, 1, 1],
-    ];
-    expect(sagedaseimTulemus(mandaadid)).toEqual({ väärtused: [3, 1], kordi: 3, osakaal: 0.75 });
+describe('suurima jäägi meetod', () => {
+  it('jagab kohad täisosade ja suurimate jääkide järgi', () => {
+    // 101 * (0,325; 0,225; 0,45) = 32,825; 22,725; 45,45 -> 32 + 22 + 45 = 99, jääkidest saavad 0,825 ja 0,725
+    expect(jaotaSuurimaJäägiga([32.5, 22.5, 45], 101)).toEqual([33, 23, 45]);
   });
 
-  it('võrdse sageduse korral valitakse esimesena esinenud tulemus', () => {
-    expect(sagedaseimTulemus([[1, 2], [2, 1]])).toEqual({ väärtused: [1, 2], kordi: 1, osakaal: 0.5 });
+  it('summa on alati soovitud arv', () => {
+    const tulemus = jaotaSuurimaJäägiga([10.4, 20.4, 30.4, 39.8], 101);
+    expect(tulemus.reduce((a, b) => a + b, 0)).toBe(101);
   });
 
-  it('tulemuse summa on alati ühe korduse summa', () => {
-    const mandaadid = [[50, 51, 52], [51, 50, 49]];
-    const { väärtused } = sagedaseimTulemus(mandaadid);
-    expect(väärtused.reduce((a, b) => a + b, 0)).toBe(101);
+  it('nullid jäävad nulliks', () => {
+    expect(jaotaSuurimaJäägiga([0, 50.5, 50.5], 101)).toEqual([0, 51, 50]);
   });
 
-  it('kordusteta on viga', () => {
-    expect(() => sagedaseimTulemus([[]])).toThrow();
+  it('kõigi nullide korral on tulemus nullid', () => {
+    expect(jaotaSuurimaJäägiga([0, 0], 101)).toEqual([0, 0]);
   });
 });

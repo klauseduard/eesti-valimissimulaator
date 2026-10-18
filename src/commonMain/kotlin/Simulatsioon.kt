@@ -66,6 +66,8 @@ class KorduvSimulatsioon(
   private val juhus: Random,
   private val kehtivaidHääli: Map<Int, Int> = andmed.kehtivaidHääli,
   private val ringkonnad: List<Valimisringkond> = valimisringkonnad.toList(),
+  /** küsitluse viga; null tähendab, et toetus on igas korduses täpselt küsitluse oma */
+  private val viga: Küsitluseviga? = null,
 ) {
   private val valitudKordi = mutableMapOf<KandidaadiVõti, Int>()
   private val mandaadidKordusteKaupa = mutableListOf<Map<String, Int>>()
@@ -78,7 +80,8 @@ class KorduvSimulatsioon(
   fun korda(lisakordi: Int) {
     repeat(lisakordi) {
       val korduseKandidaadid = kandidaadid.map { it.copy() }
-      simuleeriHääled(korduseKandidaadid, toetusprotsendid, juhus, kehtivaidHääli, ringkonnad)
+      val korduseToetus = if (viga == null) toetusprotsendid else juhuslikToetus(toetusprotsendid, viga, juhus)
+      simuleeriHääled(korduseKandidaadid, korduseToetus, juhus, kehtivaidHääli, ringkonnad)
       val jaotus = jaotaMandaadid(korduseKandidaadid, ringkonnad, kehtivaidHääli)
       val valitud = jaotus.kõikMandaadid()
       for (k in valitud) {
@@ -114,8 +117,9 @@ fun simuleeriKorduvalt(
   kordi: Int,
   juhus: Random,
   kehtivaidHääli: Map<Int, Int> = andmed.kehtivaidHääli,
+  viga: Küsitluseviga? = null,
 ): Kokkuvõte {
-  val simulatsioon = KorduvSimulatsioon(kandidaadid, toetusprotsendid, juhus, kehtivaidHääli)
+  val simulatsioon = KorduvSimulatsioon(kandidaadid, toetusprotsendid, juhus, kehtivaidHääli, viga = viga)
   simulatsioon.korda(kordi)
   return simulatsioon.kokkuvõte()
 }

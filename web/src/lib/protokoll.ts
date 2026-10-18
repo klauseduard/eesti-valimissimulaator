@@ -17,7 +17,7 @@ export type Kokkuvõte = Tavaline<KokkuvõteJs>;
 
 export type SõnumTöölisele =
   | { tüüp: 'andmed'; andmed: AndmeTekstid }
-  | { tüüp: 'alusta'; id: number; toetus: ToetuseAndmed; seeme: number; kordi: number; partii: number }
+  | { tüüp: 'alusta'; id: number; toetus: ToetuseAndmed; seeme: number; viga: boolean; kordi: number; partii: number }
   | { tüüp: 'peata'; id: number };
 
 export type SõnumTöölselt =

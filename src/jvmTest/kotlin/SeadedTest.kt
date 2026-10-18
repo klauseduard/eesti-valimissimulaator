@@ -21,6 +21,12 @@ class SeadedTest {
   }
 
   @Test
+  fun `küsitluse viga on vaikimisi arvestatud ja selle saab välja lülitada`() {
+    assertEquals(true, loeSeaded(arrayOf("--runs=10")).arvestaViga)
+    assertEquals(false, loeSeaded(arrayOf("--runs=10", "--ilma-veata")).arvestaViga)
+  }
+
+  @Test
   fun `tundmatu argument annab vea`() {
     assertFailsWith<IllegalArgumentException> { loeSeaded(arrayOf("--tundmatu")) }
   }

@@ -115,6 +115,21 @@ Muudatuste täpne loetelu on failis `CHANGELOG.md`.
 
 ## Kuidas hääled simuleeritakse
 
+Korduvas simulatsioonis (veebilehel ja käsuga `--runs=N`) kõigutab iga
+kordus kõigepealt erakondade toetust küsitluse vea võrra. Iga erakonna
+toetus korrutatakse juhusliku teguriga, mis koosneb kahest osast: ühine
+osa kõigi ringkondade jaoks (küsitlus eksib erakonna toetuses enamasti
+kõikjal samas suunas) ja väiksem osa iga ringkonna jaoks. Seejärel
+skaleeritakse ringkonna erakondade toetused tagasi esialgse summani. Vea
+suurus on mõõdetud 2023. aasta viimaste küsitluste (Norstat 3. märts ja
+Emor) ja valimistulemuse erinevusest: logaritmilisel skaalal on
+üleriigiline hälve 0,156 ja ringkondlik 0,251 (vt fail
+`src/commonMain/kotlin/KüsitluseViga.kt` ja test `KüsitluseVigaTest`).
+Näiteks EKRE toetus oli 3. märtsi küsitluses 20,5% ja valimistel 16,1%.
+Küsitluse vea saab välja lülitada veebilehel või käsuga `--ilma-veata`.
+Ühekordne simulatsioon ja veebilehe näidiskordus kasutavad küsitluse
+toetust täpselt.
+
 Erakonna hääled ringkonnas on erakonna toetusprotsent selles ringkonnas
 korrutatud ringkonna kehtivate häälte arvuga. Kehtivate häälte arv on
 võetud 2023. aasta valimiste ametlikust tulemusest. Norstati andmetes
@@ -176,6 +191,7 @@ Käsurea argumendid on järgmised:
   `--reitingud=src/jvmMain/resources/reitingud/reitingud-2023-02-27.json`.
 - `--runs=N`: korda simulatsiooni N korda.
 - `--seed=N`: juhuslikkuse seeme, et tulemus oleks korratav.
+- `--ilma-veata`: ära arvesta korduvates simulatsioonides küsitluse viga.
 
 Kaustas `examples/` on 2023. aasta kevadel avaldatud reitingute põhjal
 arvutatud sagedused, igaüks 1000 korduse ja seemne 1 põhjal. Erand on

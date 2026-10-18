@@ -7,13 +7,16 @@ data class Seaded(
   val kordi: Int?,
   /** Norstati reitingute JSON-fail; null tähendab programmiga kaasas olevat viimast faili */
   val reitingufail: String?,
+  /** kas korduvates simulatsioonides arvestatakse küsitluse viga (vt Küsitluseviga) */
+  val arvestaViga: Boolean = true,
 )
 
 const val KASUTUSJUHEND = """Kasutamine: ./gradlew run --args='[--pollster=emor] [--seed=N] [--runs=N] [--reitingud=FAIL]'
   --pollster=emor   kasuta Emori andmeid failist Andmed.kt (vaikimisi Norstati andmed)
   --seed=N          juhuslikkuse seeme, et tulemus oleks korratav
   --runs=N          korda simulatsiooni N korda ja kirjuta kandidaatide valituks osutumise sagedused faili
-  --reitingud=FAIL  Norstati reitingute JSON-fail reitingud.ee lehelt"""
+  --reitingud=FAIL  Norstati reitingute JSON-fail reitingud.ee lehelt
+  --ilma-veata      ära arvesta korduvates simulatsioonides küsitluse viga"""
 
 /** Loeb käsurea argumendid; tundmatu või vigase argumendi korral viskab IllegalArgumentException'i. */
 fun loeSeaded(args: Array<String>): Seaded {
@@ -21,6 +24,7 @@ fun loeSeaded(args: Array<String>): Seaded {
   var seeme: Long? = null
   var kordi: Int? = null
   var reitingufail: String? = null
+  var arvestaViga = true
 
   for (argument in args) {
     when {
@@ -31,8 +35,9 @@ fun loeSeaded(args: Array<String>): Seaded {
       argument.startsWith("--runs=") -> kordi = argument.removePrefix("--runs=").toIntOrNull()?.takeIf { it > 0 }
         ?: throw IllegalArgumentException("Korduste arv peab olema positiivne täisarv: $argument")
       argument.startsWith("--reitingud=") -> reitingufail = argument.removePrefix("--reitingud=")
+      argument == "--ilma-veata" -> arvestaViga = false
       else -> throw IllegalArgumentException("Tundmatu argument: $argument")
     }
   }
-  return Seaded(küsitleja, seeme, kordi, reitingufail)
+  return Seaded(küsitleja, seeme, kordi, reitingufail, arvestaViga)
 }

@@ -107,6 +107,7 @@
     // sõltuvused: toetus, seeme ja tegelike häälte valik
     const andmed = { erakonnad: [...toetus.erakonnad], protsendid: toetus.protsendid.map((r) => [...r]) };
     const seeme = olek.seeme;
+    const viga = olek.viga;
     const ilmaJuhuseta = olek.tegelikudHääled;
     const vigane = sisendiVead.length > 0;
 
@@ -123,7 +124,7 @@
     mcKäib = true;
     mcViga = null;
     taimer = setTimeout(() => {
-      tööline?.postMessage({ tüüp: 'alusta', id, toetus: andmed, seeme, kordi: KORDI, partii: PARTII } satisfies SõnumTöölisele);
+      tööline?.postMessage({ tüüp: 'alusta', id, toetus: andmed, seeme, viga, kordi: KORDI, partii: PARTII } satisfies SõnumTöölisele);
     }, OOTEAEG_MS);
   });
 
@@ -164,7 +165,7 @@
       {#if tulemus}
         <div class="ylemine" class:aegunud={!arvutus.tulemus}>
           <section class="kaart-pind" aria-labelledby="parlament-pealkiri">
-            <Parlament {tulemus} {kokkuvõte} {kokkuvõteKehtib} {mcKäib} {mcViga} kordi={KORDI} tegelikudHääled={olek.tegelikudHääled} />
+            <Parlament {tulemus} {kokkuvõte} {kokkuvõteKehtib} {mcKäib} {mcViga} kordi={KORDI} bind:olek />
           </section>
           <section class="kaart-pind" aria-labelledby="kaart-pealkiri">
             <Kaart {tulemus} {toetus} {kokkuvõte} {kokkuvõteKehtib} bind:olek />

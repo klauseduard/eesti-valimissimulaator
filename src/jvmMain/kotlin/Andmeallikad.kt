@@ -31,5 +31,13 @@ fun simuleeriValimised(küsitleja: Küsitleja, juhus: Random, reitingufail: Stri
 }
 
 /** Kordab simulatsiooni [kordi] korda; sisendandmed loetakse üks kord. */
-fun simuleeriKorduvalt(küsitleja: Küsitleja, kordi: Int, juhus: Random, reitingufail: String? = null): Kokkuvõte =
-  simuleeriKorduvalt(AndmeFailideLugeja().loeKandidaadikirjed(), loeToetusprotsendid(küsitleja, reitingufail), kordi, juhus)
+fun simuleeriKorduvalt(
+  küsitleja: Küsitleja,
+  kordi: Int,
+  juhus: Random,
+  reitingufail: String? = null,
+  viga: Küsitluseviga? = null,
+): Kokkuvõte =
+  simuleeriKorduvalt(
+    AndmeFailideLugeja().loeKandidaadikirjed(), loeToetusprotsendid(küsitleja, reitingufail), kordi, juhus, viga = viga
+  )
