@@ -88,3 +88,13 @@ test('kokkuvõtte lause ja ringkondade diagramm', async ({ page }) => {
   await page.getByTestId('ringkondade-diagramm').getByRole('button').nth(3).click();
   await expect(page.getByTestId('selgituse-ringkond')).toHaveValue('4');
 });
+
+test('koalitsioonide loetelu ja koostaja', async ({ page }) => {
+  await page.goto('/#k=et');
+  await ootaKordusi(page);
+  await expect(page.getByTestId('koalitsioonid').locator('li').first()).toBeVisible();
+  await page.getByTestId('koalitsioon-REF').check();
+  await page.getByTestId('koalitsioon-EKRE').check();
+  await expect(page.getByTestId('valitud-koalitsioon')).toContainText('REF + EKRE');
+  await expect(page.getByTestId('viimane-kompensatsioon')).toContainText('Viimase kompensatsioonimandaadi sai');
+});

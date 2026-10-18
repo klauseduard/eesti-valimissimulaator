@@ -141,5 +141,22 @@
   "ringkonnad.selgitus.tegelikud": "Candidates elected from each district by party, compensation mandates included. Click a row to see the district's calculation below.",
   "legend": "Legend",
   "meetod.kuidas": "How is this calculated?",
-  "sisend.muuda": "Change party support ↓"
+  "sisend.muuda": "Change party support ↓",
+  "koalitsioonid.pealkiri": "Coalitions",
+  "koalitsioonid.selgitus": "In what share of runs a coalition would reach at least {enamus} seats, and its average seat count. Listed are minimal coalitions: without any one member, the coalition would not have a majority in at least half the runs. Only seat counts are considered, not whether the parties would work together.",
+  "koalitsioonid.keskmine": "average seat count",
+  "koalitsioonid.koosta": "Build a coalition",
+  "koalitsioonid.vali": "Select parties to see the coalition's chance of a majority.",
+  "koalitsioonid.valitud": "{koalitsioon}: {keskmine} seats on average, majority in {tõenäosus} of runs.",
+  "piirikohad.pealkiri": "Closest seats",
+  "piirikohad.selgitus": "In the example run with seed {seeme} (the poll support exactly): how few votes would change the seat allocation. This is the tactical voting question: where a small number of votes would matter.",
+  "piirikohad.selgitus.tegelikud": "With the actual 2023 votes: how few votes would change the seat allocation.",
+  "piirikohad.viimane": "The last compensation mandate went to {võitja}; next in line was {järgmine}, which was {puudu} votes short nationally.",
+  "piirikohad.saamata": "Closest district seats not won",
+  "piirikohad.saadud": "District seats won by the smallest margin",
+  "piirikohad.puudu": "was {hääli} votes short of seat {kohti}",
+  "piirikohad.varu": "seat {kohti} won by {hääli} votes",
+  "piirikohad.kuskohalt": "An extra district seat usually only changes where the party's MPs come from, because it is subtracted from its compensation mandates; exceptions are marked.",
+  "piirikohad.meetod": "The district seat threshold follows from the simple quota and the 0.75 remainder rule (Election Act § 62(3)). An extra district seat is subtracted from the party's compensation mandates if it has any; then only the origin of its MPs changes, not their number. A new seat also needs a candidate with at least 10% of the quota. The compensation threshold is the gap between the comparison figures in the last step, multiplied by the next party's divisor (§ 62(5)).",
+  "piirikohad.koguarv": "the party's total would grow"
 }

@@ -74,6 +74,14 @@
 
 ### Added
 
+  * Coalitions: the share of runs in which each minimal coalition reaches 51
+  seats, with its average seat count, and a builder for any combination of
+  parties. Only seat counts are considered.
+
+  * Closest seats: how many votes the runner-up lacked for the last compensation
+  mandate, and the district seats closest to being won or lost in the example
+  run, with a note on when an extra district seat changes a party's total.
+
   * A web page in `web/` (Svelte, TypeScript, Vite) that runs the same Kotlin
   code in the browser: sliders and a district table for party support, a
   parliament diagram with Monte Carlo ranges from 1000 runs in a Web Worker,

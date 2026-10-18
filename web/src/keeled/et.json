@@ -141,5 +141,22 @@
   "ringkonnad.selgitus.tegelikud": "Ringkonnast valitud kandidaadid erakondade kaupa, ka kompensatsioonimandaadid. Klõpsa real, et näha ringkonna arvutust allpool.",
   "legend": "Legend",
   "meetod.kuidas": "Kuidas see on arvutatud?",
-  "sisend.muuda": "Muuda erakondade toetust ↓"
+  "sisend.muuda": "Muuda erakondade toetust ↓",
+  "koalitsioonid.pealkiri": "Koalitsioonid",
+  "koalitsioonid.selgitus": "Mitmes protsendis kordustest saaks koalitsioon vähemalt {enamus} kohta, ja keskmine kohtade arv. Loetletud on minimaalsed koalitsioonid: ilma ükskõik millise liikmeta poleks koalitsioon enamuses vähemalt pooltes kordustes. Arvestatud on ainult kohtade arvu, mitte erakondade poliitilist sobivust.",
+  "koalitsioonid.keskmine": "keskmine kohtade arv",
+  "koalitsioonid.koosta": "Koosta koalitsioon",
+  "koalitsioonid.vali": "Vali erakonnad, et näha koalitsiooni enamuse tõenäosust.",
+  "koalitsioonid.valitud": "{koalitsioon}: keskmiselt {keskmine} kohta, enamus {tõenäosus} kordustest.",
+  "piirikohad.pealkiri": "Kõige napimad kohad",
+  "piirikohad.selgitus": "Näidiskorduses seemnega {seeme} (küsitluse toetus täpselt): kui vähe hääli kohtade jaotust muudaks. See on taktikalise hääletamise küsimus: kus mõjutaks väike häälte arv tulemust.",
+  "piirikohad.selgitus.tegelikud": "2023. aasta tegelike häältega: kui vähe hääli kohtade jaotust muudaks.",
+  "piirikohad.viimane": "Viimase kompensatsioonimandaadi sai {võitja}; järgmisena oleks selle saanud {järgmine}, kellel puudus üle riigi {puudu} häält.",
+  "piirikohad.saamata": "Lähimad saamata ringkonnamandaadid",
+  "piirikohad.saadud": "Kõige napimalt saadud ringkonnamandaadid",
+  "piirikohad.puudu": "puudus {hääli} häält {kohti}. kohast",
+  "piirikohad.varu": "{kohti}. koht {hääli} häälega varu",
+  "piirikohad.kuskohalt": "Lisanduv ringkonnamandaat muudab üldjuhul ainult seda, kust erakonna saadikud tulevad, sest see arvatakse kompensatsioonimandaatidest maha; erand on märgitud.",
+  "piirikohad.meetod": "Ringkonnamandaadi piir tuleb lihtkvoodist ja 0,75 jäägi reeglist (RKVS § 62 lg 3). Lisanduv ringkonnamandaat arvatakse erakonna kompensatsioonimandaatidest maha, kui tal neid on; siis muutub ainult see, kust erakonna saadikud tulevad, mitte nende koguarv. Uus koht vajab ka kandidaati, kellel on vähemalt 10% lihtkvoodist. Kompensatsioonimandaadi piir on erakondade võrdlusarvude vahe viimases sammus, korrutatuna järgmise erakonna jagajaga (§ 62 lg 5).",
+  "piirikohad.koguarv": "erakonna koguarv kasvaks"
 }

@@ -5,6 +5,8 @@
   import Parlament from './komponendid/Parlament.svelte';
   import Kaart from './komponendid/Kaart.svelte';
   import Ringkonnad from './komponendid/Ringkonnad.svelte';
+  import Koalitsioonid from './komponendid/Koalitsioonid.svelte';
+  import Piirikohad from './komponendid/Piirikohad.svelte';
   import Selgitus from './komponendid/Selgitus.svelte';
   import Kompensatsioon from './komponendid/Kompensatsioon.svelte';
   import Kandidaadid from './komponendid/Kandidaadid.svelte';
@@ -168,6 +170,14 @@
         <section class="kaart-pind" class:aegunud={!arvutus.tulemus} aria-labelledby="parlament-pealkiri">
           <Parlament {tulemus} {kokkuvõte} {kokkuvõteKehtib} {mcKäib} {mcViga} kordi={KORDI} bind:olek />
         </section>
+        <div class="ylemine" class:aegunud={!arvutus.tulemus}>
+          <section class="kaart-pind" aria-labelledby="koalitsioonid-pealkiri">
+            <Koalitsioonid {tulemus} {kokkuvõte} {kokkuvõteKehtib} {olek} />
+          </section>
+          <section class="kaart-pind" aria-labelledby="piirikohad-pealkiri">
+            <Piirikohad {tulemus} bind:olek />
+          </section>
+        </div>
         <div class="ylemine" class:aegunud={!arvutus.tulemus}>
           <section class="kaart-pind" aria-labelledby="kaart-pealkiri">
             <Kaart {tulemus} {toetus} {kokkuvõte} {kokkuvõteKehtib} bind:olek />
