@@ -61,13 +61,13 @@ test('häälte jaotuse valik jõuab linki ja muudab näidiskorduse valituid', as
   await ootaKordusi(page);
   const tabel = page.getByTestId('kandidaatide-tabel');
   const enne = await tabel.textContent();
-  await expect(page.getByTestId('häälte-jaotus')).toHaveValue('kalibreeritud');
-  await page.getByTestId('häälte-jaotus').selectOption('lihtne');
+  await expect(page.getByTestId('häälte-jaotus-kalibreeritud')).toBeChecked();
+  await page.getByText('lihtne', { exact: true }).click();
   await expect(page).toHaveURL(/j=lihtne/);
   await ootaKordusi(page);
   expect(await tabel.textContent()).not.toBe(enne);
   await page.reload();
-  await expect(page.getByTestId('häälte-jaotus')).toHaveValue('lihtne');
+  await expect(page.getByTestId('häälte-jaotus-lihtne')).toBeChecked();
 });
 
 test('metoodika leht avaneb päisest samas keeles ja mahub kitsale ekraanile', async ({ page }) => {
@@ -84,6 +84,34 @@ test('metoodika leht avaneb päisest samas keeles ja mahub kitsale ekraanile', a
     await page.getByTestId('tagasi').click();
     await expect(page).toHaveURL(new RegExp(`k=${keel}`));
     await expect(page.getByTestId('metoodika-link')).toBeVisible();
+  }
+});
+
+test('rakendus mahub kitsale ekraanile ja jaotiste riba kerib jaotiseni', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 800 });
+  await page.goto('/#v=koond-2023-03-03&s=1&k=et');
+  await ootaKordusi(page);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+  await page.getByTestId('nav-kandidaadid').click();
+  await expect(page.getByTestId('nav-kandidaadid')).toHaveAttribute('aria-current', 'location');
+  await expect(page.getByRole('heading', { name: 'Kandidaadid' })).toBeInViewport();
+  // nupp ei muuda URL-i olekut (#ankur tekitaks lingi vea)
+  await expect(page.getByTestId('lingi-teade')).toHaveCount(0);
+  await page.getByTestId('nav-sisend').click();
+  await expect(page.getByTestId('liugur-REF')).toBeInViewport();
+});
+
+test('kandidaatide piiril-filter', async ({ page }) => {
+  await page.goto('/#v=koond-2023-03-03&s=1&k=et');
+  await ootaKordusi(page);
+  await expect(page.getByTestId('kandidaatide-loendus')).toContainText('jäid piirile');
+  await page.getByTestId('ainult-piiril').check();
+  const sagedused = await page.getByTestId('kandidaatide-tabel').locator('td.sagedus').allTextContents();
+  expect(sagedused.length).toBeGreaterThan(0);
+  for (const s of sagedused) {
+    const p = Number(s.replace(/[^0-9]/g, ''));
+    expect(p).toBeGreaterThanOrEqual(5);
+    expect(p).toBeLessThanOrEqual(95);
   }
 });
 

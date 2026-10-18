@@ -47,8 +47,10 @@
   );
   const skaala = $derived(andmed === null ? 1 : Math.max(1, ...[...andmed.values()].map((m) => [...m.values()].reduce((a, b) => a + b, 0))));
 
-  /** lõigu number näidatakse ainult siis, kui lõik on vähemalt nii mitu protsenti tulba alast (et number mahuks) */
-  const SILDI_MIN_PROTSENT = 13;
+  /** lõigu number näidatakse ainult siis, kui lõik on vähemalt nii mitu pikslit lai (et number mahuks) */
+  const SILDI_MIN_LAIUS = 30;
+  /** tulpade ala laius pikslites (mõõdetud esimese rea järgi) */
+  let tulbaAla = $state(0);
 
   function tekstiVärv(värv: string): string {
     const [r, g, b] = [1, 3, 5].map((i) => parseInt(värv.slice(i, i + 2), 16) / 255);
@@ -83,16 +85,18 @@
           aria-label={`${r.nr}. ${r.nimetus}: ` + erakonnad.filter((e) => m.has(e)).map((e) => `${erakonnaInfo(e).lühend} ${mandaate(m.get(e)!)}`).join(', ')}
         >
           <span class="nimi"><span class="nr">{r.nr}</span>{r.nimetus}</span>
+          <span class="tulp-ala" bind:clientWidth={tulbaAla}>
           <span class="tulp" style:width="{(kokku / skaala) * 100}%">
             {#each erakonnad.filter((e) => (m.get(e) ?? 0) > 0) as e (e)}
               {@const osa = ((m.get(e) ?? 0) / kokku) * 100}
               {@const värv = erakonnaInfo(e).värv}
               <span class="lõik" style:flex-grow={m.get(e)} style:background={värv} title={`${erakonnaInfo(e).lühend} ${mandaate(m.get(e)!)}`}>
-                {#if (osa * kokku) / skaala >= SILDI_MIN_PROTSENT}
+                {#if ((osa / 100) * kokku * tulbaAla) / skaala >= SILDI_MIN_LAIUS}
                   <span class="arv" style:color={tekstiVärv(värv)}>{mandaate(m.get(e)!)}</span>
                 {/if}
               </span>
             {/each}
+          </span>
           </span>
           <span class="kokku vaike vaigne">{mandaate(kokku)}</span>
         </button>
@@ -161,6 +165,11 @@
     width: 1.5em;
     color: var(--tekst-3);
     font-variant-numeric: tabular-nums;
+  }
+
+  .tulp-ala {
+    display: block;
+    min-width: 0;
   }
 
   .tulp {

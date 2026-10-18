@@ -148,6 +148,19 @@
     align-items: baseline;
   }
 
+  .päis label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .päis select {
+    min-width: 0;
+    max-width: 100%;
+  }
+
   .näidis {
     background: var(--rohk-pind);
     border-radius: 8px;
@@ -183,6 +196,7 @@
     padding-left: 1.3rem;
     margin: 0;
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0.8rem;
   }
 

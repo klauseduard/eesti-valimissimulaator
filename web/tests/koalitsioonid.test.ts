@@ -12,9 +12,14 @@ const mandaadid = [
 
 describe('koalitsioonid', () => {
   it('enamuse tõenäosus on nende korduste osakaal, kus kohti on vähemalt 51', () => {
-    expect(enamus(mandaadid, [0])).toEqual({ tõenäosus: 0.5, keskmine: 50.5 });
-    expect(enamus(mandaadid, [1, 2])).toEqual({ tõenäosus: 0.5, keskmine: 50.5 });
+    expect(enamus(mandaadid, [0])).toMatchObject({ tõenäosus: 0.5, keskmine: 50.5 });
+    expect(enamus(mandaadid, [1, 2])).toMatchObject({ tõenäosus: 0.5, keskmine: 50.5 });
     expect(enamus(mandaadid, [0, 2]).tõenäosus).toBe(1);
+  });
+
+  it('annab koalitsiooni kohtade mediaani ja 90% vahemiku', () => {
+    // A + C kohad kordustes: 71, 72, 69, 71
+    expect(enamus(mandaadid, [0, 2])).toMatchObject({ min: 69, p05: 69, mediaan: 71, p95: 72, max: 72 });
   });
 
   it('loetleb minimaalsed koalitsioonid tõenäosuse järgi', () => {

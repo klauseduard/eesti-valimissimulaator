@@ -11,6 +11,7 @@
   import Kompensatsioon from './komponendid/Kompensatsioon.svelte';
   import Kandidaadid from './komponendid/Kandidaadid.svelte';
   import Jalus from './komponendid/Jalus.svelte';
+  import Jaotised from './komponendid/Jaotised.svelte';
   import { andmeTekstid } from './lib/andmed';
   import { ERAKONNAD } from './lib/erakonnad';
   import { brauseriKeel, i18n, t } from './lib/i18n.svelte';
@@ -166,21 +167,31 @@
         </div>
       {/if}
 
-      <a class="sisendisse vaike" href="#sisend">{t('sisend.muuda')}</a>
       {#if tulemus}
-        <section class="kaart-pind" class:aegunud={!arvutus.tulemus} aria-labelledby="parlament-pealkiri">
+        <Jaotised
+          jaotised={[
+            { id: 'mandaadid', silt: t('nav.mandaadid') },
+            { id: 'koalitsioonid', silt: t('nav.koalitsioonid') },
+            { id: 'piirikohad', silt: t('nav.piirikohad') },
+            { id: 'ringkonnad', silt: t('nav.ringkonnad') },
+            { id: 'arvutus', silt: t('nav.arvutus') },
+            { id: 'kandidaadid', silt: t('nav.kandidaadid') },
+            { id: 'sisend', silt: t('nav.toetus'), ainultKitsas: true },
+          ]}
+        />
+        <section class="kaart-pind" id="mandaadid" class:aegunud={!arvutus.tulemus} aria-labelledby="parlament-pealkiri">
           <Parlament {tulemus} {kokkuvõte} {kokkuvõteKehtib} {mcKäib} {mcViga} kordi={KORDI} bind:olek />
         </section>
         <div class="ylemine" class:aegunud={!arvutus.tulemus}>
-          <section class="kaart-pind" aria-labelledby="koalitsioonid-pealkiri">
+          <section class="kaart-pind" id="koalitsioonid" aria-labelledby="koalitsioonid-pealkiri">
             <Koalitsioonid {tulemus} {kokkuvõte} {kokkuvõteKehtib} {olek} />
           </section>
-          <section class="kaart-pind" aria-labelledby="piirikohad-pealkiri">
+          <section class="kaart-pind" id="piirikohad" aria-labelledby="piirikohad-pealkiri">
             <Piirikohad {tulemus} bind:olek />
           </section>
         </div>
         <div class="ylemine" class:aegunud={!arvutus.tulemus}>
-          <section class="kaart-pind" aria-labelledby="kaart-pealkiri">
+          <section class="kaart-pind" id="ringkonnad" aria-labelledby="kaart-pealkiri">
             <Kaart {tulemus} {toetus} {kokkuvõte} {kokkuvõteKehtib} bind:olek />
           </section>
           <section class="kaart-pind" aria-labelledby="ringkonnad-pealkiri">
@@ -188,7 +199,7 @@
           </section>
         </div>
 
-        <section class="kaart-pind" aria-labelledby="selgitus-pealkiri">
+        <section class="kaart-pind" id="arvutus" aria-labelledby="selgitus-pealkiri">
           <Selgitus {tulemus} bind:olek />
         </section>
 
@@ -196,7 +207,7 @@
           <Kompensatsioon {tulemus} seeme={olek.seeme} tegelikudHääled={olek.tegelikudHääled} />
         </section>
 
-        <section class="kaart-pind" aria-labelledby="kandidaadid-pealkiri">
+        <section class="kaart-pind" id="kandidaadid" aria-labelledby="kandidaadid-pealkiri">
           <Kandidaadid {tulemus} {kokkuvõte} bind:olek />
         </section>
       {/if}
@@ -229,6 +240,7 @@
 
   .tulemused {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
     min-width: 0;
   }
@@ -241,13 +253,12 @@
     transition: opacity 0.2s;
   }
 
-  .aegunud {
-    opacity: 0.55;
+  :global(.kaart-pind[id]) {
+    scroll-margin-top: 3.4rem;
   }
 
-  /* kitsal ekraanil liigub sisend tulemuste alla; see link viib sinna */
-  .sisendisse {
-    display: none;
+  .aegunud {
+    opacity: 0.55;
   }
 
   .teade {
@@ -289,8 +300,5 @@
       order: 2;
     }
 
-    .sisendisse {
-      display: inline-block;
-    }
   }
 </style>

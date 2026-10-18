@@ -6,6 +6,18 @@
 
 ### Changed
 
+  * Second design pass. Coalitions are shown as range strips on a shared seat
+  axis: the 90% range of the coalition's seats, the median and the 51-seat
+  line, with the majority probability beside them. The closest seats are two
+  aligned tables with the votes in a numeric column. A sticky bar of section
+  buttons navigates the long page. The candidate section has a segmented
+  control for the vote split, a count of near-certain and borderline
+  candidates and a filter for borderline ones (elected in 5–95% of runs); on
+  phones its table drops the example-run columns. Two phone bugs are fixed:
+  the page was 604 px wide on a 390 px screen, and the link to the party
+  support inputs replaced the state in the URL and showed a broken-link
+  warning.
+
   * Uncertainty: the seat table leads with the 90% range and an integer median
   instead of a mean with one decimal, which suggested a precision the model does
   not have; the summary sentence and the coalition list follow. A methodology
