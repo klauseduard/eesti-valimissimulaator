@@ -94,6 +94,27 @@ On a log scale (the log of a party's share):
 - If a part fails its criterion, the aggregator and the backtest are still
   published, and the report says what failed.
 
+## Changes after seeing the data format, before the backtest
+
+These were needed to read the delivered files and were made before the
+first backtest run:
+
+- Fields can be quoted and contain commas; the CSV reader handles quoting.
+- Columns that describe a poll (`tyyp`, `lopp_liik`, `valim_tekst`,
+  `allikas`, `markus`) are not parties. KOOS and ERK are parties.
+- A poll without an "others" value whose parties sum to less than 100% gets
+  the remainder as "others". Scaling such a row up to 100% would inflate all
+  parties by the same factor, which the model would read as a house effect
+  (37 Turu-uuringute polls in 2019 have no "others" column). Polls whose base
+  includes undecided respondents (`alus = koik_vastajad`) are scaled to 100%.
+- A date known only to the month counts as the 15th of that month for the
+  poll date, and as the last day of the month for the publication lag, so a
+  poll never enters a forecast earlier than it could have been published.
+- Wikipedia lists Norstat as single weeks of about 1000 respondents, not as
+  the overlapping four-week averages of reitingud.ee, so the overlap rule
+  rarely applies to Norstat in these files. Weekly figures that Wikipedia
+  derived from the averages (`tyyp = nadal_tuletatud`) are used as they are.
+
 ## Changes after the backtest
 
 None yet.
