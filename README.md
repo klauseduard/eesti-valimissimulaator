@@ -31,10 +31,20 @@ JavaScript. It lets you change party support with sliders or per
 district, shows the seats on a parliament diagram and a district map,
 and explains step by step how § 62 allocates the seats in each district
 and in the compensation round. Its source is in `web/`; see "Veebileht"
-below for how to run it locally. The code and the rest of this document
-are in Estonian.
+below for how to run it locally.
+
+The project started in February 2023 as an experiment with GitHub
+Copilot. In October 2026 it was rebuilt with Claude Code: the seat
+allocation now follows § 62 completely, the code compiles to the JVM and
+to JavaScript, and the web page was added. The data are still those of
+the 2023 election. The code and the rest of this document are in
+Estonian.
 
 ## Saateks arvutiprogrammile
+
+*See sissejuhatus on kirjutatud 2023. aasta veebruaris, kui projekt
+alustati. 2026. aasta oktoobris tehtud uuendus on kirjeldatud järgmises
+jaotises.*
 
 Selle väikese viimistlemata rakenduse ülesandeks on simuleerida
 Eesti Vabariigi parlamendivalimiste mandaatide jaotamist
@@ -43,16 +53,6 @@ sisalduvatest erakondade toetusprotsentidest. Tekstifailidena
 on kaasa pandud 2023. aasta valimiste kandidaatide
 ringkonna- ja üleriigilised nimekirjad, mis on kopeeritud
 ametlikelt veebilehtedelt.
-
-Programm jagab mandaadid Riigikogu valimise seaduse reeglite järgi:
-isikumandaadid (vähemalt lihtkvoot), ringkonnamandaadid 5% künnise
-ületanud erakondadele (0,75 jäägi reegel, kandidaadil vähemalt 10%
-lihtkvoodist) ja kompensatsioonimandaadid modifitseeritud d'Hondti
-meetodil (kandidaadil vähemalt 5% lihtkvoodist), sealhulgas viigireeglid
-(RKVS § 62). Test `Rk2023Test` jagab 2023.
-aasta tegelike häälte põhjal samad 101 mandaati nagu ametlik tulemus.
-Kandidaatidele seatud 10% ja 5% nõudeid need hääled ei rakenda, seega
-neid kontrollivad väikesed näited failis `MandaadijaotusTest.kt`.
 
 Programm ei ole väga ambitsioonikas, sest on loodud eelkõige
 käeharjutusena programmeerijat assisteeriva tööriista
@@ -82,6 +82,36 @@ Veel üks märkus:
 Asusin esialgu programmikoodi Copilotile antud instruktsioonidest
 tühjendama, kuid taipasin enne sellega lõpule jõudmist, et
 näidisrakenduses olnuks mõistlikum need alles jätta ja peatusin.
+
+## 2026. aasta oktoobri uuendus
+
+2026. aasta oktoobris tehti projekt Claude Code'i (Anthropic) abil
+ümber. Algne 2023. aasta programm oli käeharjutus ega järginud
+valimisseadust lõpuni. Uuendatud programm jagab mandaadid Riigikogu
+valimise seaduse § 62 järgi: isikumandaadid (vähemalt lihtkvoot),
+ringkonnamandaadid 5% künnise ületanud erakondadele (0,75 jäägi reegel,
+kandidaadil vähemalt 10% lihtkvoodist) ja kompensatsioonimandaadid
+modifitseeritud d'Hondti meetodil (kandidaadil vähemalt 5% lihtkvoodist),
+sealhulgas viigireeglid. Test `Rk2023Test` jagab 2023. aasta tegelike
+häälte põhjal samad 101 mandaati nagu ametlik tulemus. Kandidaatidele
+seatud 10% ja 5% nõudeid need hääled ei rakenda, seega neid kontrollivad
+väikesed näited failis `MandaadijaotusTest.kt`.
+
+Uuenduse käigus muutusid ka järgmised asjad:
+
+- Hääled simuleeritakse 2023. aasta valimiste kehtivate häälte põhjal
+  (varem 2019. aasta osavõtu põhjal) ja Norstati andmetes saavad hääli kõik
+  kaheksa küsitletud erakonda.
+- Kood on Kotlin Multiplatformi projekt: sama kood on nii käsurea
+  programmis kui ka JavaScripti moodulina veebilehel.
+- Lisandus veebileht kaardi, parlamendi joonise ja mandaatide jagamise
+  selgitusega (vt jaotist „Veebileht").
+- Testid kontrollivad reegleid, korduvat simulatsiooni ja 2023. aasta
+  tulemust nii JVM-il kui ka Node'is.
+
+Andmed on endiselt 2023. aasta omad: kandidaatide nimekirjad, küsitlused
+ja ringkondade mandaatide arv. 2027. aasta valimiste andmeid veel pole.
+Muudatuste täpne loetelu on failis `CHANGELOG.md`.
 
 ## Kuidas hääled simuleeritakse
 
