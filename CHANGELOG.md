@@ -2,6 +2,37 @@
 
 ### Changed
 
+  * Votes are simulated from the official 2023 valid votes per district
+  (previously the 2019 turnout), and the Norstat data now gives votes to all
+  eight parties in the poll, including Erakond Eestimaa Rohelised and Erakond
+  Parempoolsed. District names follow § 6 of the Riigikogu Election Act.
+
+  * `run-n-times.sh` and `run-emor-n-times.sh` run all repetitions in one
+  process instead of starting Gradle and sleeping one second per run.
+
+  * The files in `examples/` were regenerated with 1000 runs and seed 1.
+  `examples/probabilities.txt` cannot be regenerated, because its ERR data
+  is no longer in the program; it now carries a note saying so.
+
+### Added
+
+  * `--runs=N` repeats the simulation and writes how often each candidate
+  was elected to `runs/<timestamp>-sagedused.txt`.
+
+  * `--reitingud=FILE` selects the Norstat ratings file.
+
+  * Unknown command-line arguments print a usage message.
+
+### Fixed
+
+  * The program creates `runs/` itself instead of crashing.
+
+  * A party without candidates in a district no longer crashes the vote split.
+
+## 2026-10-18
+
+### Changed
+
   * Seat allocation now follows the remaining rules of the Riigikogu Election
   Act: personal mandates for any candidate with at least the simple quota,
   including independents; the 5% national threshold for district and

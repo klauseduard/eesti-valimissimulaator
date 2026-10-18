@@ -134,9 +134,14 @@ class AndmeFailideLugeja {
     return kandidaadid
   }
 
-  fun loeJSONiFailistReitingud(): MutableList<Reiting> {
+  /**
+   * Loeb reitingud.ee JSON-failist erakondade toetusprotsendid ringkondades.
+   *
+   * @param fail - JSON-faili tee; null tähendab programmiga kaasas olevat faili [VAIKIMISI_REITINGUFAIL]
+   */
+  fun loeJSONiFailistReitingud(fail: String? = null): MutableList<Reiting> {
     // Algoritmi kirjeldus:
-    // JSON-fail reitingud/reitingud-2023-02-20.json sisaldab erakondade reitinguid ringkondades.
+    // JSON-fail (nt reitingud/reitingud-2023-03-03.json) sisaldab erakondade reitinguid ringkondades.
     // 1. ringkonna andmed on elemendis .props.chartData.data[16][-1], kus -1 osutab tagantpoolt esimesele elemendile.
     // 2. ringkonna andmed on elemendis .props.chartData.data[17][-1] jne.
     // Viimaks, 12. ringkonna andmed on elemendis .props.chartData.data[27][-1]
@@ -161,9 +166,9 @@ class AndmeFailideLugeja {
     // 3. loe andmed erakondade kaupa
     // 4. salvesta andmed andmebaasi
 
-    val fileName = "reitingud/reitingud-2023-03-03.json"
-    val inputStream = AndmeFailideLugeja::class.java.getResourceAsStream("/$fileName")
-    val reader = BufferedReader(InputStreamReader(inputStream))
+    val inputStream = if (fail != null) java.io.File(fail).inputStream()
+      else AndmeFailideLugeja::class.java.getResourceAsStream("/$VAIKIMISI_REITINGUFAIL")
+    val reader = BufferedReader(InputStreamReader(inputStream, Charsets.UTF_8))
 
     val gson = Gson()
 
@@ -196,14 +201,9 @@ class AndmeFailideLugeja {
           reitingudList.add(Reiting(erakonnaNimi, 0.0, i+1))
         } else {
           val reiting = ringkonnaReitingud[j + 1].substring(0, ringkonnaReitingud[j + 1].length - 1).toDouble()
-          println("$i-$j : $erakonnaNimi $reiting")
           reitingudList.add(Reiting(erakonnaNimi, reiting, i + 1))
         }
       }
-    }
-
-    reitingudList.forEach {
-      println("${it.erakonnaNimi}, ${it.reiting}, ${it.ringkond}")
     }
 
     return reitingudList
@@ -213,6 +213,9 @@ class AndmeFailideLugeja {
 
 
 }
+
+/** programmiga kaasas olev viimane reitingufail */
+const val VAIKIMISI_REITINGUFAIL = "reitingud/reitingud-2023-03-03.json"
 
 class Reitingud {
   val props = Props()

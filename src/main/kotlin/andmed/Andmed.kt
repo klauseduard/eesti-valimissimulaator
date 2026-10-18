@@ -9,20 +9,21 @@ val MANDAATE_KOKKU = 101
 
 /** Käesolevas failis on algandmed, mida tekstifailidesse viia ei raatsinud. */
 
-/* konstant mis sisaldab hääletanute arvu ringkonna kaupa, aluseks 2019. aasta parlamendivalimised */
-val hääletanud = mapOf(
-  1 to 53136,
-  2 to 71406,
-  3 to 50823,
-  4 to 87957,
-  5 to 34291,
-  6 to 28705,
-  7 to 37975,
-  8 to 41324,
-  9 to 40793,
-  10 to 46229,
-  11 to 46976,
-  12 to 40659,
+/* konstant, mis sisaldab kehtivate häälte arvu ringkonna kaupa 2023. aasta Riigikogu valimistel
+ * (https://opendata.valimised.ee/api/RK_2023/RESULTS.xml, districts/district/statistics/votes) */
+val kehtivaidHääli = mapOf(
+  1 to 61610,
+  2 to 74813,
+  3 to 51084,
+  4 to 105586,
+  5 to 35856,
+  6 to 28277,
+  7 to 29542,
+  8 to 39297,
+  9 to 46891,
+  10 to 49068,
+  11 to 44403,
+  12 to 43872,
 )
 
 // konstandid erakondade nimedega
@@ -141,17 +142,18 @@ val erakonnad = arrayOf(
   ),
 )
 
-/* konstant, mis sisaldab valimisringkondade andmestruktuuride massiivi */
+/* konstant, mis sisaldab valimisringkondade andmestruktuuride massiivi; nimed RKVS § 6 järgi,
+ * mandaatide arv 2023. aasta valimiste järgi (iga valimise jaoks jaotatakse mandaadid uuesti, RKVS § 7) */
 val valimisringkonnad = arrayOf(
   Valimisringkond(1, "Tallinna Haabersti, Põhja-Tallinna ja Kristiine linnaosa", 10),
   Valimisringkond(2, "Tallinna Kesklinna, Lasnamäe ja Pirita linnaosa", 13),
   Valimisringkond(3, "Tallinna Mustamäe ja Nõmme linnaosa", 8),
-  Valimisringkond(4, "Harju- ja Raplamaa", 16),
+  Valimisringkond(4, "Harju- (v.a Tallinn) ja Raplamaa", 16),
   Valimisringkond(5, "Hiiu-, Lääne- ja Saaremaa", 6),
   Valimisringkond(6, "Lääne-Virumaa", 5),
   Valimisringkond(7, "Ida-Virumaa", 6),
   Valimisringkond(8, "Järva- ja Viljandimaa", 7),
-  Valimisringkond(9, "Jõgeva- ja Tartumaa", 7),
+  Valimisringkond(9, "Jõgeva- ja Tartumaa (v.a Tartu linn)", 7),
   Valimisringkond(10, "Tartu linn", 8),
   Valimisringkond(11, "Võru-, Valga- ja Põlvamaa", 8),
   Valimisringkond(12, "Pärnumaa", 7),

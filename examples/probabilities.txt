@@ -1,3 +1,8 @@
+# NB: see fail on loodud 2023. aasta veebruaris programmi varasema versiooniga,
+# mis ei rakendanud Riigikogu valimise seaduse § 62 reegleid täielikult (puudusid
+# 5% künnis ning 10% ja 5% lihtkvoodi nõuded). ERRi andmed, mille põhjal see
+# arvutati, on programmis asendatud Emori andmetega, seega faili ei saa uuesti luua.
+#
 # Kandidaatide valituks saamise tõenäosused 19. veebruaril
 # -- lähtume ERRis avaldatud ringkondlikest toetusnumbritest
 # Mitte meelt heita -- see on simulatsioon, mille aluseks on

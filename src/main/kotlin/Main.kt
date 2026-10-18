@@ -1,29 +1,39 @@
-import andmed.erakonnad
-import andmed.hääletanud
+import andmed.VAIKIMISI_REITINGUFAIL
+import andmed.kehtivaidHääli
 import andmed.valimisringkonnad
 
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
+import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
-
-  // --seed=N teeb häälte juhusliku jaotuse korratavaks
-  val seemneArgument = args.find { it.startsWith("--seed=") }
-  val juhus = if (seemneArgument != null) Random(seemneArgument.removePrefix("--seed=").toLong()) else Random
-
-  // kui programmi käsureaargumendina on antud --pollster=emor, kasutame Emori andmeid failist Andmed.kt,
-  // vaikimisi Norstati andmeid reitingufailist
-  val küsitleja = if (args.contains("--pollster=emor")) Küsitleja.EMOR else Küsitleja.NORSTAT
-  if (küsitleja == Küsitleja.NORSTAT) {
-    // trüki instruktsioonid, kuidas kasutada Emori andmeid
-    println("Kasutamiseks vali Emori andmed: --pollster=emor")
+  val seaded = try {
+    loeSeaded(args)
+  } catch (e: IllegalArgumentException) {
+    System.err.println(e.message)
+    System.err.println(KASUTUSJUHEND)
+    exitProcess(2)
   }
 
-  trükiHääletanuteArv()
+  // --seed=N teeb häälte juhusliku jaotuse korratavaks
+  val juhus = if (seaded.seeme != null) Random(seaded.seeme) else Random
 
-  val jaotus = simuleeriValimised(küsitleja, juhus)
+  // kaust, kuhu tulemused kirjutatakse
+  File("runs").mkdirs()
+
+  if (seaded.kordi != null) {
+    simuleeriJaKirjutaSagedused(seaded, seaded.kordi, juhus)
+  } else {
+    simuleeriÜksKord(seaded, juhus)
+  }
+}
+
+private fun simuleeriÜksKord(seaded: Seaded, juhus: Random) {
+  trükiKehtivateHäälteArv()
+
+  val jaotus = simuleeriValimised(seaded.küsitleja, juhus, seaded.reitingufail)
 
   trükiRingkonnamandaadid(jaotus)
 
@@ -41,6 +51,37 @@ fun main(args: Array<String>) {
   trükiMandaatideSummad(jaotus)
 }
 
+private fun simuleeriJaKirjutaSagedused(seaded: Seaded, kordi: Int, juhus: Random) {
+  val kokkuvõte = simuleeriKorduvalt(seaded.küsitleja, kordi, juhus, seaded.reitingufail)
+
+  val andmed = when (seaded.küsitleja) {
+    Küsitleja.NORSTAT -> "Norstat, reitingufail ${seaded.reitingufail ?: VAIKIMISI_REITINGUFAIL}"
+    Küsitleja.EMOR -> "Emor, andmed failist Andmed.kt"
+  }
+  val päis = mutableListOf(
+    "Kandidaatide valituks osutumise sagedused",
+    "",
+    "andmed: $andmed",
+    "kordusi: ${kokkuvõte.kordi}, seeme: ${seaded.seeme ?: "juhuslik"}",
+    "",
+    "erakondade mandaadid (vähim–suurim, keskmine):",
+  )
+  for ((erakond, mandaadid) in kokkuvõte.erakondadeMandaadid.entries.sortedByDescending { it.value.average() }) {
+    päis.add("  $erakond: ${mandaadid.min()}–${mandaadid.max()}, keskmiselt ${"%.1f".format(Locale.ROOT, mandaadid.average())}")
+  }
+
+  val read = kokkuvõte.valitudKordi.entries
+    .sortedWith(compareBy({ -it.value }, { it.key.nimi }))
+    .map { (k, kordi) -> "%7d Kandidaat(nimi=%s, erakond=%s, valimisringkond=%d".format(kordi, k.nimi, k.erakond, k.valimisringkond) }
+
+  val sisu = päis.joinToString("\n") { "# $it".trimEnd() } + "\n#\n" + "#".repeat(47) + "\n" + read.joinToString("\n") + "\n"
+  val failinimi = "runs/" + ajatempel() + "-sagedused.txt"
+  File(failinimi).writeText(sisu)
+
+  päis.drop(5).forEach { println(it) }
+  println("\nKandidaatide valituks osutumise sagedused on failis $failinimi")
+}
+
 private fun trükiRingkonnamandaadid(jaotus: Mandaadijaotus) {
   for (ringkond in valimisringkonnad) {
     println("Ringkond ${ringkond.nr} (${ringkond.nimetus})")
@@ -51,9 +92,10 @@ private fun trükiRingkonnamandaadid(jaotus: Mandaadijaotus) {
   }
 }
 
+private fun ajatempel(): String = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+
 private fun kirjutaJagatudMandaadidFaili(jaotus: Mandaadijaotus) {
-  val timestamp = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
-  val filename = "runs/" + timestamp + "-mandaadid.txt"
+  val filename = "runs/" + ajatempel() + "-mandaadid.txt"
   File(filename).writeText(mandaadidTekstina(jaotus))
 }
 
@@ -64,13 +106,10 @@ private fun trükiMandaatideSummad(jaotus: Mandaadijaotus) {
   println("KOMPENSATSIOONIMANDAATIDE JAOTUS: $kompensatsioonimandaadid")
 
   // arvuta kompensatsioonimandaatide ja ringkonnamandaatide summa erakondade kaupa
-  val erakondadeMandaatideSumma = erakonnad.associate {
-    it.nimetus to (ringkonnamandaadid[it.nimetus] ?: 0) + (kompensatsioonimandaadid[it.nimetus] ?: 0)
-  }
+  val erakondadeMandaatideSumma = jaotus.kõikMandaadid().groupingBy { it.erakond }.eachCount()
   println("ERAKONDADE MANDAATIDE KOGUSUMMA: $erakondadeMandaatideSumma")
 }
 
-private fun trükiHääletanuteArv() {
-  val valimistestOsavõtjaid = hääletanud.values.sum()
-  println("valimistest osavõtnuid: $valimistestOsavõtjaid")
+private fun trükiKehtivateHäälteArv() {
+  println("kehtivaid hääli (2023. aasta valimiste järgi): ${kehtivaidHääli.values.sum()}")
 }

@@ -1,3 +1,6 @@
 .gradle/
 .idea/
 build/
+runs/
+all_runs.txt
+stats.txt

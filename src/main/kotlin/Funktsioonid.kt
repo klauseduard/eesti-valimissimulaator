@@ -26,8 +26,8 @@ fun jagadaArvNiksJuhuslikuksOsaks(arv: Int, n: Int, juhus: Random = Random): Lis
     jääk -= osa
   }
 
-  // kui jääk > 0 lisa see esimesele osale
-  if (jääk > 0) {
+  // kui jääk > 0 lisa see esimesele osale; kui osi pole, jäävad hääled jagamata
+  if (jääk > 0 && osad.isNotEmpty()) {
     osad[0] += jääk
   }
   return osad
