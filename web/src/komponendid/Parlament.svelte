@@ -108,10 +108,39 @@
           .flatMap(([e, m]) => Array<string>(m).fill(e)),
   );
 
+  /** ühine telg jaotuse diagrammidele: suurim mandaatide arv kordustes, ümardatuna 10 ülespoole */
+  const telg = $derived(Math.max(10, Math.ceil(Math.max(0, ...read.map((r) => r.stat?.max ?? 0)) / 10) * 10));
+  const teljeJaotised = $derived(Array.from({ length: telg / 10 + 1 }, (_, i) => i * 10));
+
+  /** kokkuvõtte lause: suurim erakond, selle keskmine ja vahemik ning kui sageli see oli suurim */
+  const kokkuvõtteLause = $derived.by((): string | null => {
+    if (tegelikud) {
+      const e = [...tulemus.erakonnad].sort((a, b) => b.mandaate - a.mandaate)[0];
+      return t('parlament.lause.tegelikud', { erakond: e.erakond, mandaate: e.mandaate });
+    }
+    if (!kordustest || !kokkuvõte || !kokkuvõteKehtib) return null;
+    const suurim = [...read].filter((r) => r.stat).sort((a, b) => b.stat!.keskmine - a.stat!.keskmine)[0];
+    if (!suurim?.stat) return null;
+    const kordi = kokkuvõte.kordi;
+    let suurimKordi = 0;
+    for (let k = 0; k < kordi; k++) {
+      const oma = suurim.mandaadid[k];
+      if (kokkuvõte.mandaadid.every((m) => m[k] <= oma)) suurimKordi += 1;
+    }
+    return t('parlament.lause', {
+      erakond: suurim.e.erakond,
+      keskmine: arv(suurim.stat.keskmine, 0),
+      p05: suurim.stat.p05,
+      p95: suurim.stat.p95,
+      osakaal: protsent((suurimKordi / kordi) * 100, 0),
+    });
+  });
+
   let esiletõstetud = $state<string | null>(null);
 </script>
 
 <h2 id="parlament-pealkiri">{t('parlament.pealkiri')}</h2>
+<p class="lause" data-testid="kokkuvõtte-lause">{kokkuvõtteLause ?? '\u00a0'}</p>
 <p class="vaike vaigne alapealkiri" data-testid="parlamendi-alus">
   {#if tegelikud}
     {t('parlament.alus.tegelikud')}
@@ -129,13 +158,17 @@
   </label>
 {/if}
 
+<div class="tulemusala">
 <svg
-  viewBox="-1.06 -1.06 2.12 1.12"
+  viewBox="-1.06 -1.14 2.12 1.2"
   role="img"
   aria-labelledby="parlament-pealkiri parlament-kirjeldus"
   class="poolring"
   class:uueneb={!tegelikud && !kokkuvõteKehtib}
 >
+  <!-- enamuse piir: 51. koht on poolringi keskel -->
+  <line x1="0" y1="-1.035" x2="0" y2="-1.075" class="enamuse-joon" />
+  <text x="0" y="-1.085" text-anchor="middle" class="enamuse-silt">51</text>
   <desc id="parlament-kirjeldus">
     {järjestatud.filter((r) => (diagrammiMandaadid?.get(r.e.erakond) ?? 0) > 0).map((r) => `${r.e.erakond}: ${diagrammiMandaadid?.get(r.e.erakond)}`).join(', ')}
   </desc>
@@ -167,8 +200,15 @@
         {:else}
           <th scope="col" class="arv" title={t('parlament.keskmine.selgitus')}>{t('parlament.keskmine')}</th>
           <th scope="col" class="arv" title={t('parlament.vahemik.selgitus', { kordi })}>{t('parlament.vahemik')}</th>
-          <th scope="col" class="arv" title={t('parlament.mandaadiga.selgitus')}>{t('parlament.mandaadiga')}</th>
-          <th scope="col" class="jaotuse-veerg">{t('parlament.jaotus')}</th>
+          <th scope="col" class="arv mandaadiga" title={t('parlament.mandaadiga.selgitus')}>{t('parlament.mandaadiga')}</th>
+          <th scope="col" class="jaotuse-veerg">
+            <span class="peidetud">{t('parlament.jaotus')}</span>
+            <svg viewBox="0 0 140 14" preserveAspectRatio="none" aria-hidden="true" class="telg">
+              {#each teljeJaotised as j}
+                <text x={(j / telg) * 140} y="10" text-anchor={j === 0 ? 'start' : j === telg ? 'end' : 'middle'}>{j}</text>
+              {/each}
+            </svg>
+          </th>
         {/if}
         {#if tegelikud}
           <th scope="col" class="arv" title={t('parlament.hääled.selgitus')}>{t('parlament.hääled')}</th>
@@ -196,7 +236,7 @@
             <td class="arv vaigne" title={r.stat ? t('parlament.vahemik.täpsem', { min: r.stat.min, max: r.stat.max }) : ''}>
               {#if r.stat}{r.stat.p05 === r.stat.p95 ? r.stat.p05 : `${r.stat.p05}–${r.stat.p95}`}{:else}…{/if}
             </td>
-            <td class="arv vaigne">{r.mandaadiga === null ? '…' : protsent(r.mandaadiga * 100, 0)}</td>
+            <td class="arv vaigne mandaadiga">{r.mandaadiga === null ? '…' : protsent(r.mandaadiga * 100, 0)}</td>
             <td class="jaotuse-veerg">
               {#if r.stat && r.stat.max > 0}
                 <Jaotus
@@ -204,6 +244,8 @@
                   värv={r.info.värv}
                   p05={r.stat.p05}
                   p95={r.stat.p95}
+                  keskmine={r.stat.keskmine}
+                  {telg}
                   silt={t('parlament.jaotus.silt', { erakond: r.info.lühend, min: r.stat.min, max: r.stat.max })}
                 />
               {/if}
@@ -215,6 +257,7 @@
     </tbody>
   </table>
 </div>
+</div>
 
 <p class="vaike vaigne mc" aria-live="polite">
   {#if tegelikud}
@@ -224,22 +267,101 @@
   {:else if mcKäib}
     <progress max={kordi} value={kokkuvõte?.kordi ?? 0}></progress>
     {t('mc.käib', { tehtud: kokkuvõte?.kordi ?? 0, kordi })}
-  {:else if kokkuvõte}
-    {olek.viga && eelseadistuseVeaga ? t('mc.valmis.veaga', { kordi: kokkuvõte.kordi }) : t('mc.valmis.veata', { kordi: kokkuvõte.kordi })}
   {/if}
 </p>
 
+{#if !tegelikud && kokkuvõte}
+  <details class="vaike meetod">
+    <summary>{t('meetod.kuidas')}</summary>
+    <p>{olek.viga && eelseadistuseVeaga ? t('mc.valmis.veaga', { kordi: kokkuvõte.kordi }) : t('mc.valmis.veata', { kordi: kokkuvõte.kordi })}</p>
+  </details>
+{/if}
+
 <style>
+  .lause {
+    font-size: 1.05rem;
+    margin: 0 0 0.3rem;
+    min-height: 1.5em;
+  }
+
+  .enamuse-joon {
+    stroke: var(--tekst-3);
+    stroke-width: 0.006;
+  }
+
+  .enamuse-silt {
+    font-size: 0.05px;
+    fill: var(--tekst-3);
+  }
+
+  .telg {
+    display: block;
+    width: var(--jaotuse-laius, 140px);
+    height: 14px;
+    overflow: visible;
+  }
+
+  /* kitsal kaardil: jaotus väiksem ja „Mandaadiga" peidetud (sama info on jaotuses) */
+  @container kaart (max-width: 520px) {
+    .erakonnad {
+      --jaotuse-laius: 96px;
+    }
+
+    .mandaadiga {
+      display: none;
+    }
+
+    .jaotuse-veerg {
+      width: 100px;
+    }
+  }
+
+  /* väga kitsal kaardil jääb alles ainult tabel; vahemik on ka numbrina olemas */
+  @container kaart (max-width: 400px) {
+    .jaotuse-veerg {
+      display: none;
+    }
+  }
+
+  .telg text {
+    font-size: 10px;
+    fill: var(--tekst-3);
+    font-weight: 400;
+  }
+
+  .meetod summary {
+    cursor: pointer;
+    color: var(--tekst-2);
+  }
+
+  .meetod p {
+    margin: 0.4rem 0 0;
+    color: var(--tekst-2);
+  }
+
   .alapealkiri {
     margin: -0.3rem 0 0.4rem;
     min-height: 1.4em;
+  }
+
+  .tulemusala {
+    display: grid;
+    gap: 1rem 1.5rem;
+    align-items: center;
+  }
+
+  /* laial kaardil on poolring ja tabel kõrvuti */
+  @container kaart (min-width: 820px) {
+    .tulemusala {
+      grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
+    }
   }
 
   .poolring {
     width: 100%;
     max-width: 520px;
     display: block;
-    margin: 0 auto 0.8rem;
+    margin: 0 auto;
   }
 
   .uueneb {
@@ -300,7 +422,7 @@
   }
 
   .jaotuse-veerg {
-    width: 100px;
+    width: 144px;
     vertical-align: middle;
   }
 

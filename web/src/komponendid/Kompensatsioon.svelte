@@ -12,6 +12,10 @@
     [...new Set(tulemus.kompensatsioon.flatMap((s) => s.erakonnad))].sort((a, b) => järjekorraNr(a) - järjekorraNr(b)),
   );
 
+  const NÄITA = 10;
+  let kõik = $state(false);
+  const nähtavad = $derived(kõik ? tulemus.kompensatsioon : tulemus.kompensatsioon.slice(0, NÄITA));
+
   function jagaja(mandaate: number): number {
     return (mandaate + 1) ** 0.9;
   }
@@ -53,7 +57,7 @@
         </tr>
       </thead>
       <tbody>
-        {#each tulemus.kompensatsioon as samm, i}
+        {#each nähtavad as samm, i}
           <tr>
             <td class="arv vaigne">{i + 1}</td>
             {#each veerud as erakond (erakond)}
@@ -85,6 +89,11 @@
       </tbody>
     </table>
   </div>
+  {#if tulemus.kompensatsioon.length > NÄITA}
+    <button class="rohkem" onclick={() => (kõik = !kõik)} data-testid="kompensatsioon-kõik">
+      {kõik ? t('kandidaadid.vähem') : t('kandidaadid.kõik', { arv: tulemus.kompensatsioon.length })}
+    </button>
+  {/if}
 {/if}
 
 <style>
@@ -124,6 +133,10 @@
 
   td:last-child {
     white-space: nowrap;
+  }
+
+  .rohkem {
+    margin-top: 0.5rem;
   }
 
   td.võitja {

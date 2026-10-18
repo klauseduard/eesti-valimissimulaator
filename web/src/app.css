@@ -143,10 +143,10 @@ th.arv {
 .kaart-pind {
   background: var(--pind);
   border: 1px solid var(--joon);
-  border-radius: 10px;
-  padding: 1rem;
-  box-shadow: var(--vari);
+  border-radius: 12px;
+  padding: 1.25rem 1.4rem;
   min-width: 0;
+  container: kaart / inline-size;
 }
 
 .vaigne {

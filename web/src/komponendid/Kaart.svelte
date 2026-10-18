@@ -176,7 +176,7 @@
     if (erakonnaToetus) return protsent(erakonnaToetus[nr - 1], 0);
     const v = võitja(nr);
     if (!v) return '';
-    return `${erakonnaInfo(v).lühend} ${mandaate(ringkondadeMandaadid.get(nr)?.get(v) ?? 0)}`;
+    return erakonnaInfo(v).lühend;
   }
 
   function kirjeldus(nr: number): string {

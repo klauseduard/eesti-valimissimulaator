@@ -80,3 +80,11 @@ test('kaart joonistab kõik ringkonnad ja korduvad simulatsioonid lõpevad', asy
   await page.locator('[data-testid="kaart"] path[data-ringkond="7"]').first().click();
   await expect(page.getByTestId('selgituse-ringkond')).toHaveValue('7');
 });
+
+test('kokkuvõtte lause ja ringkondade diagramm', async ({ page }) => {
+  await page.goto('/#k=et');
+  await ootaKordusi(page);
+  await expect(page.getByTestId('kokkuvõtte-lause')).toContainText('Suurim erakond oleks');
+  await page.getByTestId('ringkondade-diagramm').getByRole('button').nth(3).click();
+  await expect(page.getByTestId('selgituse-ringkond')).toHaveValue('4');
+});

@@ -6,6 +6,15 @@
 
 ### Changed
 
+  * Interface revision: a summary sentence states the largest party, its range
+  and how often it was largest; the parliament diagram marks the majority
+  boundary; the seat histograms share one axis so spreads can be compared; a
+  new chart shows the average elected per district as stacked bars, since the
+  winner-coloured map hides how seats are split; the seed control moved from
+  the header to the example run; method texts fold into disclosures; the
+  compensation table shows ten rows by default; on phones the results come
+  before the inputs; cards are flatter.
+
   * A poll aggregate combines the latest polls of all pollsters: a time-weighted
   mean per pollster, then equal weights per pollster, so repeated polls by one
   source do not count as independent. It is the web page's default preset

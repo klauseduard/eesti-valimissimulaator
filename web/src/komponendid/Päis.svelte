@@ -13,15 +13,6 @@
     olek.tegelikudHääled = olek.eelseadistus === RK2023;
   }
 
-  function uusSeeme() {
-    olek.seeme = Math.floor(Math.random() * 1_000_000);
-  }
-
-  function muudaSeemet(sündmus: Event) {
-    const väärtus = Number((sündmus.currentTarget as HTMLInputElement).value);
-    if (Number.isInteger(väärtus)) olek.seeme = väärtus;
-  }
-
   const muudetud = $derived(Object.keys(olek.muudatused).length > 0);
 </script>
 
@@ -54,11 +45,6 @@
         </label>
       {/if}
 
-      <label class="seeme" title={t('seeme.selgitus')}>
-        <span class="silt">{t('seeme')}</span>
-        <input type="number" value={olek.seeme} onchange={muudaSeemet} disabled={olek.tegelikudHääled} data-testid="seeme" />
-        <button onclick={uusSeeme} disabled={olek.tegelikudHääled} aria-label={t('seeme.uus')} title={t('seeme.uus')}>⟳</button>
-      </label>
 
       <div class="keel" role="group" aria-label={t('keel')}>
         {#each ['et', 'en'] as const as keel (keel)}
@@ -119,14 +105,6 @@
   .silt {
     color: var(--tekst-2);
     font-size: 0.9rem;
-  }
-
-  .seeme input {
-    width: 7.5em;
-    padding: 0.3em 0.4em;
-    border: 1px solid var(--joon);
-    border-radius: 6px;
-    background: var(--pind);
   }
 
   .keel {

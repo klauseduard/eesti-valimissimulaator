@@ -7,6 +7,15 @@
   let { tulemus, olek = $bindable() }: { tulemus: Tulemus; olek: Olek } = $props();
 
   const ringkond = $derived(RINGKONNAD[olek.ringkond - 1]);
+
+  function uusSeeme() {
+    olek.seeme = Math.floor(Math.random() * 1_000_000);
+  }
+
+  function muudaSeemet(sündmus: Event) {
+    const väärtus = Number((sündmus.currentTarget as HTMLInputElement).value);
+    if (Number.isInteger(väärtus)) olek.seeme = väärtus;
+  }
   const arvutus = $derived(tulemus.ringkonnad[olek.ringkond - 1]);
   const jaotatud = $derived(arvutus.erakonnad.reduce((s, e) => s + e.valitud.length, 0) +
     arvutus.isikumandaadid.filter((k) => !arvutus.erakonnad.some((e) => e.erakond === k.erakond)).length);
@@ -26,9 +35,18 @@
   </label>
 </div>
 
-<p class="näidis vaike" data-testid="näidiskordus">
-  {olek.tegelikudHääled ? t('näidiskordus.tegelikud') : t('näidiskordus', { seeme: olek.seeme })}
-</p>
+<div class="näidis vaike">
+  <p data-testid="näidiskordus">
+    {olek.tegelikudHääled ? t('näidiskordus.tegelikud') : t('näidiskordus', { seeme: olek.seeme })}
+  </p>
+  {#if !olek.tegelikudHääled}
+    <label class="seeme" title={t('seeme.selgitus')}>
+      <span>{t('seeme')}</span>
+      <input type="number" value={olek.seeme} onchange={muudaSeemet} data-testid="seeme" />
+      <button onclick={uusSeeme} data-testid="uus-seeme">{t('seeme.uus')}</button>
+    </label>
+  {/if}
+</div>
 
 <p class="vaigne">
   {t('selgitus.sissejuhatus', { mandaate: ringkond.mandaate, hääli: arv(arvutus.kehtivaidHääli) })}
@@ -132,9 +150,33 @@
 
   .näidis {
     background: var(--rohk-pind);
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    margin: 0 0 0.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .näidis p {
+    margin: 0;
+    flex: 1 1 24rem;
+  }
+
+  .seeme {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+  }
+
+  .seeme input {
+    width: 6.5em;
+    padding: 0.2em 0.4em;
+    border: 1px solid var(--joon);
     border-radius: 6px;
-    padding: 0.35rem 0.6rem;
-    margin: 0 0 0.6rem;
+    background: var(--pind);
   }
 
   .sammud {

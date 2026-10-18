@@ -4,6 +4,7 @@
   import ToetuseSisend from './komponendid/ToetuseSisend.svelte';
   import Parlament from './komponendid/Parlament.svelte';
   import Kaart from './komponendid/Kaart.svelte';
+  import Ringkonnad from './komponendid/Ringkonnad.svelte';
   import Selgitus from './komponendid/Selgitus.svelte';
   import Kompensatsioon from './komponendid/Kompensatsioon.svelte';
   import Kandidaadid from './komponendid/Kandidaadid.svelte';
@@ -147,7 +148,7 @@
   {/if}
 
   <div class="paigutus">
-    <aside class="kaart-pind sisend">
+    <aside class="kaart-pind sisend" id="sisend">
       <ToetuseSisend bind:olek {toetus} vead={sisendiVead} />
     </aside>
 
@@ -162,13 +163,17 @@
         </div>
       {/if}
 
+      <a class="sisendisse vaike" href="#sisend">{t('sisend.muuda')}</a>
       {#if tulemus}
+        <section class="kaart-pind" class:aegunud={!arvutus.tulemus} aria-labelledby="parlament-pealkiri">
+          <Parlament {tulemus} {kokkuvõte} {kokkuvõteKehtib} {mcKäib} {mcViga} kordi={KORDI} bind:olek />
+        </section>
         <div class="ylemine" class:aegunud={!arvutus.tulemus}>
-          <section class="kaart-pind" aria-labelledby="parlament-pealkiri">
-            <Parlament {tulemus} {kokkuvõte} {kokkuvõteKehtib} {mcKäib} {mcViga} kordi={KORDI} bind:olek />
-          </section>
           <section class="kaart-pind" aria-labelledby="kaart-pealkiri">
             <Kaart {tulemus} {toetus} {kokkuvõte} {kokkuvõteKehtib} bind:olek />
+          </section>
+          <section class="kaart-pind" aria-labelledby="ringkonnad-pealkiri">
+            <Ringkonnad {tulemus} {kokkuvõte} {kokkuvõteKehtib} bind:olek />
           </section>
         </div>
 
@@ -219,7 +224,7 @@
 
   .ylemine {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
     gap: 1rem;
     align-items: start;
     transition: opacity 0.2s;
@@ -227,6 +232,11 @@
 
   .aegunud {
     opacity: 0.55;
+  }
+
+  /* kitsal ekraanil liigub sisend tulemuste alla; see link viib sinna */
+  .sisendisse {
+    display: none;
   }
 
   .teade {
@@ -265,6 +275,11 @@
     .sisend {
       position: static;
       max-height: none;
+      order: 2;
+    }
+
+    .sisendisse {
+      display: inline-block;
     }
   }
 </style>
