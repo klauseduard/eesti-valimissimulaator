@@ -160,17 +160,31 @@ võetud 2023. aasta valimiste ametlikust tulemusest. Norstati andmetes
 `Andmed.kt`) kuue erakonna toetus. Teiste nimekirjade kandidaadid ja
 üksikkandidaadid hääli ei saa.
 
-Erakonna hääled jagatakse ringkonna kandidaatide vahel juhuslikult
-kandidaatide failis olevas järjekorras: esimene kandidaat saab juhusliku
-osa erakonna häältest (keskmiselt poole), teine juhusliku osa
-ülejäänust ja nii edasi. Failis on kandidaadid erakonna
-ringkonnanimekirja järjekorras, mille määrab erakond (RKVS § 29 lg 7):
-failid on registreerimisnumbrite järjekorras ja 2023. aasta ametliku
-kandidaatide faili järgi kattus see kõigi 112 ringkonnanimekirja puhul
-kandidaatide järjekorraga ringkonnanimekirjas. Seetõttu
-sõltub kandidaadi valituks osutumise sagedus peamiselt tema kohast
-nimekirjas, mitte tema isiklikust populaarsusest. Tulemusi tuleb
-lugeda selle eelduse valguses.
+Erakonna hääled jagatakse ringkonna kandidaatide vahel juhuslikult,
+kuid nii, et kandidaadi oodatav osa sõltub tema kohast erakonna
+ringkonnanimekirjas. Oodatav osa kahaneb nimekirja järjekorras:
+kümneliikmelise nimekirja esimene saab keskmiselt 34% erakonna
+häältest, teine 18%, kolmas 11%. Kui esimene kandidaat kuulub erakonna
+üleriigilise nimekirja esiviisikusse, on tema oodatav osa 47%. Igas korduses
+kõiguvad osad oodatava ümber Dirichlet' jaotuse järgi. Jaotuse
+parameetrid on sobitatud 2023. aasta valimiste kandidaatide häältele;
+mudel ja selle test on kirjeldatud failides `docs/kandidaatide-mudel.md`
+ja `docs/kandidaatide-mudeli-test.md`. Testis, kus iga ringkond jäeti
+kordamööda sobitamisest välja, nimetas see jaotus ringkonna tasandil
+valitud 75 kandidaadist õigesti keskmiselt 51,4. Simulaatori esialgne
+lihtne jaotus nimetas õigesti 44,9: selles saab esimene kandidaat
+juhusliku osa erakonna häältest (keskmiselt poole), teine juhusliku osa
+ülejäänust ja nii edasi. Lihtne jaotus on endiselt valitav (käsureal
+`--jaotus=lihtne`).
+
+Kandidaatide failis on kandidaadid erakonna ringkonnanimekirja
+järjekorras, mille määrab erakond (RKVS § 29 lg 7): failid on
+registreerimisnumbrite järjekorras ja 2023. aasta ametliku kandidaatide
+faili järgi kattus see kõigi 112 ringkonnanimekirja puhul kandidaatide
+järjekorraga ringkonnanimekirjas. Kumbki jaotus ei arvesta kandidaadi
+isiklikku populaarsust, seega sõltub kandidaadi valituks osutumise
+sagedus peamiselt tema kohast nimekirjas. Tulemusi tuleb lugeda selle
+eelduse valguses.
 
 Valimisringkondade mandaatide arv on 2023. aasta valimiste oma. Iga
 valimise jaoks jaotab Vabariigi Valimiskomisjon mandaadid ringkondade
@@ -215,6 +229,9 @@ Käsurea argumendid on järgmised:
 - `--runs=N`: korda simulatsiooni N korda.
 - `--seed=N`: juhuslikkuse seeme, et tulemus oleks korratav.
 - `--ilma-veata`: ära arvesta korduvates simulatsioonides küsitluse viga.
+- `--jaotus=lihtne`: jaga erakonna hääled kandidaatide vahel simulaatori
+  esialgse lihtsa jaotusega (vaikimisi 2023. aasta järgi kalibreeritud
+  jaotus).
 
 Kaustas `examples/` on 2023. aasta kevadel avaldatud reitingute põhjal
 arvutatud sagedused, igaüks 1000 korduse ja seemne 1 põhjal. Erand on

@@ -25,12 +25,6 @@ data class Küsitluseviga(val üleriigiline: Double, val ringkondlik: Double) {
   }
 }
 
-/** standardse normaaljaotusega juhuslik suurus (Box–Mulleri meetod) */
-private fun normaalne(juhus: Random): Double {
-  val u = 1.0 - juhus.nextDouble() // vahemikus (0, 1], et logaritm oleks määratud
-  return sqrt(-2.0 * ln(u)) * cos(2.0 * PI * juhus.nextDouble())
-}
-
 /**
  * Juhuslik toetus küsitluse vea järgi. Iga erakonna toetus korrutatakse teguriga, mille keskväärtus on 1
  * (log-normaaljaotus), seejärel skaleeritakse ringkonna erakondade toetused tagasi esialgse summani:

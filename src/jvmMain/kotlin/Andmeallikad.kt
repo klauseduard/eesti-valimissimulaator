@@ -45,9 +45,14 @@ fun küsitluseViga(küsitleja: Küsitleja, reitingufail: String? = null): Küsit
 }
 
 /** Simuleerib ühed valimised: loeb kandidaadid, simuleerib hääled ja jagab mandaadid. */
-fun simuleeriValimised(küsitleja: Küsitleja, juhus: Random, reitingufail: String? = null): Mandaadijaotus {
+fun simuleeriValimised(
+  küsitleja: Küsitleja,
+  juhus: Random,
+  reitingufail: String? = null,
+  jaotus: Jaotusmudel = VAIKIMISI_JAOTUSMUDEL,
+): Mandaadijaotus {
   val kandidaadid = AndmeFailideLugeja().loeKandidaadikirjed()
-  simuleeriHääled(kandidaadid, loeToetusprotsendid(küsitleja, reitingufail), juhus)
+  simuleeriHääled(kandidaadid, loeToetusprotsendid(küsitleja, reitingufail), juhus, jaotusmudel = jaotus)
   return jaotaMandaadid(kandidaadid, valimisringkonnad.toList(), kehtivaidHääli)
 }
 
@@ -58,7 +63,9 @@ fun simuleeriKorduvalt(
   juhus: Random,
   reitingufail: String? = null,
   viga: Küsitluseviga? = null,
+  jaotus: Jaotusmudel = VAIKIMISI_JAOTUSMUDEL,
 ): Kokkuvõte =
   simuleeriKorduvalt(
-    AndmeFailideLugeja().loeKandidaadikirjed(), loeToetusprotsendid(küsitleja, reitingufail), kordi, juhus, viga = viga
+    AndmeFailideLugeja().loeKandidaadikirjed(), loeToetusprotsendid(küsitleja, reitingufail), kordi, juhus,
+    viga = viga, jaotusmudel = jaotus
   )

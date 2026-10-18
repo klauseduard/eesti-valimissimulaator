@@ -6,11 +6,15 @@
 //   k      keel (et või en)
 //   h      1: kasuta 2023. aasta tegelikke hääli (ainult eelseadistusel rk2023 ja muutmata toetusega)
 //   e      0: ära arvesta korduvates simulatsioonides küsitluse viga (vaikimisi arvestatakse)
+//   j      lihtne: jaga erakonna hääled kandidaatide vahel lihtsa juhusliku jaotusega (vaikimisi kalibreeritud)
 //   r      selgituses valitud ringkond (1–12)
 //   kaart  kaardi vaade: voitja või erakonna lühend (erakonna toetus)
 //   p.X    erakonna X muudetud toetus 12 ringkonnas, komaga eraldatud
 
 export type Keel = 'et' | 'en';
+
+/** häälte jaotus kandidaatide vahel (vt docs/kandidaatide-mudel.md); nimed on samad mis Kotlini koodis */
+export type Jaotus = 'kalibreeritud' | 'lihtne';
 
 export const KAART_VÕITJA = 'voitja';
 export const RK2023 = 'rk2023';
@@ -24,6 +28,7 @@ export interface Olek {
   tegelikudHääled: boolean;
   /** kas korduvad simulatsioonid kõigutavad toetust küsitluse vea võrra */
   viga: boolean;
+  jaotus: Jaotus;
   ringkond: number;
   kaart: string;
 }
@@ -42,6 +47,7 @@ export function vaikimisiOlek(teadaolevad: Teadaolevad, keel: Keel = 'et'): Olek
     keel,
     tegelikudHääled: false,
     viga: true,
+    jaotus: 'kalibreeritud',
     ringkond: 1,
     kaart: KAART_VÕITJA,
   };
@@ -60,6 +66,7 @@ export function kodeeri(olek: Olek): string {
   ];
   if (olek.tegelikudHääled) osad.push('h=1');
   if (!olek.viga) osad.push('e=0');
+  if (olek.jaotus !== 'kalibreeritud') osad.push(`j=${olek.jaotus}`);
   osad.push(`r=${olek.ringkond}`);
   osad.push(`kaart=${encodeURIComponent(olek.kaart)}`);
   for (const [lühend, protsendid] of Object.entries(olek.muudatused)) {
@@ -106,6 +113,9 @@ export function dekodeeri(fragment: string, teadaolevad: Teadaolevad, vaikimisiK
       olek.tegelikudHääled = väärtus === '1';
     } else if (võti === 'e') {
       if (väärtus === '0' || väärtus === '1') olek.viga = väärtus === '1';
+      else vead.push(osa);
+    } else if (võti === 'j') {
+      if (väärtus === 'kalibreeritud' || väärtus === 'lihtne') olek.jaotus = väärtus;
       else vead.push(osa);
     } else if (võti === 'r') {
       const ringkond = Number(väärtus);

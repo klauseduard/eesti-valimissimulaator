@@ -6,6 +6,19 @@
 
 ### Changed
 
+  * Candidate votes: a party's votes in a district are now split among its
+  candidates by a model calibrated on the 2023 candidate votes. A candidate's
+  expected share falls with the position in the district list and is larger
+  for the top five of the party's national list: in a list of ten, the first
+  candidate gets 34% on average, or 47% if in the national top five. Shares
+  vary around the expectation by a Dirichlet distribution. In a leave-one-district-out test,
+  fixed beforehand in `docs/kandidaatide-mudel.md`, it named 51.4 of the 75
+  candidates elected at the district stage correctly, against 44.9 for the
+  previous split (first candidate half of the votes on average, the next half
+  of the rest). The previous split stays available: `--jaotus=lihtne` on the
+  command line and a selector on the web page. The example files in
+  `examples/` were regenerated.
+
   * File names: the poll download script moved out of the resources (it was
   packed into the JAR) to `skriptid/laadi_kusitlused.py`; files with diacritics
   in their names got ASCII names (`KusitluseViga.kt`, `taustasimulatsioon.ts`,

@@ -84,3 +84,14 @@ tasks.register<JavaExec>("tagasitest") {
     workingDir = projectDir
     args("docs/tagasitestimine.md", "src/jvmMain/resources/kusitlused/koondmudel.json")
 }
+
+// kandidaatide häälte jaotuse mudeli test: aruanne ja parameetrid (vt docs/kandidaatide-mudel.md)
+tasks.register<JavaExec>("kandidaaditest") {
+    group = "andmed"
+    description = "Sobitab ja testib kandidaatide häälte jaotuse mudelit."
+    val jvmMain = kotlin.jvm().compilations.getByName("main")
+    classpath(jvmMain.output.allOutputs, jvmMain.runtimeDependencyFiles)
+    mainClass.set("kandidaadid.KandidaadimudelKt")
+    workingDir = projectDir
+    args("docs/kandidaatide-mudeli-test.md", "src/jvmMain/resources/kandidaadimudel.json")
+}

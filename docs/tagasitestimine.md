@@ -132,12 +132,12 @@ district error widens them. A test requires 0.85–1.15 for the parliamentary pa
 
 | Party | Actual seats | Mean | 90% range | Inside |
 |---|---|---|---|---|
-| Eesti Reformierakond | 37 | 32.9 | 25–41 | yes |
-| Eesti Konservatiivne Rahvaerakond | 17 | 22.2 | 16–29 | yes |
-| Eesti Keskerakond | 16 | 19.4 | 14–25 | yes |
-| Erakond Eesti 200 | 14 | 11.3 | 8–15 | yes |
-| Sotsiaaldemokraatlik Erakond | 9 | 6.9 | 5–10 | yes |
-| ISAMAA Erakond | 8 | 8.3 | 6–11 | yes |
+| Eesti Reformierakond | 37 | 32.5 | 25–40 | yes |
+| Eesti Konservatiivne Rahvaerakond | 17 | 22.3 | 16–29 | yes |
+| Eesti Keskerakond | 16 | 19.4 | 14–26 | yes |
+| Erakond Eesti 200 | 14 | 11.5 | 8–16 | yes |
+| Sotsiaaldemokraatlik Erakond | 9 | 7.0 | 5–10 | yes |
+| ISAMAA Erakond | 8 | 8.4 | 6–12 | yes |
 
 Inside the 90% range: 6 of 6 parties.
 
@@ -145,12 +145,12 @@ Inside the 90% range: 6 of 6 parties.
 
 | Party | Actual seats | Mean | 90% range | Inside |
 |---|---|---|---|---|
-| Eesti Reformierakond | 37 | 32.0 | 26–38 | yes |
-| Eesti Konservatiivne Rahvaerakond | 17 | 21.9 | 18–27 | no |
-| Eesti Keskerakond | 16 | 18.1 | 14–22 | yes |
-| Erakond Eesti 200 | 14 | 13.0 | 10–16 | yes |
+| Eesti Reformierakond | 37 | 31.9 | 26–38 | yes |
+| Eesti Konservatiivne Rahvaerakond | 17 | 21.8 | 17–26 | yes |
+| Eesti Keskerakond | 16 | 18.2 | 14–22 | yes |
+| Erakond Eesti 200 | 14 | 12.9 | 10–16 | yes |
 | Sotsiaaldemokraatlik Erakond | 9 | 8.2 | 6–10 | yes |
-| ISAMAA Erakond | 8 | 7.8 | 6–10 | yes |
+| ISAMAA Erakond | 8 | 7.9 | 6–10 | yes |
 
-Inside the 90% range: 5 of 6 parties.
+Inside the 90% range: 6 of 6 parties.
 

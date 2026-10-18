@@ -57,6 +57,20 @@ test('küsitluse viga laiendab mandaatide vahemikku', async ({ page }) => {
   await expect(vahemik).not.toContainText('–');
 });
 
+test('häälte jaotuse valik jõuab linki ja muudab näidiskorduse valituid', async ({ page }) => {
+  await page.goto('/#v=norstat-2023-03-03&s=1&k=et');
+  await ootaKordusi(page);
+  const tabel = page.getByTestId('kandidaatide-tabel');
+  const enne = await tabel.textContent();
+  await expect(page.getByTestId('häälte-jaotus')).toHaveValue('kalibreeritud');
+  await page.getByTestId('häälte-jaotus').selectOption('lihtne');
+  await expect(page).toHaveURL(/j=lihtne/);
+  await ootaKordusi(page);
+  expect(await tabel.textContent()).not.toBe(enne);
+  await page.reload();
+  await expect(page.getByTestId('häälte-jaotus')).toHaveValue('lihtne');
+});
+
 test('jagatud link taastab oleku', async ({ page }) => {
   await page.goto('/#v=emor-2023-03&s=7&k=en&r=4&kaart=SDE');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Riigikogu election simulator');

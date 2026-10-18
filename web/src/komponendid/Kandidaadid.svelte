@@ -1,15 +1,13 @@
 <script lang="ts">
   import { erakonnaInfo, järjekorraNr } from '../lib/erakonnad';
   import { arv, protsent, t } from '../lib/i18n.svelte';
+  import type { Olek } from '../lib/olek';
   import type { Kokkuvõte } from '../lib/protokoll';
   import { RINGKONNAD, type Tulemus } from '../lib/simulaator';
 
-  let {
-    tulemus,
-    kokkuvõte,
-    tegelikudHääled,
-    seeme,
-  }: { tulemus: Tulemus; kokkuvõte: Kokkuvõte | null; tegelikudHääled: boolean; seeme: number } = $props();
+  let { tulemus, kokkuvõte, olek = $bindable() }: { tulemus: Tulemus; kokkuvõte: Kokkuvõte | null; olek: Olek } = $props();
+
+  const tegelikudHääled = $derived(olek.tegelikudHääled);
 
   let erakond = $state('');
   let ringkond = $state(0);
@@ -58,6 +56,19 @@
 <h2 id="kandidaadid-pealkiri">{t('kandidaadid.pealkiri')}</h2>
 <p class="vaike vaigne">{tegelikudHääled ? t('kandidaadid.selgitus.tegelikud') : t('kandidaadid.selgitus')}</p>
 
+{#if !tegelikudHääled}
+  <div class="jaotus">
+    <label class="vaike">
+      <span class="vaigne">{t('kandidaadid.jaotus')}</span>
+      <select bind:value={olek.jaotus} data-testid="häälte-jaotus">
+        <option value="kalibreeritud">{t('kandidaadid.jaotus.kalibreeritud')}</option>
+        <option value="lihtne">{t('kandidaadid.jaotus.lihtne')}</option>
+      </select>
+    </label>
+    <p class="vaike vaigne">{t(`kandidaadid.jaotus.selgitus.${olek.jaotus}`)}</p>
+  </div>
+{/if}
+
 <div class="filtrid">
   <label class="vaike">
     <span class="vaigne">{t('erakond')}</span>
@@ -81,7 +92,7 @@
       {#if !tegelikudHääled}
         <tr class="rühmad">
           <td colspan="4"></td>
-          <th scope="colgroup" colspan="2" class="rühm">{t('kandidaadid.näidiskordus', { seeme })}</th>
+          <th scope="colgroup" colspan="2" class="rühm">{t('kandidaadid.näidiskordus', { seeme: olek.seeme })}</th>
         </tr>
       {/if}
       <tr>
@@ -121,6 +132,24 @@
 {/if}
 
 <style>
+  .jaotus {
+    margin: 0.4rem 0 0.8rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--joon);
+    border-radius: 8px;
+  }
+
+  .jaotus label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .jaotus p {
+    margin: 0.4rem 0 0;
+  }
+
   .filtrid {
     display: flex;
     flex-wrap: wrap;

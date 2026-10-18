@@ -226,11 +226,15 @@ class Simulaator(ringkondadeTekstid: Array<String>, üleriigilisedNimekirjad: St
     return vead.toTypedArray()
   }
 
-  /** Simuleerib hääled ja jagab mandaadid. */
-  fun jaota(toetus: ToetusJs, seeme: Int): TulemusJs {
+  /**
+   * Simuleerib hääled ja jagab mandaadid.
+   *
+   * @param jaotus - häälte jaotus kandidaatide vahel: "kalibreeritud" või "lihtne"
+   */
+  fun jaota(toetus: ToetusJs, seeme: Int, jaotus: String): TulemusJs {
     kontrolli(toetus)
     val korduseKandidaadid = kandidaadid.map { it.copy() }
-    simuleeriHääled(korduseKandidaadid, toetusMap(toetus), Random(seeme))
+    simuleeriHääled(korduseKandidaadid, toetusMap(toetus), Random(seeme), jaotusmudel = jaotusmudel(jaotus))
     return tulemusJs(jaotaMandaadid(korduseKandidaadid, ringkonnad, andmed.kehtivaidHääli), andmed.kehtivaidHääli)
   }
 
@@ -247,11 +251,19 @@ class Simulaator(ringkondadeTekstid: Array<String>, üleriigilisedNimekirjad: St
    * @param üleriigilineViga - küsitluse vea üleriigiline osa (vt [Küsitluseviga]); 0 tähendab veata
    * @param ringkondlikViga - küsitluse vea ringkondlik osa; 0 tähendab veata
    */
-  fun korduv(toetus: ToetusJs, seeme: Int, üleriigilineViga: Double, ringkondlikViga: Double): KorduvSimulatsioonJs {
+  fun korduv(
+    toetus: ToetusJs,
+    seeme: Int,
+    üleriigilineViga: Double,
+    ringkondlikViga: Double,
+    jaotus: String,
+  ): KorduvSimulatsioonJs {
     kontrolli(toetus)
     require(üleriigilineViga >= 0.0 && ringkondlikViga >= 0.0) { "Küsitluse viga ei saa olla negatiivne" }
     val viga = if (üleriigilineViga == 0.0 && ringkondlikViga == 0.0) null else Küsitluseviga(üleriigilineViga, ringkondlikViga)
-    return KorduvSimulatsioonJs(KorduvSimulatsioon(kandidaadid, toetusMap(toetus), Random(seeme), viga = viga))
+    return KorduvSimulatsioonJs(
+      KorduvSimulatsioon(kandidaadid, toetusMap(toetus), Random(seeme), viga = viga, jaotusmudel = jaotusmudel(jaotus))
+    )
   }
 
   private fun kontrolli(toetus: ToetusJs) {

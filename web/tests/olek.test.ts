@@ -16,6 +16,7 @@ describe('URL-i olek', () => {
       keel: 'en' as const,
       ringkond: 7,
       viga: false,
+      jaotus: 'lihtne' as const,
       kaart: 'EKRE',
       muudatused: { REF: [30.55, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ÜK: Array(12).fill(0.5) },
     };
@@ -29,6 +30,14 @@ describe('URL-i olek', () => {
     expect(kodeeri(vaikimisiOlek(teadaolevad))).not.toContain('e=');
     expect(dekodeeri('#e=0', teadaolevad).olek.viga).toBe(false);
     expect(dekodeeri('#e=x', teadaolevad).vead).toEqual(['e=x']);
+  });
+
+  it('häälte jaotus on vaikimisi kalibreeritud ja link salvestab ainult lihtsa jaotuse', () => {
+    expect(vaikimisiOlek(teadaolevad).jaotus).toBe('kalibreeritud');
+    expect(kodeeri(vaikimisiOlek(teadaolevad))).not.toContain('j=');
+    expect(dekodeeri('#j=lihtne', teadaolevad).olek.jaotus).toBe('lihtne');
+    expect(dekodeeri('#j=kalibreeritud', teadaolevad).olek.jaotus).toBe('kalibreeritud');
+    expect(dekodeeri('#j=muu', teadaolevad).vead).toEqual(['j=muu']);
   });
 
   it('tühi fragment annab vaikimisi oleku', () => {

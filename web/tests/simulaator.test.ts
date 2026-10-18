@@ -55,7 +55,7 @@ describe('simulaator veebilehel', () => {
 
   it('korduva simulatsiooni kokkuvõte teisendub tavaliseks objektiks', () => {
     const toetus = eelseadistuseToetus('emor-2023-03');
-    const korduv = simulaator.korduv(new ToetusJs(toetus.erakonnad, toetus.protsendid), 1, 0.15, 0.25);
+    const korduv = simulaator.korduv(new ToetusJs(toetus.erakonnad, toetus.protsendid), 1, 0.15, 0.25, 'kalibreeritud');
     korduv.korda(20);
     const kokkuvõte = tavaliseks(korduv.kokkuvõte());
     // tavaline objekt läbib struktuurse kloonimise (postMessage) muutumatult
@@ -65,12 +65,24 @@ describe('simulaator veebilehel', () => {
     expect(kokkuvõte.kandidaadid.reduce((s, k) => s + k.kordi, 0)).toBe(20 * 101);
   });
 
-  it('korduva simulatsiooni esimene kordus on sama mis üksik simulatsioon sama seemnega', () => {
+  it.each(['kalibreeritud', 'lihtne'] as const)(
+    'korduva simulatsiooni esimene kordus on sama mis üksik simulatsioon sama seemnega (%s jaotus)',
+    (jaotus) => {
+      const olek = { ...vaikimisiOlek(teadaolevad), eelseadistus: 'emor-2023-03', seeme: 5, jaotus };
+      const toetus = olekuToetus(olek);
+      const üksik = jaota(olek, toetus).valitud.map((k) => k.nimi).sort();
+      const korduv = simulaator.korduv(new ToetusJs(toetus.erakonnad, toetus.protsendid), 5, 0, 0, jaotus);
+      korduv.korda(1);
+      expect(tavaliseks(korduv.kokkuvõte()).kandidaadid.map((k) => k.nimi).sort()).toEqual(üksik);
+    },
+  );
+
+  it('häälte jaotus muudab valitud kandidaate, aga mitte erakondade hääli', () => {
     const olek = { ...vaikimisiOlek(teadaolevad), eelseadistus: 'emor-2023-03', seeme: 5 };
     const toetus = olekuToetus(olek);
-    const üksik = jaota(olek, toetus).valitud.map((k) => k.nimi).sort();
-    const korduv = simulaator.korduv(new ToetusJs(toetus.erakonnad, toetus.protsendid), 5, 0, 0);
-    korduv.korda(1);
-    expect(tavaliseks(korduv.kokkuvõte()).kandidaadid.map((k) => k.nimi).sort()).toEqual(üksik);
+    const a = jaota(olek, toetus);
+    const b = jaota({ ...olek, jaotus: 'lihtne' }, toetus);
+    expect(b.erakonnad.map((e) => e.hääli)).toEqual(a.erakonnad.map((e) => e.hääli));
+    expect(b.valitud.map((k) => k.nimi).sort()).not.toEqual(a.valitud.map((k) => k.nimi).sort());
   });
 });

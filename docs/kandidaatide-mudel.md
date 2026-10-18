@@ -65,4 +65,19 @@ available as options.
 
 ## Changes after the test
 
-None yet.
+The test ran as fixed above; the report is `docs/kandidaatide-mudeli-test.md`.
+The fitted model named 51.4 of 75 candidates correctly, stick-breaking 44.9,
+so the fitted model became the default. The parameters fitted on all 12
+districts are b = 0.783, c = 0.1527, d = 0.706 and κ = 27.83. The test
+improved the score in each of the 12 districts, by 0.1 to 1.0 candidates.
+
+Two details were settled during implementation and did not change the model
+or the criterion. Integer votes are obtained from the drawn shares by the
+largest remainder method, so that a list's votes add up exactly. The gamma
+draws for the Dirichlet distribution use the Marsaglia–Tsang method with the
+simulator's seeded random generator, so the command line and the web page give
+the same result for the same seed.
+
+The remaining limitation is the one the model was not meant to remove: it uses
+only list positions, so a popular candidate low on the list is still rarely
+elected in the simulation.

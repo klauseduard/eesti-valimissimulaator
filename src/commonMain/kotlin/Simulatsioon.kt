@@ -33,12 +33,14 @@ fun jagaJuhuslikeksOsadeks(arv: Int, osi: Int, juhus: Random = Random): List<Int
   return osad
 }
 
+/** vaikimisi häälte jaotus kandidaatide vahel: 2023. aasta järgi kalibreeritud mudel (docs/kandidaatide-mudel.md) */
+val VAIKIMISI_JAOTUSMUDEL: Jaotusmudel = Positsioonimudel.KALIBREERITUD_2023
+
 /** Määrab kandidaatidele juhusliku häälte arvu.
  * <p>
  *   Erakonna hääled ringkonnas arvutatakse toetusprotsendi ja ringkonna kehtivate häälte arvu põhjal
- *   ning jagatakse juhuslikult erakonna selle ringkonna kandidaatide vahel: kandidaatide failis esimene
- *   kandidaat saab juhusliku osa (keskmiselt poole) erakonna häältest, järgmine juhusliku osa ülejäänust
- *   jne. Erakondadele, kelle toetusprotsenti ei ole antud, ja üksikkandidaatidele hääli ei jagata.
+ *   ning jagatakse juhuslikult erakonna selle ringkonna kandidaatide vahel [jaotusmudel]i järgi
+ *   (kandidaatide failis olevas järjekorras). Erakondadele, kelle toetusprotsenti ei ole antud, ja üksikkandidaatidele hääli ei jagata.
  * </p>
  *
  * @param toetusprotsendid - erakonna nimi -> ringkonna number -> toetusprotsent
@@ -50,6 +52,7 @@ fun simuleeriHääled(
   juhus: Random,
   kehtivaidHääli: Map<Int, Int> = andmed.kehtivaidHääli,
   ringkonnad: List<Valimisringkond> = valimisringkonnad.toList(),
+  jaotusmudel: Jaotusmudel = VAIKIMISI_JAOTUSMUDEL,
 ) {
   for ((erakond, toetus) in toetusprotsendid) {
     for (ringkond in ringkonnad) {
@@ -59,7 +62,7 @@ fun simuleeriHääled(
       val hääli = arvutaHäälteArv(kehtivaidHääli[ringkond.nr]!!, toetusprotsent)
       val kandidaadidRingkonnas =
         kandidaadid.filter { it.erakond == erakond && it.valimisringkond == ringkond.nr }
-      val kandidaatideHääled = jagaJuhuslikeksOsadeks(hääli, kandidaadidRingkonnas.size, juhus)
+      val kandidaatideHääled = jaotusmudel.jaota(hääli, kandidaadidRingkonnas, juhus)
       for (i in kandidaadidRingkonnas.indices) {
         kandidaadidRingkonnas[i].hääli = kandidaatideHääled[i]
       }
@@ -98,6 +101,7 @@ class KorduvSimulatsioon(
   private val ringkonnad: List<Valimisringkond> = valimisringkonnad.toList(),
   /** küsitluse viga; null tähendab, et toetus on igas korduses täpselt küsitluse oma */
   private val viga: Küsitluseviga? = null,
+  private val jaotusmudel: Jaotusmudel = VAIKIMISI_JAOTUSMUDEL,
 ) {
   private val valitudKordi = mutableMapOf<KandidaadiVõti, Int>()
   private val mandaadidKordusteKaupa = mutableListOf<Map<String, Int>>()
@@ -111,7 +115,7 @@ class KorduvSimulatsioon(
     repeat(lisakordi) {
       val korduseKandidaadid = kandidaadid.map { it.copy() }
       val korduseToetus = if (viga == null) toetusprotsendid else juhuslikToetus(toetusprotsendid, viga, juhus)
-      simuleeriHääled(korduseKandidaadid, korduseToetus, juhus, kehtivaidHääli, ringkonnad)
+      simuleeriHääled(korduseKandidaadid, korduseToetus, juhus, kehtivaidHääli, ringkonnad, jaotusmudel)
       val jaotus = jaotaMandaadid(korduseKandidaadid, ringkonnad, kehtivaidHääli)
       val valitud = jaotus.kõikMandaadid()
       for (k in valitud) {
@@ -148,8 +152,9 @@ fun simuleeriKorduvalt(
   juhus: Random,
   kehtivaidHääli: Map<Int, Int> = andmed.kehtivaidHääli,
   viga: Küsitluseviga? = null,
+  jaotusmudel: Jaotusmudel = VAIKIMISI_JAOTUSMUDEL,
 ): Kokkuvõte {
-  val simulatsioon = KorduvSimulatsioon(kandidaadid, toetusprotsendid, juhus, kehtivaidHääli, viga = viga)
+  val simulatsioon = KorduvSimulatsioon(kandidaadid, toetusprotsendid, juhus, kehtivaidHääli, viga = viga, jaotusmudel = jaotusmudel)
   simulatsioon.korda(kordi)
   return simulatsioon.kokkuvõte()
 }

@@ -1,5 +1,6 @@
 // Põhilõime ja taustalõime (taustasimulatsioon.ts) vahelised sõnumid.
 import type { KokkuvõteJs } from '@simulaator';
+import type { Jaotus } from './olek';
 import type { Tavaline } from './tavaline';
 
 export interface ToetuseAndmed {
@@ -17,7 +18,7 @@ export type Kokkuvõte = Tavaline<KokkuvõteJs>;
 
 export type SõnumTöölisele =
   | { tüüp: 'andmed'; andmed: AndmeTekstid }
-  | { tüüp: 'alusta'; id: number; toetus: ToetuseAndmed; seeme: number; viga: [number, number]; kordi: number; partii: number }
+  | { tüüp: 'alusta'; id: number; toetus: ToetuseAndmed; seeme: number; viga: [number, number]; jaotus: Jaotus; kordi: number; partii: number }
   | { tüüp: 'peata'; id: number };
 
 export type SõnumTöölselt =

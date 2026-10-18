@@ -27,6 +27,13 @@ class SeadedTest {
   }
 
   @Test
+  fun `häälte jaotuse saab valida`() {
+    assertEquals(JAOTUS_KALIBREERITUD, loeSeaded(emptyArray()).jaotus)
+    assertEquals(JAOTUS_LIHTNE, loeSeaded(arrayOf("--jaotus=lihtne")).jaotus)
+    assertFailsWith<IllegalArgumentException> { loeSeaded(arrayOf("--jaotus=muu")) }
+  }
+
+  @Test
   fun `tundmatu argument annab vea`() {
     assertFailsWith<IllegalArgumentException> { loeSeaded(arrayOf("--tundmatu")) }
   }

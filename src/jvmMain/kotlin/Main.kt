@@ -33,7 +33,7 @@ fun main(args: Array<String>) {
 private fun simuleeriÜksKord(seaded: Seaded, juhus: Random) {
   trükiKehtivateHäälteArv()
 
-  val jaotus = simuleeriValimised(seaded.küsitleja, juhus, seaded.reitingufail)
+  val jaotus = simuleeriValimised(seaded.küsitleja, juhus, seaded.reitingufail, jaotusmudel(seaded.jaotus))
 
   trükiRingkonnamandaadid(jaotus)
 
@@ -58,7 +58,7 @@ private fun simuleeriJaKirjutaSagedused(seaded: Seaded, kordi: Int, juhus: Rando
     System.err.println("${e.message}; küsitluse viga jäetakse arvestamata.")
     null
   }
-  val kokkuvõte = simuleeriKorduvalt(seaded.küsitleja, kordi, juhus, seaded.reitingufail, viga)
+  val kokkuvõte = simuleeriKorduvalt(seaded.küsitleja, kordi, juhus, seaded.reitingufail, viga, jaotusmudel(seaded.jaotus))
 
   val andmed = when (seaded.küsitleja) {
     Küsitleja.NORSTAT -> "Norstat, reitingufail ${seaded.reitingufail ?: VAIKIMISI_REITINGUFAIL}"
@@ -72,6 +72,7 @@ private fun simuleeriJaKirjutaSagedused(seaded: Seaded, kordi: Int, juhus: Rando
     if (viga != null) "küsitluse viga: üleriigiline ${"%.3f".format(Locale.ROOT, viga.üleriigiline)}, " +
       "ringkondlik ${viga.ringkondlik} (küsitluste koondmudeli tagasitestist, vt docs/tagasitestimine.md)"
     else "küsitluse viga: arvestamata",
+    "häälte jaotus kandidaatide vahel: ${seaded.jaotus}",
     "",
     "erakondade mandaadid (vähim–suurim, keskmine):",
   )
@@ -87,7 +88,7 @@ private fun simuleeriJaKirjutaSagedused(seaded: Seaded, kordi: Int, juhus: Rando
   val failinimi = "runs/" + ajatempel() + "-sagedused.txt"
   File(failinimi).writeText(sisu)
 
-  päis.drop(6).forEach { println(it) }
+  päis.drop(7).forEach { println(it) }
   println("\nKandidaatide valituks osutumise sagedused on failis $failinimi")
 }
 

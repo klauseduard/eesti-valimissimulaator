@@ -107,10 +107,11 @@
   }
 
   $effect(() => {
-    // sõltuvused: toetus, seeme ja tegelike häälte valik
+    // sõltuvused: toetus, seeme, küsitluse vea ja häälte jaotuse valik ning tegelike häälte valik
     const andmed = { erakonnad: [...toetus.erakonnad], protsendid: toetus.protsendid.map((r) => [...r]) };
     const seeme = olek.seeme;
     const viga: [number, number] = olek.viga ? eelseadistuseViga(olek.eelseadistus) : [0, 0];
+    const jaotus = olek.jaotus;
     const ilmaJuhuseta = olek.tegelikudHääled;
     const vigane = sisendiVead.length > 0;
 
@@ -127,7 +128,7 @@
     mcKäib = true;
     mcViga = null;
     taimer = setTimeout(() => {
-      tööline?.postMessage({ tüüp: 'alusta', id, toetus: andmed, seeme, viga, kordi: KORDI, partii: PARTII } satisfies SõnumTöölisele);
+      tööline?.postMessage({ tüüp: 'alusta', id, toetus: andmed, seeme, viga, jaotus, kordi: KORDI, partii: PARTII } satisfies SõnumTöölisele);
     }, OOTEAEG_MS);
   });
 
@@ -196,7 +197,7 @@
         </section>
 
         <section class="kaart-pind" aria-labelledby="kandidaadid-pealkiri">
-          <Kandidaadid {tulemus} {kokkuvõte} tegelikudHääled={olek.tegelikudHääled} seeme={olek.seeme} />
+          <Kandidaadid {tulemus} {kokkuvõte} bind:olek />
         </section>
       {/if}
     </div>

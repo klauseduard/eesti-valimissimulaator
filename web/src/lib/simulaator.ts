@@ -85,5 +85,5 @@ export function üleriigiliseToetuseMuudatused(toetus: ToetuseAndmed, erakond: s
 
 export function jaota(olek: Olek, toetus: ToetuseAndmed): Tulemus {
   if (olek.tegelikudHääled) return tavaliseks(simulaator.jaotaTegelikeHäältega());
-  return tavaliseks(simulaator.jaota(js(toetus), olek.seeme));
+  return tavaliseks(simulaator.jaota(js(toetus), olek.seeme, olek.jaotus));
 }
