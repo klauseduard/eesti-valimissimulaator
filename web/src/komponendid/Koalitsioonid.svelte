@@ -156,7 +156,7 @@
 
   .rida {
     display: grid;
-    grid-template-columns: minmax(9.5rem, 13rem) minmax(0, 1fr) 3rem;
+    grid-template-columns: minmax(9.5rem, 15rem) minmax(0, 1fr) 3rem;
     gap: 0.2rem 0.9rem;
     align-items: center;
     padding: 0.3rem 0;

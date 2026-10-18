@@ -11,7 +11,8 @@
   import Kompensatsioon from './komponendid/Kompensatsioon.svelte';
   import Kandidaadid from './komponendid/Kandidaadid.svelte';
   import Jalus from './komponendid/Jalus.svelte';
-  import Jaotised from './komponendid/Jaotised.svelte';
+  import Kleepriba from './komponendid/Kleepriba.svelte';
+  import { keskmineKoosseis } from './lib/koosseis';
   import { andmeTekstid } from './lib/andmed';
   import { ERAKONNAD } from './lib/erakonnad';
   import { brauseriKeel, i18n, t } from './lib/i18n.svelte';
@@ -133,6 +134,14 @@
     }, OOTEAEG_MS);
   });
 
+  /** kleepuva riba koosseis: tegelike häältega ametlik tulemus, muidu korduste keskmine (nagu poolringil) */
+  const koosseis = $derived.by((): Map<string, number> | null => {
+    if (!tulemus) return null;
+    if (olek.tegelikudHääled) return new Map(tulemus.erakonnad.map((e) => [e.erakond, e.mandaate]));
+    if (!kokkuvõte || kokkuvõte.kordi === 0) return null;
+    return keskmineKoosseis(tulemus.erakonnad.map((e) => e.erakond), kokkuvõte);
+  });
+
   onDestroy(() => {
     clearTimeout(taimer);
     tööline?.terminate();
@@ -143,6 +152,21 @@
 
 <Ylariba bind:olek />
 
+<Kleepriba
+  {koosseis}
+  uueneb={!olek.tegelikudHääled && !kokkuvõteKehtib}
+  tegelikud={olek.tegelikudHääled}
+  jaotised={[
+    { id: 'mandaadid', silt: t('nav.mandaadid') },
+    { id: 'sisend', silt: t('nav.toetus') },
+    { id: 'koalitsioonid', silt: t('nav.koalitsioonid') },
+    { id: 'piirikohad', silt: t('nav.piirikohad') },
+    { id: 'ringkonnad', silt: t('nav.ringkonnad') },
+    { id: 'arvutus', silt: t('nav.arvutus') },
+    { id: 'kandidaadid', silt: t('nav.kandidaadid') },
+  ]}
+/>
+
 <main>
   {#if lingiVead.length > 0}
     <div class="teade hoiatus" role="status" data-testid="lingi-teade">
@@ -150,111 +174,137 @@
       <button onclick={() => (lingiVead = [])}>{t('sulge')}</button>
     </div>
   {/if}
-
-  <div class="paigutus">
-    <aside class="kaart-pind sisend" id="sisend">
-      <ToetuseSisend bind:olek {toetus} vead={sisendiVead} />
-    </aside>
-
-    <div class="tulemused">
-      {#if arvutus.viga}
-        <div class="teade viga" role="alert">{t('viga.arvutus', { teade: arvutus.viga })}</div>
-      {/if}
-      {#if sisendiVead.length > 0}
-        <div class="teade viga" role="alert">
-          <strong>{t('viga.sisend')}</strong>
-          <ul>{#each sisendiVead as viga}<li>{viga}</li>{/each}</ul>
-        </div>
-      {/if}
-
-      {#if tulemus}
-        <Jaotised
-          jaotised={[
-            { id: 'mandaadid', silt: t('nav.mandaadid') },
-            { id: 'koalitsioonid', silt: t('nav.koalitsioonid') },
-            { id: 'piirikohad', silt: t('nav.piirikohad') },
-            { id: 'ringkonnad', silt: t('nav.ringkonnad') },
-            { id: 'arvutus', silt: t('nav.arvutus') },
-            { id: 'kandidaadid', silt: t('nav.kandidaadid') },
-            { id: 'sisend', silt: t('nav.toetus'), ainultKitsas: true },
-          ]}
-        />
-        <section class="kaart-pind" id="mandaadid" class:aegunud={!arvutus.tulemus} aria-labelledby="parlament-pealkiri">
-          <Parlament {tulemus} {kokkuvõte} {kokkuvõteKehtib} {mcKäib} {mcViga} kordi={KORDI} bind:olek />
-        </section>
-        <div class="ylemine" class:aegunud={!arvutus.tulemus}>
-          <section class="kaart-pind" id="koalitsioonid" aria-labelledby="koalitsioonid-pealkiri">
-            <Koalitsioonid {tulemus} {kokkuvõte} {kokkuvõteKehtib} {olek} />
-          </section>
-          <section class="kaart-pind" id="piirikohad" aria-labelledby="piirikohad-pealkiri">
-            <Piirikohad {tulemus} bind:olek />
-          </section>
-        </div>
-        <div class="ylemine" class:aegunud={!arvutus.tulemus}>
-          <section class="kaart-pind" id="ringkonnad" aria-labelledby="kaart-pealkiri">
-            <Kaart {tulemus} {toetus} {kokkuvõte} {kokkuvõteKehtib} bind:olek />
-          </section>
-          <section class="kaart-pind" aria-labelledby="ringkonnad-pealkiri">
-            <Ringkonnad {tulemus} {kokkuvõte} {kokkuvõteKehtib} bind:olek />
-          </section>
-        </div>
-
-        <section class="kaart-pind" id="arvutus" aria-labelledby="selgitus-pealkiri">
-          <Selgitus {tulemus} bind:olek />
-        </section>
-
-        <section class="kaart-pind" aria-labelledby="kompensatsioon-pealkiri">
-          <Kompensatsioon {tulemus} seeme={olek.seeme} tegelikudHääled={olek.tegelikudHääled} />
-        </section>
-
-        <section class="kaart-pind" id="kandidaadid" aria-labelledby="kandidaadid-pealkiri">
-          <Kandidaadid {tulemus} {kokkuvõte} bind:olek />
-        </section>
-      {/if}
+  {#if arvutus.viga}
+    <div class="teade viga" role="alert">{t('viga.arvutus', { teade: arvutus.viga })}</div>
+  {/if}
+  {#if sisendiVead.length > 0}
+    <div class="teade viga" role="alert">
+      <strong>{t('viga.sisend')}</strong>
+      <ul>{#each sisendiVead as viga}<li>{viga}</li>{/each}</ul>
     </div>
+  {/if}
+
+  <!-- konsool: sisend vasakul, tulemus paremal ja vaates kinni; kitsal ekraanil tulemus enne sisendit -->
+  <div class="konsool">
+    <section class="paneel sisend kaart-pind" id="sisend" aria-labelledby="sisend-pealkiri">
+      <ToetuseSisend bind:olek {toetus} vead={sisendiVead} />
+    </section>
+    {#if tulemus}
+      <section class="paneel tulemus kaart-pind" id="mandaadid" class:aegunud={!arvutus.tulemus} aria-labelledby="parlament-pealkiri">
+        <Parlament {tulemus} {kokkuvõte} {kokkuvõteKehtib} {mcKäib} {mcViga} kordi={KORDI} bind:olek />
+      </section>
+    {/if}
   </div>
+
+  {#if tulemus}
+    <div class="aruanne" class:aegunud={!arvutus.tulemus}>
+      <div class="kaks">
+        <section class="aruande-jaotis kaart-pind" id="koalitsioonid" aria-labelledby="koalitsioonid-pealkiri">
+          <Koalitsioonid {tulemus} {kokkuvõte} {kokkuvõteKehtib} {olek} />
+        </section>
+        <section class="aruande-jaotis kaart-pind" id="piirikohad" aria-labelledby="piirikohad-pealkiri">
+          <Piirikohad {tulemus} bind:olek />
+        </section>
+      </div>
+
+      <section class="aruande-jaotis" id="ringkonnad" aria-labelledby="kaart-pealkiri">
+        <div class="kaks">
+          <div class="kaart-pind"><Kaart {tulemus} {toetus} {kokkuvõte} {kokkuvõteKehtib} bind:olek /></div>
+          <div class="kaart-pind"><Ringkonnad {tulemus} {kokkuvõte} {kokkuvõteKehtib} bind:olek /></div>
+        </div>
+      </section>
+
+      <section class="aruande-jaotis" id="arvutus" aria-labelledby="selgitus-pealkiri">
+        <div class="virn">
+          <div class="kaart-pind"><Selgitus {tulemus} bind:olek /></div>
+          <div class="kaart-pind"><Kompensatsioon {tulemus} seeme={olek.seeme} tegelikudHääled={olek.tegelikudHääled} /></div>
+        </div>
+      </section>
+
+      <section class="aruande-jaotis kaart-pind" id="kandidaadid" aria-labelledby="kandidaadid-pealkiri">
+        <Kandidaadid {tulemus} {kokkuvõte} bind:olek />
+      </section>
+    </div>
+  {/if}
 </main>
 
 <Jalus />
 
 <style>
   main {
-    max-width: 1400px;
+    max-width: 1320px;
     margin: 0 auto;
-    padding: 0 16px 2rem;
+    padding: 1.2rem 16px 3rem;
+    counter-reset: jaotis 1;
   }
 
-  .paigutus {
-    display: grid;
-    grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
-    gap: 1rem;
-    align-items: start;
-  }
-
-  .sisend {
-    position: sticky;
-    top: 1rem;
-    max-height: calc(100vh - 2rem);
-    overflow-y: auto;
-  }
-
-  .tulemused {
+  /* konsool: kaks valget paneeli; tulemus on laiadel ja piisavalt kõrgetel ekraanidel kerimisel kinni */
+  .konsool {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
-    min-width: 0;
+    align-items: start;
   }
 
-  .ylemine {
+  .paneel {
+    background: var(--pind);
+    border: 1px solid var(--joon);
+    border-radius: 14px;
+    box-shadow: var(--vari);
+    padding: 1.2rem 1.4rem 1.3rem;
+  }
+
+  .tulemus {
+    order: -1;
+  }
+
+  @media (min-width: 1100px) {
+    .konsool {
+      grid-template-columns: minmax(360px, 4fr) minmax(0, 8fr);
+    }
+
+    .tulemus {
+      order: 0;
+    }
+  }
+
+  @media (min-width: 1100px) and (min-height: 760px) {
+    .tulemus {
+      position: sticky;
+      top: calc(var(--riba-kõrgus) + 12px);
+    }
+  }
+
+  .aruanne {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
-    gap: 1rem;
-    align-items: start;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3rem;
+    margin-top: 3rem;
     transition: opacity 0.2s;
   }
 
-  :global(.kaart-pind[id]) {
-    scroll-margin-top: 3.4rem;
+  .kaks {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3rem 3rem;
+    align-items: start;
+  }
+
+  @media (min-width: 1000px) {
+    .kaks {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+  }
+
+  .virn {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+
+  :global(section[id]) {
+    scroll-margin-top: calc(var(--riba-kõrgus) + 16px);
   }
 
   .aegunud {
@@ -276,11 +326,6 @@
     padding-left: 1.2rem;
   }
 
-  .tulemused .teade {
-    margin-bottom: 0;
-    display: block;
-  }
-
   .hoiatus {
     background: var(--hoiatus-pind);
   }
@@ -289,16 +334,20 @@
     background: var(--viga-pind);
   }
 
-  @media (max-width: 860px) {
-    .paigutus {
-      grid-template-columns: minmax(0, 1fr);
+  @media (max-width: 1099px) {
+    :global(:root) {
+      --riba-kõrgus: 70px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    main {
+      padding: 0.8rem 12px 2rem;
     }
 
-    .sisend {
-      position: static;
-      max-height: none;
-      order: 2;
+    .paneel {
+      padding: 1rem 1rem 1.1rem;
+      border-radius: 12px;
     }
-
   }
 </style>

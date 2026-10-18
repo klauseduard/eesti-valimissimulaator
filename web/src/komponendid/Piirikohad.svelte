@@ -112,7 +112,7 @@
 
   .kaks {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
     gap: 0.8rem 1.4rem;
   }
 

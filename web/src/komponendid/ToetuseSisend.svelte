@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { erakonnaInfo, järjekorraNr } from '../lib/erakonnad';
+  import { erakonnaInfo, järjekorraNr, kontrastTekst } from '../lib/erakonnad';
   import { arv, protsent, t } from '../lib/i18n.svelte';
   import { ümarda, type Olek } from '../lib/olek';
   import type { ToetuseAndmed } from '../lib/protokoll';
@@ -39,18 +39,62 @@
     olek.tegelikudHääled = false;
   }
 
+  /** ringkonnaruutude rea laius; ruudus näidatakse kümnendkohta, kui see mahub */
+  let ruuduRida = $state(0);
+  const kümnendkohti = $derived((ruuduRida - 11 * 2) / 12 >= 36 ? 1 : 0);
+
+  /** ruudu värv: erakonna värv seda tugevamalt, mida lähemal on toetus erakonna tugevaimale ringkonnale */
+  function ruuduStiil(värv: string, väärtus: number, suurim: number): { taust: string; tekst: string } {
+    if (suurim <= 0 || väärtus <= 0) return { taust: 'var(--pind-2)', tekst: 'var(--tekst-3)' };
+    const osa = Math.round(14 + 76 * (väärtus / suurim));
+    return {
+      taust: `color-mix(in oklab, ${värv} ${osa}%, var(--pind))`,
+      tekst: osa >= 58 ? kontrastTekst(värv) : 'var(--tekst)',
+    };
+  }
+
+  function lahtriMuutus(sündmus: Event & { currentTarget: HTMLInputElement }, lühend: string, protsendid: number[], j: number) {
+    const väärtus = Number(sündmus.currentTarget.value.replace(',', '.').trim());
+    if (!Number.isFinite(väärtus) || väärtus < 0 || väärtus > 100) {
+      sündmus.currentTarget.value = arv(protsendid[j], kümnendkohti);
+      return;
+    }
+    muudaRingkonda(lühend, protsendid, j, väärtus);
+  }
+
+  function lahtriKlahv(sündmus: KeyboardEvent & { currentTarget: HTMLInputElement }, protsendid: number[], j: number) {
+    if (sündmus.key === 'Enter') sündmus.currentTarget.blur();
+    if (sündmus.key === 'Escape') {
+      sündmus.currentTarget.value = arv(protsendid[j], kümnendkohti);
+      sündmus.currentTarget.blur();
+    }
+  }
+
   function taasta() {
     olek.muudatused = {};
   }
 </script>
 
-<h2>{t('sisend.pealkiri')}</h2>
+<div class="päis">
+  <h2 id="sisend-pealkiri">{t('sisend.pealkiri')}</h2>
+  <button class="taasta" onclick={taasta} disabled={!muudetud} data-testid="taasta">{t('sisend.taasta')}</button>
+</div>
 <p class="vaigne vaike">{t('sisend.selgitus')}</p>
 
-<div class="liugurid">
+<div class="tabel">
+  <div class="rida pea vaike" aria-hidden="true">
+    <span class="ruudud-pea" bind:clientWidth={ruuduRida}>
+      <span class="pealdis">{t('sisend.ringkonnad')}</span>
+      <span class="numbrid">
+        {#each RINGKONNAD as r (r.nr)}<span title={r.nimetus} class:vigane={summad[r.nr - 1] > 100}>{r.nr}</span>{/each}
+      </span>
+    </span>
+  </div>
+
   {#each read as rida (rida.erakond)}
     {@const piir = Math.max(LIUGURI_PIIR, Math.ceil(rida.üleriigiline + 5))}
-    <div class="liugur" class:alla-künnise={rida.üleriigiline < KÜNNIS}>
+    {@const suurim = Math.max(...rida.protsendid)}
+    <div class="rida erakond" class:alla-künnise={rida.üleriigiline < KÜNNIS}>
       <label for="liugur-{rida.info.lühend}" class="nimi">
         <span class="varv" style:background={rida.info.värv}></span>
         <span class="lühend">{rida.info.lühend}</span>
@@ -73,76 +117,130 @@
         />
         <span class="künnis" aria-hidden="true"></span>
       </div>
+      <div class="ruudud" role="group" aria-label={t('sisend.ruudud', { erakond: rida.info.lühend })}>
+        {#each rida.protsendid as väärtus, j}
+          {@const stiil = ruuduStiil(rida.info.värv, väärtus, suurim)}
+          <input
+            class="ruut"
+            class:vigane={summad[j] > 100}
+            type="text"
+            inputmode="decimal"
+            value={arv(väärtus, kümnendkohti)}
+            style:background={stiil.taust}
+            style:color={stiil.tekst}
+            title={`${RINGKONNAD[j].nr}. ${RINGKONNAD[j].nimetus}: ${protsent(väärtus)}`}
+            aria-label={t('sisend.lahter', { erakond: rida.info.lühend, ringkond: j + 1 })}
+            onfocus={(e) => {
+              // täpne väärtus ja kogu tekst valitud, et kirjutamine asendaks selle
+              e.currentTarget.value = arv(väärtus, 1);
+              e.currentTarget.select();
+            }}
+            onblur={(e) => (e.currentTarget.value = arv(väärtus, kümnendkohti))}
+            onchange={(e) => lahtriMuutus(e, rida.info.lühend, rida.protsendid, j)}
+            onkeydown={(e) => lahtriKlahv(e, rida.protsendid, j)}
+            data-testid="ruut-{rida.info.lühend}-{j + 1}"
+          />
+        {/each}
+      </div>
     </div>
   {/each}
-</div>
 
-<p id="künnise-selgitus" class="vaike vaigne">{t('sisend.künnis')}</p>
-
-<div class="nupud">
-  <button onclick={taasta} disabled={!muudetud} data-testid="taasta">{t('sisend.taasta')}</button>
-</div>
-
-<details>
-  <summary>{t('sisend.ringkonnad')}</summary>
-  <p class="vaike vaigne">{t('sisend.ringkonnad.selgitus')}</p>
-  <div class="tabeli-ümbris">
-    <table class="ringkonnatabel">
-      <thead>
-        <tr>
-          <th scope="col">{t('erakond')}</th>
-          {#each RINGKONNAD as ringkond (ringkond.nr)}
-            <th scope="col" class="arv" title={ringkond.nimetus}>{ringkond.nr}</th>
-          {/each}
-        </tr>
-      </thead>
-      <tbody>
-        {#each read as rida (rida.erakond)}
-          <tr>
-            <th scope="row" title={rida.erakond}><span class="varv" style:background={rida.info.värv}></span>{rida.info.lühend}</th>
-            {#each rida.protsendid as väärtus, j}
-              <td>
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  step="0.1"
-                  value={ümarda(väärtus)}
-                  aria-label={t('sisend.lahter', { erakond: rida.info.lühend, ringkond: j + 1 })}
-                  class:vigane={summad[j] > 100}
-                  onchange={(e) => muudaRingkonda(rida.info.lühend, rida.protsendid, j, Number(e.currentTarget.value))}
-                />
-              </td>
-            {/each}
-          </tr>
-        {/each}
-      </tbody>
-      <tfoot>
-        <tr>
-          <th scope="row">{t('kokku')}</th>
-          {#each summad as summa}
-            <td class="arv" class:vigane={summa > 100}>{arv(summa, 1)}</td>
-          {/each}
-        </tr>
-      </tfoot>
-    </table>
+  <div class="rida kokku vaike">
+    <span class="kokku-ruudud">
+      <span class="pealdis">{t('sisend.kokku')}</span>
+      <span class="numbrid">
+        {#each summad as summa, j}<span class:vigane={summa > 100} title={`${RINGKONNAD[j].nimetus}: ${protsent(summa)}`}>{arv(summa, 0)}</span>{/each}
+      </span>
+    </span>
   </div>
-  {#if vead.length > 0}
-    <p class="vaike veateade" role="alert">{t('sisend.liigaPalju')}</p>
-  {/if}
-</details>
+</div>
+
+{#if vead.length > 0}
+  <p class="vaike veateade" role="alert">{t('sisend.liigaPalju')}</p>
+{/if}
+
+<p id="künnise-selgitus" class="vaike vaigne märkus">{t('sisend.künnis')}</p>
+<p class="vaike vaigne märkus">{t('sisend.ruudud.selgitus')}</p>
 
 <style>
-  .liugurid {
-    display: grid;
-    gap: 0.55rem;
+  .päis {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.3rem 1rem;
   }
 
-  .liugur {
+  .taasta {
+    font-size: 0.82rem;
+    padding: 0.2em 0.7em;
+  }
+
+  .tabel {
+    margin-top: 0.9rem;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-areas: 'nimi väärtus' 'rada rada';
-    column-gap: 0.5rem;
+    gap: 0.15rem;
+  }
+
+  /* lai paneel: nimi | liugur | väärtus, ringkonnaruudud liuguri all samas veerus */
+  .rida {
+    display: grid;
+    grid-template-columns: 9.5rem minmax(0, 1fr) 3.6rem;
+    grid-template-areas:
+      'nimi rada väärtus'
+      '. ruudud ruudud';
+    column-gap: 0.8rem;
+    align-items: center;
+  }
+
+  .rida.erakond {
+    padding: 0.45rem 0 0.55rem;
+    border-top: 1px solid var(--pind-3);
+  }
+
+  .pea,
+  .kokku {
+    grid-template-areas: '. ruudud ruudud';
+  }
+
+  .ruudud-pea,
+  .kokku-ruudud {
+    grid-area: ruudud;
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .pealdis {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--tekst-3);
+  }
+
+  .numbrid,
+  .ruudud {
+    grid-area: ruudud;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 2px;
+    text-align: center;
+  }
+
+  .numbrid span {
+    color: var(--tekst-3);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.72rem;
+  }
+
+  .kokku {
+    border-top: 1px solid var(--joon);
+    padding-top: 0.35rem;
+  }
+
+  .numbrid .vigane {
+    color: var(--viga);
+    font-weight: 700;
   }
 
   .nimi {
@@ -154,7 +252,7 @@
   }
 
   .lühend {
-    font-weight: 600;
+    font-weight: 650;
   }
 
   .täisnimi {
@@ -165,16 +263,54 @@
 
   .väärtus {
     grid-area: väärtus;
-    font-variant-numeric: tabular-nums;
+    text-align: right;
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 600;
   }
 
-  .alla-künnise .väärtus {
+  .alla-künnise .väärtus,
+  .alla-künnise .lühend {
     color: var(--tekst-3);
   }
 
   .rada {
     grid-area: rada;
     position: relative;
+    min-width: 0;
+  }
+
+  .ruudud {
+    margin-top: 0.4rem;
+  }
+
+  .ruut {
+    width: 100%;
+    min-width: 0;
+    height: 26px;
+    padding: 0;
+    border: none;
+    border-radius: 3px;
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    cursor: text;
+  }
+
+  .ruut:hover {
+    box-shadow: inset 0 0 0 1.5px var(--tekst-3);
+  }
+
+  .ruut:focus {
+    outline: 2px solid var(--rohk);
+    outline-offset: 1px;
+    background: var(--pind) !important;
+    color: var(--tekst) !important;
+  }
+
+  .ruut.vigane {
+    box-shadow: inset 0 0 0 2px var(--viga);
   }
 
   /* liugur: raja täidetud osa erakonna värviga, nupul pinnavärvi rõngas */
@@ -190,27 +326,27 @@
 
   .rada input::-webkit-slider-thumb {
     appearance: none;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     background: var(--värv);
-    border: 2px solid var(--pind);
-    box-shadow: 0 0 0 1px var(--tekst-3);
+    border: 3px solid var(--pind);
+    box-shadow: 0 0 0 1px var(--tekst-3), 0 1px 3px rgb(0 0 0 / 0.2);
   }
 
   .rada input::-moz-range-thumb {
-    width: 12px;
-    height: 12px;
+    width: 13px;
+    height: 13px;
     border-radius: 50%;
     background: var(--värv);
-    border: 2px solid var(--pind);
+    border: 3px solid var(--pind);
     box-shadow: 0 0 0 1px var(--tekst-3);
   }
 
-  /* 5% künnise märk liuguri raja all; liuguri nupu keskpunkt liigub vahemikus 8px … laius − 8px */
+  /* 5% künnise märk liuguri raja all; liuguri nupu keskpunkt liigub vahemikus 9px … laius − 9px */
   .künnis {
     position: absolute;
-    left: calc(8px + (100% - 16px) * var(--künnis) - 1px);
+    left: calc(9px + (100% - 18px) * var(--künnis) - 1px);
     bottom: -3px;
     width: 2px;
     height: 6px;
@@ -218,51 +354,44 @@
     pointer-events: none;
   }
 
-  .nupud {
-    margin: 0.6rem 0;
-  }
-
-  details {
-    margin-top: 0.8rem;
-    border-top: 1px solid var(--joon);
-    padding-top: 0.6rem;
-  }
-
-  summary {
-    cursor: pointer;
-    font-weight: 600;
-  }
-
-  .ringkonnatabel {
-    font-size: 0.85rem;
-  }
-
-  .ringkonnatabel th,
-  .ringkonnatabel td {
-    padding: 0.15rem 0.2rem;
-  }
-
-  .ringkonnatabel input {
-    width: 4.2em;
-    padding: 0.1em 0.2em;
-    border: 1px solid var(--joon);
-    border-radius: 4px;
-    background: var(--pind);
-    text-align: right;
-  }
-
-  .vigane {
-    color: var(--viga);
-    border-color: var(--viga) !important;
-    font-weight: 600;
+  .märkus {
+    margin: 0.6rem 0 0;
   }
 
   .veateade {
     color: var(--viga);
+    font-weight: 600;
+    margin: 0.6rem 0 0;
   }
 
   button:disabled {
-    opacity: 0.5;
+    opacity: 0.45;
     cursor: not-allowed;
+  }
+
+  /* kitsas paneel: nimi ja väärtus ühel real, liugur ja ruudud kogu laiuses */
+  @container kaart (max-width: 600px) {
+    .rida {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas:
+        'nimi väärtus'
+        'rada rada'
+        'ruudud ruudud';
+    }
+
+    .pea,
+    .kokku {
+      grid-template-areas: 'ruudud ruudud';
+    }
+
+    .ruut {
+      height: 24px;
+      font-size: 0.68rem;
+    }
+
+    .numbrid span {
+      font-size: 0.64rem;
+      letter-spacing: -0.02em;
+    }
   }
 </style>

@@ -87,13 +87,13 @@
     {#if allaKünnise.length > 0}
       <p class="vaike vaigne">{t('selgitus.allaKünnise', { erakonnad: allaKünnise.join(', ') })}</p>
     {/if}
-    <div class="tabeli-ümbris">
+    <div class="tabeli-ümbris kitsas">
       <table data-testid="ringkonna-tabel">
         <thead>
           <tr>
             <th scope="col">{t('erakond')}</th>
             <th scope="col" class="arv">{t('selgitus.hääled')}</th>
-            <th scope="col" class="arv">{t('selgitus.kvoote')}</th>
+            <th scope="col" class="arv kvoote">{t('selgitus.kvoote')}</th>
             <th scope="col" class="arv">{t('selgitus.mandaate')}</th>
             <th scope="col">{t('selgitus.valitud')}</th>
           </tr>
@@ -104,7 +104,7 @@
             <tr>
               <th scope="row"><span class="varv" style:background={info.värv}></span><abbr title={e.erakond}>{info.lühend}</abbr></th>
               <td class="arv">{arv(e.hääli)}</td>
-              <td class="arv">{arv(e.kvoote, 2)}</td>
+              <td class="arv kvoote">{arv(e.kvoote, 2)}</td>
               <td class="arv">
                 {e.mandaate}
                 {#if e.lisamandaat}<span class="märk" title={t('selgitus.lisamandaat')}>{t('selgitus.lisamandaat.lühike')}</span>{/if}
@@ -190,6 +190,22 @@
     border: 1px solid var(--joon);
     border-radius: 6px;
     background: var(--pind);
+  }
+
+  th[scope='row'] {
+    white-space: nowrap;
+  }
+
+  /* kitsas: kvootide veerg peidetakse (mandaatide arv ja 0,75 märk jäävad), lahtrid tihedamad */
+  @container kaart (max-width: 460px) {
+    .kvoote {
+      display: none;
+    }
+
+    [data-testid='ringkonna-tabel'] :is(th, td) {
+      padding-left: 0.3em;
+      padding-right: 0.3em;
+    }
   }
 
   .sammud {

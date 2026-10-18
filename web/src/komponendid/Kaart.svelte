@@ -343,7 +343,7 @@
 
 <details class="vaike">
   <summary>{t('kaart.tabelina')}</summary>
-  <div class="tabeli-ümbris">
+  <div class="tabeli-ümbris kitsas">
     <table>
       <thead>
         <tr><th scope="col">{t('ringkond')}</th><th scope="col">{t('kaart.valitud')}</th></tr>

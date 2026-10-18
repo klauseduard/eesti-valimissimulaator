@@ -101,6 +101,40 @@ test('rakendus mahub kitsale ekraanile ja jaotiste riba kerib jaotiseni', async 
   await expect(page.getByTestId('liugur-REF')).toBeInViewport();
 });
 
+for (const [laius, kõrgus] of [[390, 844], [1024, 768], [1440, 900]]) {
+  test(`ükski tabel ega ala ei ole laiusel ${laius} vaikides kärbitud`, async ({ page }) => {
+    await page.setViewportSize({ width: laius, height: kõrgus });
+    await page.goto('/#v=koond-2023-03-03&s=1&k=et');
+    await ootaKordusi(page);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(laius);
+    // kõik külgsuunas keritavad alad peale jaotiste riba (selle parem serv hajub, et kerimine oleks näha)
+    const kärbitud = await page.evaluate(() =>
+      [...document.querySelectorAll<HTMLElement>('main *')]
+        .filter((el) => ['auto', 'scroll'].includes(getComputedStyle(el).overflowX))
+        .filter((el) => el.offsetParent !== null && el.scrollWidth > el.clientWidth + 1)
+        .map((el) => `${el.tagName}.${[...el.classList].join('.')} ${el.scrollWidth}>${el.clientWidth}`),
+    );
+    expect(kärbitud).toEqual([]);
+  });
+}
+
+test('ringkonna ruudu muutmine jõuab linki ja üle 100% annab hoiatuse', async ({ page }) => {
+  await page.goto('/#v=koond-2023-03-03&s=1&k=et');
+  await ootaKordusi(page);
+  const ruut = page.getByTestId('ruut-PP-1');
+  await ruut.fill('3');
+  await ruut.press('Enter');
+  await expect(page).toHaveURL(/p\.PP=3,/);
+  await expect(ruut).toHaveValue(/^3/);
+  await page.getByTestId('ruut-REF-1').fill('90');
+  await page.getByTestId('ruut-REF-1').press('Enter');
+  await expect(page.getByRole('alert').first()).toBeVisible();
+  // vigane väärtus taastab endise
+  await page.getByTestId('ruut-PP-2').fill('abc');
+  await page.getByTestId('ruut-PP-2').press('Enter');
+  await expect(page.getByTestId('ruut-PP-2')).not.toHaveValue('abc');
+});
+
 test('kandidaatide piiril-filter', async ({ page }) => {
   await page.goto('/#v=koond-2023-03-03&s=1&k=et');
   await ootaKordusi(page);

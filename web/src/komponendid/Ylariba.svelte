@@ -65,15 +65,13 @@
 
 <style>
   header {
-    border-bottom: 1px solid var(--joon);
-    margin-bottom: 1rem;
-    background: var(--pind-2);
+    background: var(--paber);
   }
 
   .sisu {
-    max-width: 1400px;
+    max-width: 1320px;
     margin: 0 auto;
-    padding: 0.8rem 16px;
+    padding: 1rem 16px 0.8rem;
     display: flex;
     flex-wrap: wrap;
     gap: 0.8rem 2rem;
@@ -82,8 +80,24 @@
   }
 
   h1 {
-    font-size: 1.35rem;
+    font-size: 1.7rem;
     margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  @media (max-width: 600px) {
+    .sisu {
+      padding: 0.7rem 12px 0.6rem;
+      gap: 0.5rem 1rem;
+    }
+
+    h1 {
+      font-size: 1.35rem;
+    }
+
+    .nimi p {
+      display: none;
+    }
   }
 
   .nimi p {

@@ -1,57 +1,69 @@
-/* Värvid on rollide kaupa; tume teema saab samadest rollidest omad väärtused. */
+/* Kirjatüübid: Source Serif 4 pealkirjadele ja suurtele arvudele, Inter liidesele. Mõlemad on hostitud koos
+   latin-ext alamhulgaga (õ, š, ž). */
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/source-serif-4';
+
+/* Värvid on rollide kaupa; tume teema saab samadest rollidest omad väärtused. Leht on soe „paber",
+   konsool (sisend ja tulemus) valge pind selle peal. */
 :root {
   color-scheme: light;
-  --pind: #fcfcfb;
-  --pind-2: #f3f2ee;
-  --pind-3: #e7e5df;
-  --tekst: #141413;
-  --tekst-2: #52514e;
-  --tekst-3: #75736c;
-  --joon: #dad8d1;
-  --rohk: #2a6fd6;
-  --rohk-pind: #e7effb;
+  --paber: #f4f1ea;
+  --pind: #ffffff;
+  --pind-2: #f2efe8;
+  --pind-3: #e4dfd4;
+  --tekst: #17150f;
+  --tekst-2: #4d4940;
+  --tekst-3: #767166;
+  --joon: #d9d3c6;
+  --rohk: #1f5fc4;
+  --rohk-pind: #e5edfa;
   --viga: #b42318;
   --viga-pind: #fdecea;
-  --hoiatus-pind: #fff5dc;
-  --meri: #edf2f6;
-  --vari: 0 1px 2px rgb(0 0 0 / 0.06), 0 2px 8px rgb(0 0 0 / 0.05);
+  --hoiatus-pind: #fff3d6;
+  --meri: #e9eef2;
+  --vari: 0 1px 2px rgb(40 30 10 / 0.06), 0 6px 24px rgb(40 30 10 / 0.07);
+  --serif: 'Source Serif 4 Variable', 'Source Serif 4', Georgia, serif;
+  --sans: 'Inter Variable', Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --riba-kõrgus: 52px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:where(:not([data-theme='light'])) {
     color-scheme: dark;
-    --pind: #1a1a19;
-    --pind-2: #232322;
-    --pind-3: #2f2e2c;
-    --tekst: #f4f3ef;
-    --tekst-2: #c3c2b7;
-    --tekst-3: #9b9a90;
-    --joon: #3b3a37;
-    --rohk: #6ea6f2;
-    --rohk-pind: #1f2a3a;
+    --paber: #131311;
+    --pind: #1c1b19;
+    --pind-2: #252421;
+    --pind-3: #302e2a;
+    --tekst: #f3f1eb;
+    --tekst-2: #c6c2b7;
+    --tekst-3: #9c988d;
+    --joon: #3a3833;
+    --rohk: #79aaf3;
+    --rohk-pind: #1e2a3c;
     --viga: #f28b82;
     --viga-pind: #3b1f1c;
     --hoiatus-pind: #3a3120;
-    --meri: #1e252c;
+    --meri: #1b2228;
     --vari: none;
   }
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --pind: #1a1a19;
-  --pind-2: #232322;
-  --pind-3: #2f2e2c;
-  --tekst: #f4f3ef;
-  --tekst-2: #c3c2b7;
-  --tekst-3: #9b9a90;
-  --joon: #3b3a37;
-  --rohk: #6ea6f2;
-  --rohk-pind: #1f2a3a;
+  --paber: #131311;
+  --pind: #1c1b19;
+  --pind-2: #252421;
+  --pind-3: #302e2a;
+  --tekst: #f3f1eb;
+  --tekst-2: #c6c2b7;
+  --tekst-3: #9c988d;
+  --joon: #3a3833;
+  --rohk: #79aaf3;
+  --rohk-pind: #1e2a3c;
   --viga: #f28b82;
   --viga-pind: #3b1f1c;
   --hoiatus-pind: #3a3120;
-  --meri: #1e252c;
+  --meri: #1b2228;
   --vari: none;
 }
 
@@ -67,20 +79,29 @@ html {
 
 body {
   margin: 0;
-  background: var(--pind);
+  background: var(--paber);
   color: var(--tekst);
-  font: 15px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font: 15px/1.55 var(--sans);
+  font-feature-settings: 'cv11', 'ss01';
+  -webkit-font-smoothing: antialiased;
 }
 
 h1,
 h2,
 h3 {
-  line-height: 1.25;
+  line-height: 1.2;
   margin: 0 0 0.5em;
 }
 
+h1,
 h2 {
-  font-size: 1.15rem;
+  font-family: var(--serif);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: 1.45rem;
 }
 
 h3 {
@@ -122,6 +143,11 @@ table {
   font-variant-numeric: tabular-nums;
 }
 
+.arv,
+output {
+  font-variant-numeric: tabular-nums;
+}
+
 th,
 td {
   padding: 0.3em 0.6em;
@@ -135,18 +161,39 @@ th {
   color: var(--tekst-2);
 }
 
+thead th {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--tekst-3);
+  border-bottom-color: var(--tekst-3);
+}
+
 td.arv,
 th.arv {
   text-align: right;
 }
 
+/* komponendi konteiner: komponentide konteineripäringud (kitsas või lai) käivad selle laiuse järgi */
 .kaart-pind {
-  background: var(--pind);
-  border: 1px solid var(--joon);
-  border-radius: 12px;
-  padding: 1.25rem 1.4rem;
   min-width: 0;
   container: kaart / inline-size;
+}
+
+/* aruande jaotis: numbriga rida ja pealkiri, kastideta */
+.aruande-jaotis {
+  counter-increment: jaotis;
+  border-top: 2px solid var(--tekst);
+  padding-top: 0.6rem;
+  min-width: 0;
+}
+
+.aruande-jaotis::before {
+  content: counter(jaotis, decimal-leading-zero);
+  display: block;
+  font: 600 0.75rem/1 var(--sans);
+  letter-spacing: 0.08em;
+  color: var(--tekst-3);
+  margin-bottom: 0.6rem;
 }
 
 .vaigne {

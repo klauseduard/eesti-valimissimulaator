@@ -6,6 +6,18 @@
 
 ### Changed
 
+  * Redesign of the web page. The top of the page is a console: the party
+  support panel on the left and the results on the right, which stay in view
+  on wide screens while the sliders move. Each party row in the panel shows its
+  support in all 12 districts as shaded cells that can be edited in place,
+  replacing the district table that was hidden in a narrow sidebar and needed
+  sideways scrolling. A sticky bar shows the average composition of the 101
+  seats with the majority mark, together with the section buttons. The report
+  sections below have numbered rules instead of card boxes. Headings use Source
+  Serif 4 and the interface uses Inter, both self-hosted. The compensation and
+  district calculation tables have compact forms for narrow screens, and a test
+  checks that no table is clipped at 390, 1024 or 1440 px.
+
   * Second design pass. Coalitions are shown as range strips on a shared seat
   axis: the 90% range of the coalition's seats, the median and the 51-seat
   line, with the majority probability beside them. The closest seats are two

@@ -32,8 +32,7 @@
   "sisend.selgitus": "Liugur muudab erakonna üleriigilist toetust. Erakonna toetus muutub igas ringkonnas sama teguriga, teiste erakondade toetus väheneb või kasvab ringkonniti võrdeliselt.",
   "sisend.künnis": "Kriips liuguri all on 5% künnis: väiksema toetusega erakond saab mandaadi ainult siis, kui mõni tema kandidaat kogub ringkonnas lihtkvoodi.",
   "sisend.taasta": "Taasta algsed andmed",
-  "sisend.ringkonnad": "Toetus ringkondade kaupa",
-  "sisend.ringkonnad.selgitus": "Muuda üksikut ringkonda, näiteks taktikalise hääletamise katsetamiseks. Protsendid on kehtivatest häältest; ülejäänu läheb teistele nimekirjadele.",
+  "sisend.ringkonnad": "Toetus ringkonniti, %",
   "sisend.lahter": "{erakond} toetus ringkonnas {ringkond}",
   "sisend.liigaPalju": "Punasega märgitud ringkonnas on toetuste summa üle 100%. Paranda väärtusi, et simulatsioon jätkuks.",
   "parlament.pealkiri": "Mandaadid erakondade kaupa",
@@ -180,5 +179,11 @@
   "kandidaadid.jaotus.kuidas": "Kuidas hääled kandidaatide vahel jagunevad?",
   "kandidaadid.loendus": "{kindlad} kandidaati valiti üle 95% kordustest; {piiril} kandidaati jäid piirile, nad valiti 5–95% kordustest.",
   "kandidaadid.ainultPiiril": "Ainult piiril ({arv})",
-  "kandidaadid.ringkonnas": "{nr}. ringkond"
+  "kandidaadid.ringkonnas": "{nr}. ringkond",
+  "riba.keskmine": "Keskmine koosseis",
+  "riba.tegelik": "2023. aasta koosseis",
+  "sisend.ruudud": "{erakond} toetus ringkonniti",
+  "sisend.kokku": "Kokku",
+  "sisend.ruudud.selgitus": "Ruudud näitavad erakonna toetust igas ringkonnas: mida tumedam, seda lähemal erakonna tugevaimale ringkonnale (iga erakonna skaala on eraldi). Klõpsa ruudul, et väärtust muuta, näiteks taktikalise hääletamise katsetamiseks. Kokku-rida näitab, kui suure osa kehtivatest häältest erakonnad ringkonnas saavad; ülejäänu läheb teistele nimekirjadele.",
+  "kompensatsioon.võrdlusarv.veerg": "Võrdlusarv"
 }

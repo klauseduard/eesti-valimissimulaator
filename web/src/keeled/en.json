@@ -32,8 +32,7 @@
   "sisend.selgitus": "A slider changes a party's national support. The party's support changes by the same factor in every district, and the other parties shrink or grow proportionally in each district.",
   "sisend.künnis": "The mark below a slider is the 5% threshold: a party below it wins seats only if one of its candidates reaches the simple quota in a district.",
   "sisend.taasta": "Restore the original data",
-  "sisend.ringkonnad": "Support by district",
-  "sisend.ringkonnad.selgitus": "Change a single district, for example to test tactical voting. The percentages are shares of the valid votes; the rest goes to other lists.",
+  "sisend.ringkonnad": "Support by district, %",
   "sisend.lahter": "{erakond} support in district {ringkond}",
   "sisend.liigaPalju": "In the district marked in red, the support adds up to more than 100%. Correct the values to continue the simulation.",
   "parlament.pealkiri": "Seats by party",
@@ -180,5 +179,11 @@
   "kandidaadid.jaotus.kuidas": "How are votes split among candidates?",
   "kandidaadid.loendus": "{kindlad} candidates were elected in more than 95% of runs; {piiril} candidates were borderline, elected in 5–95% of runs.",
   "kandidaadid.ainultPiiril": "Borderline only ({arv})",
-  "kandidaadid.ringkonnas": "district {nr}"
+  "kandidaadid.ringkonnas": "district {nr}",
+  "riba.keskmine": "Average composition",
+  "riba.tegelik": "2023 composition",
+  "sisend.ruudud": "{erakond} support by district",
+  "sisend.kokku": "Total",
+  "sisend.ruudud.selgitus": "The cells show the party's support in each district: the darker, the closer to the party's strongest district (each party has its own scale). Click a cell to change it, for example to test tactical voting. The total row shows what share of the valid votes the parties receive in a district; the rest goes to other lists.",
+  "kompensatsioon.võrdlusarv.veerg": "Comparison figure"
 }

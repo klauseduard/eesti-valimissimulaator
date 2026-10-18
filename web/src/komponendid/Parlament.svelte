@@ -5,7 +5,8 @@
   import type { Olek } from '../lib/olek';
   import type { Kokkuvõte } from '../lib/protokoll';
   import { eelseadistuseViga, type Tulemus } from '../lib/simulaator';
-  import { jaotaSuurimaJäägiga, statistika } from '../lib/statistika';
+  import { keskmineKoosseis, MANDAATE } from '../lib/koosseis';
+  import { statistika } from '../lib/statistika';
 
   let {
     tulemus,
@@ -25,7 +26,6 @@
     olek: Olek;
   } = $props();
 
-  const MANDAATE = 101;
   const READ = 6;
 
   interface Koht {
@@ -85,9 +85,8 @@
   /** diagrammi kohad: tegelike häältega selle tulemuse järgi, muidu keskmised mandaadid 101 kohaks jagatuna */
   const diagrammiMandaadid = $derived.by((): Map<string, number> | null => {
     if (tegelikud) return new Map(tulemus.erakonnad.map((e) => [e.erakond, e.mandaate]));
-    if (!kordustest) return null;
-    const jaotus = jaotaSuurimaJäägiga(read.map((r) => r.stat?.keskmine ?? 0), MANDAATE);
-    return new Map(read.map((r, i) => [r.e.erakond, jaotus[i]]));
+    if (!kordustest || !kokkuvõte) return null;
+    return keskmineKoosseis(tulemus.erakonnad.map((e) => e.erakond), kokkuvõte);
   });
 
   const järjestatud = $derived(
@@ -282,10 +281,23 @@
 {/if}
 
 <style>
+  /* konsoolis on pealkiri väike silt; tegelik pealkiri on kokkuvõtte lause */
+  h2 {
+    font: 600 0.72rem/1.2 var(--sans);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--tekst-3);
+    margin-bottom: 0.5rem;
+  }
+
   .lause {
-    font-size: 1.05rem;
-    margin: 0 0 0.3rem;
-    min-height: 1.5em;
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    line-height: 1.3;
+    font-weight: 500;
+    margin: 0 0 0.35rem;
+    min-height: 1.3em;
+    text-wrap: balance;
   }
 
   .enamuse-joon {
@@ -355,15 +367,22 @@
   }
 
   /* laial kaardil on poolring ja tabel kõrvuti */
-  @container kaart (min-width: 820px) {
+  @container kaart (min-width: 680px) {
     .tulemusala {
-      grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
+      grid-template-columns: minmax(260px, 1fr) minmax(0, 1.15fr);
+    }
+  }
+
+  /* konsoolis on tabelile vähem ruumi: „Mandaadiga" peidetakse (sama info on jaotuses) */
+  @container kaart (min-width: 680px) and (max-width: 900px) {
+    .mandaadiga {
+      display: none;
     }
   }
 
   .poolring {
     width: 100%;
-    max-width: 520px;
+    max-width: 440px;
     display: block;
     margin: 0 auto;
   }

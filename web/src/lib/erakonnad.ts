@@ -36,3 +36,10 @@ export function järjekorraNr(nimi: string): number {
 export function nimiLühendist(lühend: string): string | undefined {
   return Object.entries(ERAKONNAD).find(([, info]) => info.lühend === lühend)?.[0];
 }
+
+/** värvilise pinna peale sobiv tekstivärv: tume heledal ja valge tumedal pinnal (suhteline heledus WCAG järgi) */
+export function kontrastTekst(värv: string): string {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(värv.slice(i, i + 2), 16) / 255);
+  const lin = (c: number) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+  return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b) > 0.3 ? '#141413' : '#ffffff';
+}

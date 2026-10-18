@@ -43,13 +43,14 @@
 </ol>
 
 {#if tulemus.kompensatsioon.length > 0}
-  <div class="tabeli-ümbris">
+  <div class="tabeli-ümbris kitsas">
     <table data-testid="kompensatsiooni-tabel">
       <thead>
         <tr>
           <th scope="col" class="arv">#</th>
+          <th scope="col" class="arv lühike">{t('kompensatsioon.võrdlusarv.veerg')}</th>
           {#each veerud as erakond (erakond)}
-            <th scope="col" class="arv" title={erakond}>
+            <th scope="col" class="arv täis" title={erakond}>
               <span class="varv" style:background={erakonnaInfo(erakond).värv}></span>{erakonnaInfo(erakond).lühend}
             </th>
           {/each}
@@ -60,13 +61,16 @@
         {#each nähtavad as samm, i}
           <tr>
             <td class="arv vaigne">{i + 1}</td>
+            <td class="arv lühike võitja" style:--värv={erakonnaInfo(samm.erakond).värv}>
+              {arv(samm.võrdlusarvud[samm.erakonnad.indexOf(samm.erakond)])}
+            </td>
             {#each veerud as erakond (erakond)}
               {@const j = samm.erakonnad.indexOf(erakond)}
               {#if j < 0}
-                <td class="arv vaigne">–</td>
+                <td class="arv vaigne täis">–</td>
               {:else}
                 <td
-                  class="arv"
+                  class="arv täis"
                   class:võitja={samm.erakond === erakond}
                   style:--värv={erakonnaInfo(erakond).värv}
                   title={t('kompensatsioon.võrdlusarv', {
@@ -132,7 +136,26 @@
   }
 
   td:last-child {
-    white-space: nowrap;
+    min-width: 12rem;
+  }
+
+  /* lai tabel: kõigi erakondade võrdlusarvud; kitsas: ainult mandaadi saanud erakonna võrdlusarv */
+  .lühike {
+    display: none;
+  }
+
+  @container kaart (max-width: 760px) {
+    .täis {
+      display: none;
+    }
+
+    .lühike {
+      display: table-cell;
+    }
+
+    td:last-child {
+      min-width: 0;
+    }
   }
 
   .rohkem {

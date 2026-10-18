@@ -2,7 +2,7 @@
   // Ringkonnast valitud kandidaatide keskmine arv erakondade kaupa (ka kompensatsioonimandaadid), ühisel
   // skaalal virnastatud tulpadena. Kaart näitab ainult iga ringkonna suurimat erakonda; see diagramm näitab,
   // kuidas proportsionaalne süsteem kohad ringkonnas tegelikult jagab.
-  import { erakonnaInfo, järjekorraNr } from '../lib/erakonnad';
+  import { erakonnaInfo, järjekorraNr, kontrastTekst } from '../lib/erakonnad';
   import { arv, t } from '../lib/i18n.svelte';
   import type { Olek } from '../lib/olek';
   import type { Kokkuvõte } from '../lib/protokoll';
@@ -52,11 +52,6 @@
   /** tulpade ala laius pikslites (mõõdetud esimese rea järgi) */
   let tulbaAla = $state(0);
 
-  function tekstiVärv(värv: string): string {
-    const [r, g, b] = [1, 3, 5].map((i) => parseInt(värv.slice(i, i + 2), 16) / 255);
-    const lin = (c: number) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
-    return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b) > 0.3 ? '#141413' : '#ffffff';
-  }
 
   const mandaate = (m: number) => (olek.tegelikudHääled ? String(m) : arv(m, 1));
 </script>
@@ -92,7 +87,7 @@
               {@const värv = erakonnaInfo(e).värv}
               <span class="lõik" style:flex-grow={m.get(e)} style:background={värv} title={`${erakonnaInfo(e).lühend} ${mandaate(m.get(e)!)}`}>
                 {#if ((osa / 100) * kokku * tulbaAla) / skaala >= SILDI_MIN_LAIUS}
-                  <span class="arv" style:color={tekstiVärv(värv)}>{mandaate(m.get(e)!)}</span>
+                  <span class="arv" style:color={kontrastTekst(värv)}>{mandaate(m.get(e)!)}</span>
                 {/if}
               </span>
             {/each}
