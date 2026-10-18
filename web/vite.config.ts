@@ -18,7 +18,17 @@ export default defineConfig({
   },
   server: { fs: { allow: [juur] } },
   worker: { format: 'es' },
-  build: { target: 'es2022', chunkSizeWarningLimit: 1500 },
+  build: {
+    target: 'es2022',
+    chunkSizeWarningLimit: 1500,
+    // kaks lehte: rakendus ja metoodika
+    rollupOptions: {
+      input: {
+        rakendus: path.resolve(import.meta.dirname, 'index.html'),
+        metoodika: path.resolve(import.meta.dirname, 'metoodika.html'),
+      },
+    },
+  },
   test: {
     include: ['tests/**/*.test.ts'],
   },

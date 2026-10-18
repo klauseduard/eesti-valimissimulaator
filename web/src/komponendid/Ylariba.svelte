@@ -57,6 +57,7 @@
         {/each}
       </div>
 
+      <a href="metoodika.html#k={olek.keel}" class="vaike" data-testid="metoodika-link">{t('metoodika')}</a>
       <a href={README} class="vaike">{t('lähtekood')}</a>
     </div>
   </div>

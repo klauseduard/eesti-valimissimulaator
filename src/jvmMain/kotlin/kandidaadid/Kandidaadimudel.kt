@@ -182,6 +182,9 @@ fun kandidaaditest(nimekirjad: List<Nimekiri>, kordi: Int = 200): Pair<String, S
   r.appendLine("| Expected share, list of 10, no national top five | " +
     lõplik.ootuspärasedOsakaalud(näide).joinToString(" | ") { f(it, 3) } + " |")
   r.appendLine()
-  val json = "{\n  \"vaikimisi\": $võetakse,\n  \"b\": ${lõplik.b},\n  \"c\": ${lõplik.c},\n  \"d\": ${lõplik.d},\n  \"kappa\": ${lõplik.kappa}\n}\n"
+  // testitulemus: ringkonna tasandil valitud kandidaatide arv ja korduste keskmine õigete arv (veebilehe tekstide jaoks)
+  val json = "{\n  \"vaikimisi\": $võetakse,\n  \"b\": ${lõplik.b},\n  \"c\": ${lõplik.c},\n  \"d\": ${lõplik.d},\n" +
+    "  \"kappa\": ${lõplik.kappa},\n" +
+    "  \"testitulemus\": {\"kohti\": $kohti, \"lihtne\": ${f(vana, 1)}, \"kalibreeritud\": ${f(uus, 1)}}\n}\n"
   return r.toString() to json
 }

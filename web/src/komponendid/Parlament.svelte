@@ -112,7 +112,7 @@
   const telg = $derived(Math.max(10, Math.ceil(Math.max(0, ...read.map((r) => r.stat?.max ?? 0)) / 10) * 10));
   const teljeJaotised = $derived(Array.from({ length: telg / 10 + 1 }, (_, i) => i * 10));
 
-  /** kokkuvõtte lause: suurim erakond, selle keskmine ja vahemik ning kui sageli see oli suurim */
+  /** kokkuvõtte lause: suurim erakond (keskmise järgi), selle vahemik ja mediaan ning kui sageli see oli suurim */
   const kokkuvõtteLause = $derived.by((): string | null => {
     if (tegelikud) {
       const e = [...tulemus.erakonnad].sort((a, b) => b.mandaate - a.mandaate)[0];
@@ -129,7 +129,7 @@
     }
     return t('parlament.lause', {
       erakond: suurim.e.erakond,
-      keskmine: arv(suurim.stat.keskmine, 0),
+      mediaan: suurim.stat.mediaan,
       p05: suurim.stat.p05,
       p95: suurim.stat.p95,
       osakaal: protsent((suurimKordi / kordi) * 100, 0),
@@ -198,8 +198,8 @@
           <th scope="col" class="arv" title={t('parlament.ringkonnamandaadid.selgitus')}>{t('parlament.ringkonnamandaadid')}</th>
           <th scope="col" class="arv" title={t('parlament.kompensatsioon.selgitus')}>{t('parlament.kompensatsioon')}</th>
         {:else}
-          <th scope="col" class="arv" title={t('parlament.keskmine.selgitus')}>{t('parlament.keskmine')}</th>
           <th scope="col" class="arv" title={t('parlament.vahemik.selgitus', { kordi })}>{t('parlament.vahemik')}</th>
+          <th scope="col" class="arv" title={t('parlament.mediaan.selgitus')}>{t('parlament.mediaan')}</th>
           <th scope="col" class="arv mandaadiga" title={t('parlament.mandaadiga.selgitus')}>{t('parlament.mandaadiga')}</th>
           <th scope="col" class="jaotuse-veerg">
             <span class="peidetud">{t('parlament.jaotus')}</span>
@@ -232,10 +232,14 @@
             <td class="arv">{r.e.ringkonnamandaate}</td>
             <td class="arv">{r.e.kompensatsioonimandaate}</td>
           {:else}
-            <td class="arv kokku-veerg" data-testid="mandaate-{r.info.lühend}">{r.stat ? arv(r.stat.keskmine, 1) : '…'}</td>
-            <td class="arv vaigne" title={r.stat ? t('parlament.vahemik.täpsem', { min: r.stat.min, max: r.stat.max }) : ''}>
+            <td
+              class="arv kokku-veerg"
+              title={r.stat ? t('parlament.vahemik.täpsem', { min: r.stat.min, max: r.stat.max }) : ''}
+              data-testid="vahemik-{r.info.lühend}"
+            >
               {#if r.stat}{r.stat.p05 === r.stat.p95 ? r.stat.p05 : `${r.stat.p05}–${r.stat.p95}`}{:else}…{/if}
             </td>
+            <td class="arv vaigne" data-testid="mandaate-{r.info.lühend}">{r.stat ? r.stat.mediaan : '…'}</td>
             <td class="arv vaigne mandaadiga">{r.mandaadiga === null ? '…' : protsent(r.mandaadiga * 100, 0)}</td>
             <td class="jaotuse-veerg">
               {#if r.stat && r.stat.max > 0}
@@ -244,7 +248,7 @@
                   värv={r.info.värv}
                   p05={r.stat.p05}
                   p95={r.stat.p95}
-                  keskmine={r.stat.keskmine}
+                  mediaan={r.stat.mediaan}
                   {telg}
                   silt={t('parlament.jaotus.silt', { erakond: r.info.lühend, min: r.stat.min, max: r.stat.max })}
                 />

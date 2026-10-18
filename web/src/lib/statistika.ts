@@ -2,6 +2,8 @@ export interface Statistika {
   min: number;
   max: number;
   keskmine: number;
+  /** pooltes kordustes on väärtus sama või väiksem; alati üks väärtustest (mandaatide puhul täisarv) */
+  mediaan: number;
   /** 5. ja 95. protsentiil: 90% kordustest jääb nende vahele */
   p05: number;
   p95: number;
@@ -20,6 +22,7 @@ export function statistika(väärtused: number[]): Statistika {
     min: s[0],
     max: s[s.length - 1],
     keskmine: s.reduce((a, b) => a + b, 0) / s.length,
+    mediaan: protsentiil(s, 0.5),
     p05: protsentiil(s, 0.05),
     p95: protsentiil(s, 0.95),
   };

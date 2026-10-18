@@ -5,11 +5,16 @@ import { partiid } from '../src/lib/protokoll';
 describe('statistika', () => {
   it('arvutab vähima, suurima, keskmise ja protsentiilid', () => {
     const väärtused = Array.from({ length: 100 }, (_, i) => i + 1);
-    expect(statistika(väärtused)).toEqual({ min: 1, max: 100, keskmine: 50.5, p05: 5, p95: 95 });
+    expect(statistika(väärtused)).toEqual({ min: 1, max: 100, keskmine: 50.5, mediaan: 50, p05: 5, p95: 95 });
   });
 
   it('ühe väärtuse statistika', () => {
-    expect(statistika([7])).toEqual({ min: 7, max: 7, keskmine: 7, p05: 7, p95: 7 });
+    expect(statistika([7])).toEqual({ min: 7, max: 7, keskmine: 7, mediaan: 7, p05: 7, p95: 7 });
+  });
+
+  it('mediaan on alati üks väärtustest, mitte kahe keskmine', () => {
+    expect(statistika([3, 1, 4, 2]).mediaan).toBe(2);
+    expect(statistika([10, 30, 20]).mediaan).toBe(20);
   });
 
   it('tühja hulga statistika on viga', () => {

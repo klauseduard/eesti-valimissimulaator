@@ -64,7 +64,7 @@
         </span>
         <span class="riba" aria-hidden="true"><span style:width="{k.tõenäosus * 100}%"></span></span>
         <span class="arv">{protsent(k.tõenäosus * 100, 0)}</span>
-        <span class="arv vaigne vaike" title={t('koalitsioonid.keskmine')}>{arv(k.keskmine, olek.tegelikudHääled ? 0 : 1)}</span>
+        <span class="arv vaigne vaike" title={t('koalitsioonid.keskmine')}>{arv(k.keskmine, 0)}</span>
       </li>
     {/each}
   </ol>
@@ -83,7 +83,7 @@
       {#if valituTulemus}
         {t('koalitsioonid.valitud', {
           koalitsioon: nimi(valitud.slice().sort((a, b) => järjekorraNr(a) - järjekorraNr(b))),
-          keskmine: arv(valituTulemus.keskmine, olek.tegelikudHääled ? 0 : 1),
+          keskmine: arv(valituTulemus.keskmine, 0),
           tõenäosus: protsent(valituTulemus.tõenäosus * 100, 0),
         })}
       {:else}

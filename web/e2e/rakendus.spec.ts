@@ -17,8 +17,7 @@ async function ootaKordusi(page: import('@playwright/test').Page) {
 test('liugur muudab tulemust', async ({ page }) => {
   await page.goto('/#v=norstat-2023-03-03&s=1&k=et');
   await ootaKordusi(page);
-  // eesti keeles on kümnendkoht komaga
-  const arvuna = (tekst: string | null) => Number((tekst ?? '').replace(',', '.'));
+  const arvuna = (tekst: string | null) => Number(tekst);
   const enne = (await page.getByTestId('mandaate-REF').textContent()) ?? '';
   await page.getByTestId('liugur-REF').fill('45');
   await expect.poll(async () => arvuna(await page.getByTestId('mandaate-REF').textContent())).toBeGreaterThan(arvuna(enne));
@@ -48,7 +47,7 @@ test('küsitluse viga laiendab mandaatide vahemikku', async ({ page }) => {
   await page.goto('/#v=norstat-2023-03-03&s=1&k=et');
   await ootaKordusi(page);
   await expect(page.getByTestId('parlamendi-alus')).toContainText('küsitluse viga arvestatud');
-  const vahemik = page.getByTestId('erakond-REF').locator('td').nth(1);
+  const vahemik = page.getByTestId('vahemik-REF');
   await expect(vahemik).toContainText('–');
   await page.getByTestId('küsitluse-viga').uncheck();
   await expect(page).toHaveURL(/e=0/);
@@ -69,6 +68,23 @@ test('häälte jaotuse valik jõuab linki ja muudab näidiskorduse valituid', as
   expect(await tabel.textContent()).not.toBe(enne);
   await page.reload();
   await expect(page.getByTestId('häälte-jaotus')).toHaveValue('lihtne');
+});
+
+test('metoodika leht avaneb päisest samas keeles ja mahub kitsale ekraanile', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 800 });
+  for (const [keel, pealkiri] of [['et', 'Metoodika'], ['en', 'Methodology']] as const) {
+    await page.goto(`/#v=koond-2023-03-03&s=1&k=${keel}`);
+    await page.getByTestId('metoodika-link').click();
+    await expect(page).toHaveURL(new RegExp(`metoodika\\.html#k=${keel}$`));
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(pealkiri);
+    await expect(page.locator('html')).toHaveAttribute('lang', keel);
+    await expect(page.getByTestId('ai-märkus')).toBeVisible();
+    const laius = await page.evaluate(() => document.documentElement.scrollWidth);
+    expect(laius).toBeLessThanOrEqual(390);
+    await page.getByTestId('tagasi').click();
+    await expect(page).toHaveURL(new RegExp(`k=${keel}`));
+    await expect(page.getByTestId('metoodika-link')).toBeVisible();
+  }
 });
 
 test('jagatud link taastab oleku', async ({ page }) => {

@@ -249,7 +249,9 @@ Veebileht on kaustas `web/` (Svelte, TypeScript, Vite). Mandaatide
 jagamise ja simuleerimise kood on Kotlinis kaustas `src/commonMain/` ja
 kompileeritakse nii JVM-i käsurea programmiks kui ka JavaScripti
 mooduliks, mida veebileht kasutab. Seega annavad käsurea programm ja
-veebileht sama seemne korral sama tulemuse. Ringkondade piirid on
+veebileht sama seemne korral sama tulemuse. Leht `metoodika.html`
+kirjeldab eeldusi, kontrolle ja seda, mida simulaator ei modelleeri.
+Ringkondade piirid on
 failis `web/public/data/ringkonnad.topo.json`; nende allikas, litsents ja
 ehitamine on kirjeldatud failis `kaart/LOEMIND.md`.
 

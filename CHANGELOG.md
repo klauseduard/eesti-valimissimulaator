@@ -6,6 +6,15 @@
 
 ### Changed
 
+  * Uncertainty: the seat table leads with the 90% range and an integer median
+  instead of a mean with one decimal, which suggested a precision the model does
+  not have; the summary sentence and the coalition list follow. A methodology
+  page (`metoodika.html`, Estonian and English) states the data, the poll
+  aggregate, the error model, the candidate split, the allocation rules, which
+  checks are out of sample and which are not, and what is not modelled. Its
+  numbers come from the generated model files; `kandidaadimudel.json` now also
+  holds the candidate test scores.
+
   * Candidate votes: a party's votes in a district are now split among its
   candidates by a model calibrated on the 2023 candidate votes. A candidate's
   expected share falls with the position in the district list and is larger

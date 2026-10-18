@@ -1,6 +1,6 @@
 <script lang="ts">
   // Erakonna mandaatide arvu jaotus korduste vahel kõigile erakondadele ühisel teljel, et hajuvusi saaks
-  // võrrelda: tulbad on korduste sagedused, hele riba on 90% vahemik, tume kriips on keskmine. Arvud ise on
+  // võrrelda: tulbad on korduste sagedused, hele riba on 90% vahemik, tume kriips on mediaan. Arvud ise on
   // kõrvalveergudes, seega diagramm on lisateave.
   import { sagedused } from '../lib/statistika';
 
@@ -9,10 +9,10 @@
     värv,
     p05,
     p95,
-    keskmine,
+    mediaan,
     telg,
     silt,
-  }: { väärtused: number[]; värv: string; p05: number; p95: number; keskmine: number; telg: number; silt: string } =
+  }: { väärtused: number[]; värv: string; p05: number; p95: number; mediaan: number; telg: number; silt: string } =
     $props();
 
   const LAIUS = 140;
@@ -33,7 +33,7 @@
   {#each tulbad as t}
     <rect x={t.x} y={KÕRGUS - t.kõrgus} width={tulbaLaius} height={t.kõrgus} rx="1" fill={värv} />
   {/each}
-  <rect x={x(keskmine) - 1} y="0" width="2" height={KÕRGUS} fill="var(--tekst)" />
+  <rect x={x(mediaan) - 1} y="0" width="2" height={KÕRGUS} fill="var(--tekst)" />
 </svg>
 
 <style>

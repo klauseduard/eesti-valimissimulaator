@@ -1,6 +1,7 @@
 <script lang="ts">
   import { erakonnaInfo, järjekorraNr } from '../lib/erakonnad';
   import { arv, protsent, t } from '../lib/i18n.svelte';
+  import { mudeliArvud } from '../lib/mudel';
   import type { Olek } from '../lib/olek';
   import type { Kokkuvõte } from '../lib/protokoll';
   import { RINGKONNAD, type Tulemus } from '../lib/simulaator';
@@ -65,7 +66,15 @@
         <option value="lihtne">{t('kandidaadid.jaotus.lihtne')}</option>
       </select>
     </label>
-    <p class="vaike vaigne">{t(`kandidaadid.jaotus.selgitus.${olek.jaotus}`)}</p>
+    <p class="vaike vaigne">
+      {t(`kandidaadid.jaotus.selgitus.${olek.jaotus}`, {
+        esimene: mudeliArvud.esimene,
+        esimeneEsiviisikus: mudeliArvud.esimeneEsiviisikus,
+        kohti: mudeliArvud.kohti,
+        kalibreeritud: arv(mudeliArvud.kalibreeritud, 1),
+        lihtne: arv(mudeliArvud.lihtne, 1),
+      })}
+    </p>
   </div>
 {/if}
 
