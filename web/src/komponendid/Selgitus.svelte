@@ -3,19 +3,12 @@
   import { arv, protsent, t } from '../lib/i18n.svelte';
   import type { Olek } from '../lib/olek';
   import { RINGKONNAD, type Tulemus } from '../lib/simulaator';
+  import Seeme from './Seeme.svelte';
 
   let { tulemus, olek = $bindable() }: { tulemus: Tulemus; olek: Olek } = $props();
 
   const ringkond = $derived(RINGKONNAD[olek.ringkond - 1]);
 
-  function uusSeeme() {
-    olek.seeme = Math.floor(Math.random() * 1_000_000);
-  }
-
-  function muudaSeemet(sündmus: Event) {
-    const väärtus = Number((sündmus.currentTarget as HTMLInputElement).value);
-    if (Number.isInteger(väärtus)) olek.seeme = väärtus;
-  }
   const arvutus = $derived(tulemus.ringkonnad[olek.ringkond - 1]);
   const jaotatud = $derived(arvutus.erakonnad.reduce((s, e) => s + e.valitud.length, 0) +
     arvutus.isikumandaadid.filter((k) => !arvutus.erakonnad.some((e) => e.erakond === k.erakond)).length);
@@ -40,11 +33,7 @@
     {olek.tegelikudHääled ? t('näidiskordus.tegelikud') : t('näidiskordus', { seeme: olek.seeme })}
   </p>
   {#if !olek.tegelikudHääled}
-    <label class="seeme" title={t('seeme.selgitus')}>
-      <span>{t('seeme')}</span>
-      <input type="number" value={olek.seeme} onchange={muudaSeemet} data-testid="seeme" />
-      <button onclick={uusSeeme} data-testid="uus-seeme">{t('seeme.uus')}</button>
-    </label>
+    <Seeme bind:olek nupuSilt={t('seeme.uus')} />
   {/if}
 </div>
 
@@ -178,19 +167,6 @@
     flex: 1 1 24rem;
   }
 
-  .seeme {
-    display: flex;
-    gap: 0.4rem;
-    align-items: center;
-  }
-
-  .seeme input {
-    width: 6.5em;
-    padding: 0.2em 0.4em;
-    border: 1px solid var(--joon);
-    border-radius: 6px;
-    background: var(--pind);
-  }
 
   th[scope='row'] {
     white-space: nowrap;

@@ -185,5 +185,7 @@
   "sisend.ruudud": "{erakond} toetus ringkonniti",
   "sisend.kokku": "Kokku",
   "sisend.ruudud.selgitus": "Ruudud näitavad erakonna toetust igas ringkonnas: mida tumedam, seda lähemal erakonna tugevaimale ringkonnale (iga erakonna skaala on eraldi). Klõpsa ruudul, et väärtust muuta, näiteks taktikalise hääletamise katsetamiseks. Kokku-rida näitab, kui suure osa kehtivatest häältest erakonnad ringkonnas saavad; ülejäänu läheb teistele nimekirjadele.",
-  "kompensatsioon.võrdlusarv.veerg": "Võrdlusarv"
+  "kompensatsioon.võrdlusarv.veerg": "Võrdlusarv",
+  "seeme.uuesti": "Simuleeri uuesti",
+  "seeme.uus.selgitus": "Uus juhuslik seeme: korduvad simulatsioonid ja näidiskordus arvutatakse uuesti."
 }

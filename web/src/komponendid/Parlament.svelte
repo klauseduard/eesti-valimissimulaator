@@ -1,5 +1,6 @@
 <script lang="ts">
   import Jaotus from './Jaotus.svelte';
+  import Seeme from './Seeme.svelte';
   import { erakonnaInfo, järjekorraNr } from '../lib/erakonnad';
   import { arv, protsent, t } from '../lib/i18n.svelte';
   import type { Olek } from '../lib/olek';
@@ -150,11 +151,16 @@
   {/if}
 </p>
 
-{#if !tegelikud && eelseadistuseVeaga}
-  <label class="vaike lüliti">
-    <input type="checkbox" bind:checked={olek.viga} data-testid="küsitluse-viga" />
-    <span>{t('parlament.viga', { protsent: tüüpilineViga })}</span>
-  </label>
+{#if !tegelikud}
+  <div class="juhtimine vaike">
+    {#if eelseadistuseVeaga}
+      <label class="lüliti">
+        <input type="checkbox" bind:checked={olek.viga} data-testid="küsitluse-viga" />
+        <span>{t('parlament.viga', { protsent: tüüpilineViga })}</span>
+      </label>
+    {/if}
+    <Seeme bind:olek nupuSilt={t('seeme.uuesti')} testid="-ülal" />
+  </div>
 {/if}
 
 <div class="tulemusala">
@@ -288,6 +294,15 @@
     text-transform: uppercase;
     color: var(--tekst-3);
     margin-bottom: 0.5rem;
+  }
+
+  .juhtimine {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.2rem;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.2rem 0 0.4rem;
   }
 
   .lause {

@@ -43,6 +43,18 @@ test('uus seeme muudab näidiskordust, kuid mandaadid tulevad korduvatest simula
   expect(await page.getByTestId('mandaate-REF').textContent()).toBe(enne);
 });
 
+test('ülemine nupp simuleerib uue seemnega uuesti', async ({ page }) => {
+  await page.goto('/#v=koond-2023-03-03&s=1&k=et');
+  await ootaKordusi(page);
+  await page.getByTestId('uus-seeme-ülal').click();
+  await expect(page).not.toHaveURL(/[#&]s=1&/);
+  // mõlemad seemne väljad näitavad sama uut seemet
+  const uus = await page.getByTestId('seeme-ülal').inputValue();
+  expect(uus).not.toBe('1');
+  await expect(page.getByTestId('seeme')).toHaveValue(uus);
+  await ootaKordusi(page);
+});
+
 test('küsitluse viga laiendab mandaatide vahemikku', async ({ page }) => {
   await page.goto('/#v=norstat-2023-03-03&s=1&k=et');
   await ootaKordusi(page);

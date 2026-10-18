@@ -185,5 +185,7 @@
   "sisend.ruudud": "{erakond} support by district",
   "sisend.kokku": "Total",
   "sisend.ruudud.selgitus": "The cells show the party's support in each district: the darker, the closer to the party's strongest district (each party has its own scale). Click a cell to change it, for example to test tactical voting. The total row shows what share of the valid votes the parties receive in a district; the rest goes to other lists.",
-  "kompensatsioon.võrdlusarv.veerg": "Comparison figure"
+  "kompensatsioon.võrdlusarv.veerg": "Comparison figure",
+  "seeme.uuesti": "Simulate again",
+  "seeme.uus.selgitus": "New random seed: the repeated simulations and the example run are computed again."
 }

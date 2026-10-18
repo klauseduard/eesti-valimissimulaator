@@ -6,6 +6,14 @@
 
 ### Changed
 
+  * Dark mode has its own party colours. The light colours were too light (REF,
+  E200) or too dark (EKRE) for a dark background. The dark set keeps each
+  party's hue where possible and passes the palette validator; to keep the
+  three blues apart, EKRE is violet, E200 turquoise and KESK a darker green in
+  dark mode. A "Simulate again" button with the seed is now also at the top of
+  the results panel, which stays in view; the one in the calculation section
+  remains.
+
   * Redesign of the web page. The top of the page is a console: the party
   support panel on the left and the results on the right, which stay in view
   on wide screens while the sliders move. Each party row in the panel shows its
