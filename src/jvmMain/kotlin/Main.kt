@@ -52,7 +52,12 @@ private fun simuleeriÜksKord(seaded: Seaded, juhus: Random) {
 }
 
 private fun simuleeriJaKirjutaSagedused(seaded: Seaded, kordi: Int, juhus: Random) {
-  val viga = if (seaded.arvestaViga) küsitluseViga(seaded.küsitleja, seaded.reitingufail) else null
+  val viga = if (!seaded.arvestaViga) null else try {
+    küsitluseViga(seaded.küsitleja, seaded.reitingufail)
+  } catch (e: IllegalArgumentException) {
+    System.err.println("${e.message}; küsitluse viga jäetakse arvestamata.")
+    null
+  }
   val kokkuvõte = simuleeriKorduvalt(seaded.küsitleja, kordi, juhus, seaded.reitingufail, viga)
 
   val andmed = when (seaded.küsitleja) {

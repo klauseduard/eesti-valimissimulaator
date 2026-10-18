@@ -23,7 +23,7 @@ data class Mudeliparameetrid(
 }
 
 enum class Meetod(val kirjeldus: String) {
-  VIIMANE_NORSTAT("last Norstat poll"),
+  VIIMANE_NORSTAT("last Norstat week (Wikipedia)"),
   VIIMASED_VÕRDSELT("latest poll of each pollster, equal weights"),
   VÕRDSED_KAALUD("aggregate, equal weights"),
   USALDUSKAALUD("aggregate, trust weights"),

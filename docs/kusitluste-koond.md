@@ -132,3 +132,12 @@ first backtest run:
   days. The equal-weight aggregate stays the chosen method, because it uses
   more information and is more stable across horizons; the report shows all
   numbers.
+- The baseline listed above as "the last single Norstat poll (the method the
+  page used so far)" is, for 2023, Wikipedia's single Norstat week, which
+  Wikipedia back-calculated from the four-week averages (REF 33.1, EKRE 15.6;
+  mean absolute error 4.07 points). The page itself used the reitingud.ee
+  four-week window, which scores 2.33 points for the window ending 3 March;
+  the aggregate preset of 3 March scores 1.79. The report labels the
+  baseline accordingly. In the 2023 seat check, the single Norstat poll
+  includes fieldwork up to 3 March, while the aggregate respects the 3-day
+  publication lag and uses polls ending by 28 February.

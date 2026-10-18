@@ -9,6 +9,12 @@ import kotlin.test.assertEquals
 class SimulatsioonTest {
 
   @Test
+  fun `küsitluse viga on usaldusväärne kuni kahe nädala horisondini`() {
+    assertEquals(true, küsitluseViga(Küsitleja.NORSTAT, "reitingud-2023-02-20.json").üleriigiline > 0.0)
+    kotlin.test.assertFailsWith<IllegalArgumentException> { küsitluseViga(Küsitleja.NORSTAT, "reitingud-2023-01-15.json") }
+  }
+
+  @Test
   fun `Norstati andmetest loetakse kõigi kaheksa erakonna toetus kõigis ringkondades`() {
     val toetus = loeToetusprotsendid(Küsitleja.NORSTAT)
     assertEquals(8, toetus.size)

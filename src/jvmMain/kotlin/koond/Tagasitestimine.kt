@@ -3,6 +3,8 @@ package koond
 import andmed.AndmeFailideLugeja
 import java.io.File
 import simuleeriKorduvalt
+import juhuslikToetus
+import üleriigilineToetus
 import java.time.LocalDate
 import java.util.Locale
 import kotlin.math.sqrt
@@ -217,6 +219,7 @@ fun tagasitesti(valimised: List<Valimised>, lugeja: AndmeFailideLugeja? = null):
   // 2023. aasta mandaatide kontroll (üks andmepunkt)
   if (lugeja != null && valimised.any { it.aasta == 2023 }) {
     val mudel = Koondmudel(valitud, vigaKehtib, lõplik)
+    r.append(hajuvuseKontroll2023(lugeja, mudel))
     r.append(mandaatideKontroll2023(lugeja, mudel))
   }
 
@@ -278,5 +281,46 @@ fun mandaatideKontroll2023(lugeja: AndmeFailideLugeja, mudel: Koondmudel): Strin
     r.appendLine("Inside the 90% range: $sees of ${erakonnad.size} parties.")
     r.appendLine()
   }
+  return r.toString()
+}
+
+
+/**
+ * Simuleeritud üleriigilise toetuse hajuvus võrreldes koondi ennustava hälbega (2023, koondi preset): 10 000
+ * juhuslikku toetust, iga erakonna üleriigilise osakaalu logaritmi standardhälve jagatud tagasitesti hälbega.
+ * Ringkonna summa taastamine kahandab suurte erakondade hajuvust, ringkondlik viga suurendab seda.
+ */
+fun hajuvusteSuhted2023(lugeja: AndmeFailideLugeja, mudel: Koondmudel): Map<String, Double> {
+  val (toetus, küsitlejad) = andmed.koond2023(lugeja, mudel)
+  val v2023 = loeValimised(lugeja).single { it.aasta == 2023 }
+  val h = hinnang(v2023.küsitlused, andmed.KOONDI_KUUPÄEV, mudel.meetod, mudel.parameetrid(3))!!
+  val viga = mudel.viga(küsitlejad, andmed.horisont(andmed.KOONDI_KUUPÄEV))
+  val juhus = kotlin.random.Random(1)
+  val logid = mutableMapOf<String, MutableList<Double>>()
+  repeat(10000) {
+    for ((e, r) in juhuslikToetus(toetus, viga, juhus)) logid.getOrPut(e) { mutableListOf() }.add(kotlin.math.ln(üleriigilineToetus(r)))
+  }
+  return ERAKONNA_KOODID.mapNotNull { (kood, nimi) ->
+    val l = logid[nimi] ?: return@mapNotNull null
+    val siht = h.logSd[kood] ?: return@mapNotNull null
+    val m = l.average()
+    kood to sqrt(l.sumOf { (it - m) * (it - m) } / l.size) / siht
+  }.toMap()
+}
+
+fun hajuvuseKontroll2023(lugeja: AndmeFailideLugeja, mudel: Koondmudel): String {
+  val suhted = hajuvusteSuhted2023(lugeja, mudel)
+  val r = StringBuilder()
+  r.appendLine("## Spread check: simulation against the backtest")
+  r.appendLine()
+  r.appendLine("10 000 random draws of the 2023 aggregate preset with its poll error. For each party: the standard")
+  r.appendLine("deviation of the log of its simulated national share, divided by the aggregate's predictive standard")
+  r.appendLine("deviation from the backtest. Rescaling each district to its total narrows the large parties; the")
+  r.appendLine("district error widens them. A test requires 0.85–1.15 for the parliamentary parties.")
+  r.appendLine()
+  r.appendLine("| Party | Ratio |")
+  r.appendLine("|---|---|")
+  for ((kood, suhe) in suhted) r.appendLine("| $kood | ${f(suhe)} |")
+  r.appendLine()
   return r.toString()
 }

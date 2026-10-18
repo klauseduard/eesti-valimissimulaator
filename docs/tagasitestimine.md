@@ -44,7 +44,7 @@ over elections; coverage of the 90% interval as counts; mean log score per party
 
 | Method | MAE 2011 | MAE 2015 | MAE 2019 | MAE 2023 | Mean MAE | 90% coverage | Log score |
 |---|---|---|---|---|---|---|---|
-| last Norstat poll | – | – | 1.51 | 4.07 | 2.79 (2 el.) | 10 / 12 | 0.04 |
+| last Norstat week (Wikipedia) | – | – | 1.51 | 4.07 | 2.79 (2 el.) | 10 / 12 | 0.04 |
 | latest poll of each pollster, equal weights | 1.94 | 1.88 | 1.26 | 1.92 | 1.75 (4 el.) | 22 / 23 | 0.64 |
 | aggregate, equal weights | 2.08 | 1.92 | 1.30 | 1.89 | 1.80 (4 el.) | 22 / 23 | 0.63 |
 | aggregate, trust weights | 2.24 | 1.95 | 1.30 | 2.07 | 1.89 (4 el.) | 20 / 23 | 0.55 |
@@ -53,7 +53,7 @@ over elections; coverage of the 90% interval as counts; mean log score per party
 
 | Method | MAE 2011 | MAE 2015 | MAE 2019 | MAE 2023 | Mean MAE | 90% coverage | Log score |
 |---|---|---|---|---|---|---|---|
-| last Norstat poll | – | – | 2.10 | 2.75 | 2.43 (2 el.) | 12 / 12 | -0.49 |
+| last Norstat week (Wikipedia) | – | – | 2.10 | 2.75 | 2.43 (2 el.) | 12 / 12 | -0.49 |
 | latest poll of each pollster, equal weights | 3.16 | 3.62 | 2.58 | 2.41 | 2.94 (4 el.) | 21 / 23 | -1.54 |
 | aggregate, equal weights | 3.19 | 3.62 | 2.47 | 2.28 | 2.89 (4 el.) | 21 / 23 | -1.53 |
 | aggregate, trust weights | 3.05 | 3.46 | 2.52 | 2.30 | 2.83 (4 el.) | 21 / 23 | -1.46 |
@@ -62,7 +62,7 @@ over elections; coverage of the 90% interval as counts; mean log score per party
 
 | Method | MAE 2011 | MAE 2015 | MAE 2019 | MAE 2023 | Mean MAE | 90% coverage | Log score |
 |---|---|---|---|---|---|---|---|
-| last Norstat poll | – | – | – | 3.26 | 3.26 (1 el.) | 6 / 6 | -0.54 |
+| last Norstat week (Wikipedia) | – | – | – | 3.26 | 3.26 (1 el.) | 6 / 6 | -0.54 |
 | latest poll of each pollster, equal weights | – | 3.47 | 3.61 | 2.41 | 3.16 (3 el.) | 16 / 18 | -0.84 |
 | aggregate, equal weights | – | 3.47 | 3.32 | 2.49 | 3.09 (3 el.) | 16 / 18 | -0.83 |
 | aggregate, trust weights | – | 3.47 | 3.46 | 2.44 | 3.12 (3 el.) | 16 / 18 | -0.83 |
@@ -104,6 +104,24 @@ variance estimates average squares, so a few large differences can dominate them
 | 3 d | 0.09 | 0.12 | Faktum & Ariko 0.05, Kantar Emor 0.14, Norstat 0.13, Turu-uuringute AS 0.10 |
 | 30 d | 0.52 | 0.11 | Kantar Emor 0.12, Norstat 0.14, Turu-uuringute AS 0.09 |
 | 90 d | 0.49 | 0.12 | Kantar Emor 0.11, Norstat 0.15, Turu-uuringute AS 0.10 |
+
+## Spread check: simulation against the backtest
+
+10 000 random draws of the 2023 aggregate preset with its poll error. For each party: the standard
+deviation of the log of its simulated national share, divided by the aggregate's predictive standard
+deviation from the backtest. Rescaling each district to its total narrows the large parties; the
+district error widens them. A test requires 0.85–1.15 for the parliamentary parties.
+
+| Party | Ratio |
+|---|---|
+| REF | 0.93 |
+| KESK | 1.03 |
+| EKRE | 1.01 |
+| ISAMAA | 1.13 |
+| SDE | 1.13 |
+| E200 | 1.12 |
+| ROH | 1.02 |
+| PP | 0.96 |
 
 ## Seat check for 2023 (one data point)
 
