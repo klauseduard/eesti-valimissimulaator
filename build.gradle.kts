@@ -61,3 +61,15 @@ tasks.register<JavaExec>("ekspordiRk2023") {
     workingDir = projectDir
     args("src/jvmTest/resources/rk2023/RESULTS.xml", "src/jvmMain/resources/rk2023/tulemus.json")
 }
+
+// veebilehe andmed: küsitluste toetusprotsendid -> build/veebiandmed/toetused.json (vt web/)
+tasks.register<JavaExec>("veebiandmed") {
+    group = "andmed"
+    description = "Kirjutab veebilehe jaoks küsitluste toetusprotsendid kompaktsesse JSON-faili."
+    val jvmMain = kotlin.jvm().compilations.getByName("main")
+    classpath(jvmMain.output.allOutputs, jvmMain.runtimeDependencyFiles)
+    mainClass.set("andmed.VeebiandmedKt")
+    workingDir = projectDir
+    args("build/veebiandmed")
+    outputs.dir("build/veebiandmed")
+}

@@ -95,3 +95,29 @@ three; the last two follow later.
   to `main`; pull requests build and test only. The Pages source must be
   switched from the branch to GitHub Actions. The Google verification moves
   to a `<meta>` tag in `index.html`, and `_config.yml` is removed.
+
+## Changes made during implementation
+
+- The three Norstat files are about 2 MB each, because they hold the whole
+  reitingud.ee page. A Gradle task (`./gradlew veebiandmed`) runs the shared
+  parsers at build time and writes the four poll presets to a 3.4 KB file,
+  `build/veebiandmed/toetused.json`. The candidate files and the 2023 result
+  are small and are bundled unchanged.
+- A district whose support adds up to more than 100 % is not left out of the
+  run, because the allocation needs all 12 districts. Instead the page marks
+  the district, explains the problem, and keeps showing the last valid result
+  until the input is corrected.
+- The facade throws a JavaScript `Error` with an Estonian message instead of
+  returning error objects; the page catches it and shows the message.
+- The facade keeps the parties in the order of the data source. Vote
+  simulation draws random numbers party by party, so this keeps the web page
+  and the command-line program identical for the same seed.
+- Party colours follow the conventional party hues and were tuned with the
+  dataviz validator. In light mode, every pair of the six parliamentary
+  parties passes the all-pairs check (normal-vision difference at least 15.8,
+  colour-blind difference at least 9.2), which the map needs. The narrower
+  dark-mode lightness band cannot hold six such colours in these hue
+  families (the best set reached 12.8), so both modes use the light set: on
+  the dark surface it keeps every pair distinguishable and misses only the
+  lightness band for three colours. Every map district also carries the
+  winning party's abbreviation, and every chart has a legend or table.

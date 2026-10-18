@@ -1,0 +1,21 @@
+{
+  "extends": "@tsconfig/svelte/tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable", "WebWorker"],
+    "strict": true,
+    "noUncheckedIndexedAccess": false,
+    "resolveJsonModule": true,
+    "allowJs": false,
+    "checkJs": false,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "types": ["vite/client", "node"],
+    "paths": {
+      "@simulaator": ["../build/dist/js/productionLibrary/eesti-valimissimulaator.d.mts"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.svelte", "tests/**/*.ts", "e2e/**/*.ts", "vite.config.ts"]
+}

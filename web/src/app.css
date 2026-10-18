@@ -1,0 +1,202 @@
+/* Värvid on rollide kaupa; tume teema saab samadest rollidest omad väärtused. */
+:root {
+  color-scheme: light;
+  --pind: #fcfcfb;
+  --pind-2: #f3f2ee;
+  --pind-3: #e7e5df;
+  --tekst: #141413;
+  --tekst-2: #52514e;
+  --tekst-3: #75736c;
+  --joon: #dad8d1;
+  --rohk: #2a6fd6;
+  --rohk-pind: #e7effb;
+  --viga: #b42318;
+  --viga-pind: #fdecea;
+  --hoiatus-pind: #fff5dc;
+  --meri: #edf2f6;
+  --vari: 0 1px 2px rgb(0 0 0 / 0.06), 0 2px 8px rgb(0 0 0 / 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme='light'])) {
+    color-scheme: dark;
+    --pind: #1a1a19;
+    --pind-2: #232322;
+    --pind-3: #2f2e2c;
+    --tekst: #f4f3ef;
+    --tekst-2: #c3c2b7;
+    --tekst-3: #9b9a90;
+    --joon: #3b3a37;
+    --rohk: #6ea6f2;
+    --rohk-pind: #1f2a3a;
+    --viga: #f28b82;
+    --viga-pind: #3b1f1c;
+    --hoiatus-pind: #3a3120;
+    --meri: #1e252c;
+    --vari: none;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --pind: #1a1a19;
+  --pind-2: #232322;
+  --pind-3: #2f2e2c;
+  --tekst: #f4f3ef;
+  --tekst-2: #c3c2b7;
+  --tekst-3: #9b9a90;
+  --joon: #3b3a37;
+  --rohk: #6ea6f2;
+  --rohk-pind: #1f2a3a;
+  --viga: #f28b82;
+  --viga-pind: #3b1f1c;
+  --hoiatus-pind: #3a3120;
+  --meri: #1e252c;
+  --vari: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--pind);
+  color: var(--tekst);
+  font: 15px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+  margin: 0 0 0.5em;
+}
+
+h2 {
+  font-size: 1.15rem;
+}
+
+h3 {
+  font-size: 1rem;
+}
+
+a {
+  color: var(--rohk);
+}
+
+button,
+select,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+button,
+select {
+  background: var(--pind);
+  border: 1px solid var(--joon);
+  border-radius: 6px;
+  padding: 0.3em 0.7em;
+  cursor: pointer;
+}
+
+button:hover,
+select:hover {
+  border-color: var(--tekst-3);
+}
+
+:focus-visible {
+  outline: 2px solid var(--rohk);
+  outline-offset: 2px;
+}
+
+table {
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+th,
+td {
+  padding: 0.3em 0.6em;
+  border-bottom: 1px solid var(--joon);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  font-weight: 600;
+  color: var(--tekst-2);
+}
+
+td.arv,
+th.arv {
+  text-align: right;
+}
+
+.kaart-pind {
+  background: var(--pind);
+  border: 1px solid var(--joon);
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: var(--vari);
+  min-width: 0;
+}
+
+.vaigne {
+  color: var(--tekst-2);
+}
+
+.vaike {
+  font-size: 0.85rem;
+}
+
+.peidetud {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.varv {
+  display: inline-block;
+  width: 0.75em;
+  height: 0.75em;
+  border-radius: 50%;
+  vertical-align: baseline;
+  margin-right: 0.35em;
+  flex: none;
+}
+
+.tabeli-ümbris {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* kitsal ekraanil keritakse tabelit külgsuunas, selle asemel et veerud kokku suruda */
+.tabeli-ümbris > table {
+  min-width: 34rem;
+}
+
+.tabeli-ümbris.kitsas > table {
+  min-width: 0;
+}
+
+thead th {
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

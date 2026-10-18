@@ -2,6 +2,35 @@
 
 ### Changed
 
+  * The project is now a Kotlin Multiplatform build (Gradle 9.8.1, Kotlin
+  2.4.21, JDK 21). Allocation, simulation and the data parsers are in
+  `src/commonMain` and compile to the JVM and to JavaScript; the command-line
+  program is in `src/jvmMain` and behaves as before. All Kotlin tests run on
+  the JVM and on Node (`./gradlew allTests`).
+
+  * The allocation records its steps (quotas, the 0.75 rule, candidates below
+  10% of the quota, comparison figures, tie-breaks and the fallback rule), so
+  the web page can explain how each seat was won.
+
+### Added
+
+  * A web page in `web/` (Svelte, TypeScript, Vite) that runs the same Kotlin
+  code in the browser: sliders and a district table for party support, a
+  parliament diagram with Monte Carlo ranges from 1000 runs in a Web Worker,
+  a district map, a step-by-step explanation of § 62 for each district and for
+  the compensation round, and candidate frequencies. It is in Estonian and
+  English, and the URL stores the whole state. A GitHub Actions workflow
+  builds, tests and deploys it to GitHub Pages.
+
+  * District outlines built from Maa- ja Ruumiamet boundary data (`kaart/`).
+
+  * The official 2023 result as compact JSON (`./gradlew ekspordiRk2023`) and
+  the poll presets for the web page (`./gradlew veebiandmed`).
+
+## 2026-10-18 (simulation inputs)
+
+### Changed
+
   * Votes are simulated from the official 2023 valid votes per district
   (previously the 2019 turnout), and the Norstat data now gives votes to all
   eight parties in the poll, including Erakond Eestimaa Rohelised and Erakond
@@ -29,7 +58,7 @@
 
   * A party without candidates in a district no longer crashes the vote split.
 
-## 2026-10-18
+## 2026-10-18 (allocation rules)
 
 ### Changed
 

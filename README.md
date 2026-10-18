@@ -1,3 +1,8 @@
+## Veebileht / Web page
+
+Simulaatorit saab kasutada veebilehel / The simulator runs in the browser at
+https://klauseduard.github.io/eesti-valimissimulaator/
+
 ## Projekti kood / Project Code
 
 Projekti lähtekood on avalikult saadaval GitHubis / Source code is available on GitHub:
@@ -19,8 +24,15 @@ district and compensation mandates. Repeating the simulation gives the
 frequency with which each candidate is elected. A regression test
 allocates the seats from the official 2023 votes and reproduces all 101
 official seats. Run `./gradlew run --args='--runs=1000'` for 1000
-simulations; the options are listed below. The code and the rest of this
-document are in Estonian.
+simulations; the options are listed below.
+
+The web page (linked above) runs the same Kotlin code compiled to
+JavaScript. It lets you change party support with sliders or per
+district, shows the seats on a parliament diagram and a district map,
+and explains step by step how § 62 allocates the seats in each district
+and in the compensation round. Its source is in `web/`; see "Veebileht"
+below for how to run it locally. The code and the rest of this document
+are in Estonian.
 
 ## Saateks arvutiprogrammile
 
@@ -145,6 +157,41 @@ valimiste kehtivate häälte arvu, mida küsitluste ajal veel ei teatud.
 on skript `extract-counts-in-runs.sh`, mis kirjutab tulemuse faili
 `stats.txt`.
 
+## Veebileht
+
+Veebileht on kaustas `web/` (Svelte, TypeScript, Vite). Mandaatide
+jagamise ja simuleerimise kood on Kotlinis kaustas `src/commonMain/` ja
+kompileeritakse nii JVM-i käsurea programmiks kui ka JavaScripti
+mooduliks, mida veebileht kasutab. Seega annavad käsurea programm ja
+veebileht sama seemne korral sama tulemuse. Ringkondade piirid on
+failis `web/public/data/ringkonnad.topo.json`; nende allikas, litsents ja
+ehitamine on kirjeldatud failis `kaart/LOEMIND.md`.
+
+Veebilehe käivitamiseks oma arvutis on vaja ka Node.js-i (versioon 22
+või uuem):
+
+        cd web
+        npm ci
+        npm run kotlin
+        npm run dev
+
+`npm run kotlin` ehitab Kotlini mooduli ja küsitluste andmefaili
+(`./gradlew jsBrowserProductionLibraryDistribution veebiandmed`); seda
+tuleb korrata pärast Kotlini koodi muutmist. `npm run dev` trükib
+aadressi, millel leht avaneb.
+
+Veebilehe testid:
+
+        npm run check
+        npm test
+        npm run build
+        npm run e2e
+
+`npm run e2e` käivitab brauseritestid ehitatud lehe peal; esimesel korral
+on vaja brauser alla laadida käsuga `npx playwright install chromium`.
+Pärast muudatuse jõudmist harusse `main` ehitab ja testib GitHub Actions
+(fail `.github/workflows/sait.yml`) lehe ning avaldab selle GitHub Pagesis.
+
 ## Korratavus ja testid
 
 Kui soovid sama tulemust korduvalt saada, anna käivitamisel juhuslikkuse seeme:
@@ -153,7 +200,9 @@ Kui soovid sama tulemust korduvalt saada, anna käivitamisel juhuslikkuse seeme:
 
 Testide käivitamiseks kirjuta:
 
-        ./gradlew test
+        ./gradlew allTests
+
+See käivitab Kotlini testid nii JVM-il kui ka Node'is.
 
 Testid kontrollivad mandaatide jagamist kolmel viisil. Väikesed näited
 kontrollivad lihtkvooti, 0,75 jäägi reeglit, kompensatsioonimandaatide
