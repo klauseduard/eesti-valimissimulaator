@@ -33,7 +33,7 @@ onmessage = async (sündmus: MessageEvent<SõnumTöölisele>) => {
     try {
       if (simulaator === null) throw new Error('Andmed puuduvad');
       const korduv = simulaator.korduv(
-        new ToetusJs(sõnum.toetus.erakonnad, sõnum.toetus.protsendid), sõnum.seeme, sõnum.viga,
+        new ToetusJs(sõnum.toetus.erakonnad, sõnum.toetus.protsendid), sõnum.seeme, sõnum.viga[0], sõnum.viga[1],
       );
       await kordaPartiidena(sõnum.id, korduv, sõnum.kordi, sõnum.partii);
     } catch (viga) {

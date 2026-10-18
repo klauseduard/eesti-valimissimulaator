@@ -4,479 +4,481 @@
 #
 # andmed: Norstat, reitingufail reitingud/reitingud-2023-03-03.json
 # kordusi: 1000, seeme: 1
-# küsitluse viga: üleriigiline 0.156, ringkondlik 0.251 (2023. aasta küsitluste järgi)
+# küsitluse viga: üleriigiline 0.158, ringkondlik 0.251 (küsitluste koondmudeli tagasitestist, vt docs/tagasitestimine.md)
 #
 # erakondade mandaadid (vähim–suurim, keskmine):
-#   Eesti Reformierakond: 18–48, keskmiselt 32.6
-#   Eesti Konservatiivne Rahvaerakond: 13–40, keskmiselt 22.4
-#   Eesti Keskerakond: 9–32, keskmiselt 19.5
-#   Erakond Eesti 200: 6–20, keskmiselt 11.2
-#   ISAMAA Erakond: 0–14, keskmiselt 8.3
+#   Eesti Reformierakond: 21–49, keskmiselt 32.9
+#   Eesti Konservatiivne Rahvaerakond: 13–37, keskmiselt 22.2
+#   Eesti Keskerakond: 10–32, keskmiselt 19.4
+#   Erakond Eesti 200: 5–21, keskmiselt 11.3
+#   ISAMAA Erakond: 0–16, keskmiselt 8.3
 #   Sotsiaaldemokraatlik Erakond: 0–13, keskmiselt 6.9
 #
 ###############################################
-    990 Kandidaat(nimi=KAJA KALLAS, erakond=Eesti Reformierakond, valimisringkond=4
-    990 Kandidaat(nimi=SIIM KALLAS, erakond=Eesti Reformierakond, valimisringkond=2
-    984 Kandidaat(nimi=JÜRI RATAS, erakond=Eesti Keskerakond, valimisringkond=4
-    984 Kandidaat(nimi=MART HELME, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=12
-    981 Kandidaat(nimi=HANNO PEVKUR, erakond=Eesti Reformierakond, valimisringkond=6
-    981 Kandidaat(nimi=KRISTEN MICHAL, erakond=Eesti Reformierakond, valimisringkond=1
-    981 Kandidaat(nimi=URMAS PAET, erakond=Eesti Reformierakond, valimisringkond=3
-    979 Kandidaat(nimi=HENN PÕLLUAAS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=4
-    979 Kandidaat(nimi=LIINA KERSNA, erakond=Eesti Reformierakond, valimisringkond=11
-    979 Kandidaat(nimi=URMAS KLAAS, erakond=Eesti Reformierakond, valimisringkond=10
-    978 Kandidaat(nimi=URMAS KRUUSE, erakond=Eesti Reformierakond, valimisringkond=9
-    976 Kandidaat(nimi=JÜRGEN LIGI, erakond=Eesti Reformierakond, valimisringkond=8
-    973 Kandidaat(nimi=JAAK MADISON, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=8
-    971 Kandidaat(nimi=TANEL KIIK, erakond=Eesti Keskerakond, valimisringkond=1
-    969 Kandidaat(nimi=LAURI HUSSAR, erakond=Erakond Eesti 200, valimisringkond=4
-    963 Kandidaat(nimi=KALLE LAANET, erakond=Eesti Reformierakond, valimisringkond=5
-    959 Kandidaat(nimi=RAIN EPLER, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=11
-    957 Kandidaat(nimi=KRISTINA KALLAS, erakond=Erakond Eesti 200, valimisringkond=10
-    956 Kandidaat(nimi=HELLE-MOONIKA HELME, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=5
-    956 Kandidaat(nimi=MARTIN HELME, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=3
-    955 Kandidaat(nimi=MARKO MIHKELSON, erakond=Eesti Reformierakond, valimisringkond=4
-    954 Kandidaat(nimi=JAAK VALGE, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=10
-    954 Kandidaat(nimi=LEO KUNNAS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=2
-    951 Kandidaat(nimi=MIHHAIL KÕLVART, erakond=Eesti Keskerakond, valimisringkond=2
-    949 Kandidaat(nimi=JAAK AAB, erakond=Eesti Keskerakond, valimisringkond=8
-    949 Kandidaat(nimi=KERT KINGO, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=9
-    938 Kandidaat(nimi=URMAS REINSALU, erakond=ISAMAA Erakond, valimisringkond=4
-    933 Kandidaat(nimi=MAREK REINAAS, erakond=Erakond Eesti 200, valimisringkond=2
-    926 Kandidaat(nimi=HELIR-VALDOR SEEDER, erakond=ISAMAA Erakond, valimisringkond=8
-    923 Kandidaat(nimi=ANTI POOLAMETS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=6
-    921 Kandidaat(nimi=PRIIT SIBUL, erakond=ISAMAA Erakond, valimisringkond=11
+    996 Kandidaat(nimi=KAJA KALLAS, erakond=Eesti Reformierakond, valimisringkond=4
+    988 Kandidaat(nimi=URMAS KLAAS, erakond=Eesti Reformierakond, valimisringkond=10
+    987 Kandidaat(nimi=URMAS PAET, erakond=Eesti Reformierakond, valimisringkond=3
+    984 Kandidaat(nimi=KRISTEN MICHAL, erakond=Eesti Reformierakond, valimisringkond=1
+    981 Kandidaat(nimi=SIIM KALLAS, erakond=Eesti Reformierakond, valimisringkond=2
+    979 Kandidaat(nimi=TANEL KIIK, erakond=Eesti Keskerakond, valimisringkond=1
+    978 Kandidaat(nimi=HENN PÕLLUAAS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=4
+    978 Kandidaat(nimi=JÜRGEN LIGI, erakond=Eesti Reformierakond, valimisringkond=8
+    978 Kandidaat(nimi=JÜRI RATAS, erakond=Eesti Keskerakond, valimisringkond=4
+    977 Kandidaat(nimi=LAURI HUSSAR, erakond=Erakond Eesti 200, valimisringkond=4
+    976 Kandidaat(nimi=HANNO PEVKUR, erakond=Eesti Reformierakond, valimisringkond=6
+    974 Kandidaat(nimi=URMAS KRUUSE, erakond=Eesti Reformierakond, valimisringkond=9
+    972 Kandidaat(nimi=JAAK MADISON, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=8
+    972 Kandidaat(nimi=MART HELME, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=12
+    969 Kandidaat(nimi=KALLE LAANET, erakond=Eesti Reformierakond, valimisringkond=5
+    968 Kandidaat(nimi=LIINA KERSNA, erakond=Eesti Reformierakond, valimisringkond=11
+    961 Kandidaat(nimi=HELLE-MOONIKA HELME, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=5
+    958 Kandidaat(nimi=JAAK VALGE, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=10
+    953 Kandidaat(nimi=RAIN EPLER, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=11
+    951 Kandidaat(nimi=MARTIN HELME, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=3
+    950 Kandidaat(nimi=LEO KUNNAS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=2
+    948 Kandidaat(nimi=KERT KINGO, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=9
+    947 Kandidaat(nimi=KRISTINA KALLAS, erakond=Erakond Eesti 200, valimisringkond=10
+    947 Kandidaat(nimi=MARKO MIHKELSON, erakond=Eesti Reformierakond, valimisringkond=4
+    942 Kandidaat(nimi=HELIR-VALDOR SEEDER, erakond=ISAMAA Erakond, valimisringkond=8
+    942 Kandidaat(nimi=MIHHAIL KÕLVART, erakond=Eesti Keskerakond, valimisringkond=2
+    941 Kandidaat(nimi=JAAK AAB, erakond=Eesti Keskerakond, valimisringkond=8
+    937 Kandidaat(nimi=URMAS REINSALU, erakond=ISAMAA Erakond, valimisringkond=4
+    931 Kandidaat(nimi=MAREK REINAAS, erakond=Erakond Eesti 200, valimisringkond=2
+    928 Kandidaat(nimi=TÕNIS MÖLDER, erakond=Eesti Keskerakond, valimisringkond=2
+    923 Kandidaat(nimi=PRIIT SIBUL, erakond=ISAMAA Erakond, valimisringkond=11
+    916 Kandidaat(nimi=LAURI LÄÄNEMETS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=8
     915 Kandidaat(nimi=RIINA SIKKUT, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=3
-    915 Kandidaat(nimi=TÕNIS MÖLDER, erakond=Eesti Keskerakond, valimisringkond=2
-    897 Kandidaat(nimi=LAURI LÄÄNEMETS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=8
-    895 Kandidaat(nimi=GRIGORE-KALEV STOICESCU, erakond=Erakond Eesti 200, valimisringkond=5
-    893 Kandidaat(nimi=JAANUS KARILAID, erakond=Eesti Keskerakond, valimisringkond=5
-    893 Kandidaat(nimi=MARIS LAURI, erakond=Eesti Reformierakond, valimisringkond=3
-    892 Kandidaat(nimi=SIIM POHLAK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=4
-    885 Kandidaat(nimi=EERIK-NIILES KROSS, erakond=Eesti Reformierakond, valimisringkond=11
-    885 Kandidaat(nimi=TOOMAS KIVIMÄGI, erakond=Eesti Reformierakond, valimisringkond=12
-    880 Kandidaat(nimi=YOKO ALENDER, erakond=Eesti Reformierakond, valimisringkond=10
-    876 Kandidaat(nimi=YANA TOOM, erakond=Eesti Keskerakond, valimisringkond=7
-    871 Kandidaat(nimi=RIINA SOLMAN, erakond=ISAMAA Erakond, valimisringkond=1
-    871 Kandidaat(nimi=SIGNE RIISALO, erakond=Eesti Reformierakond, valimisringkond=1
-    865 Kandidaat(nimi=HEIDY PURGA, erakond=Eesti Reformierakond, valimisringkond=2
-    860 Kandidaat(nimi=KAIDO HÖÖVELSON, erakond=Eesti Keskerakond, valimisringkond=7
-    849 Kandidaat(nimi=MART VÕRKLAEV, erakond=Eesti Reformierakond, valimisringkond=4
-    831 Kandidaat(nimi=TÕNIS LUKAS, erakond=ISAMAA Erakond, valimisringkond=10
-    804 Kandidaat(nimi=ANNELY AKKERMANN, erakond=Eesti Reformierakond, valimisringkond=12
-    799 Kandidaat(nimi=KADRI TALI, erakond=Erakond Eesti 200, valimisringkond=12
-    797 Kandidaat(nimi=LUISA RÕIVAS, erakond=Eesti Reformierakond, valimisringkond=9
-    793 Kandidaat(nimi=ARVO ALLER, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=7
-    787 Kandidaat(nimi=URMAS REITELMANN, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=1
-    772 Kandidaat(nimi=HENDRIK JOHANNES TERRAS, erakond=Erakond Eesti 200, valimisringkond=1
-    752 Kandidaat(nimi=ANDRES SUTT, erakond=Eesti Reformierakond, valimisringkond=2
-    733 Kandidaat(nimi=LAURI LAATS, erakond=Eesti Keskerakond, valimisringkond=3
-    732 Kandidaat(nimi=KERSTI SARAPUU, erakond=Eesti Keskerakond, valimisringkond=8
-    730 Kandidaat(nimi=URVE TIIDUS, erakond=Eesti Reformierakond, valimisringkond=5
-    713 Kandidaat(nimi=ANTS LAANEOTS, erakond=Eesti Reformierakond, valimisringkond=10
-    708 Kandidaat(nimi=ERKKI KELDO, erakond=Eesti Reformierakond, valimisringkond=9
-    707 Kandidaat(nimi=EEVA HELME, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=2
-    675 Kandidaat(nimi=RENE KOKK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=4
-    674 Kandidaat(nimi=HELLE KULLERKUPP, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=12
-    660 Kandidaat(nimi=EVA-MARIA LIIMETS, erakond=Eesti Keskerakond, valimisringkond=4
-    658 Kandidaat(nimi=AIVAR KOKK, erakond=ISAMAA Erakond, valimisringkond=9
-    655 Kandidaat(nimi=AIVAR SÕERD, erakond=Eesti Reformierakond, valimisringkond=4
-    645 Kandidaat(nimi=VADIM BELOBROVTSEV, erakond=Eesti Keskerakond, valimisringkond=1
-    639 Kandidaat(nimi=ANTS FROSCH, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=11
-    631 Kandidaat(nimi=VLADIMIR SVET, erakond=Eesti Keskerakond, valimisringkond=2
-    612 Kandidaat(nimi=TAAVI AAS, erakond=Eesti Keskerakond, valimisringkond=9
-    608 Kandidaat(nimi=ERKI SAVISAAR, erakond=Eesti Keskerakond, valimisringkond=11
-    600 Kandidaat(nimi=RIHO TERRAS, erakond=ISAMAA Erakond, valimisringkond=2
-    587 Kandidaat(nimi=KARMEN JOLLER, erakond=Eesti Reformierakond, valimisringkond=2
-    571 Kandidaat(nimi=REILI RAND, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=5
-    570 Kandidaat(nimi=HELMEN KÜTT, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=8
-    555 Kandidaat(nimi=VILJA TOOMAST, erakond=Eesti Reformierakond, valimisringkond=3
-    550 Kandidaat(nimi=MEELIS KIILI, erakond=Eesti Reformierakond, valimisringkond=7
-    538 Kandidaat(nimi=VARRO VOOGLAID, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=1
-    532 Kandidaat(nimi=TARMO TAMM, erakond=Erakond Eesti 200, valimisringkond=6
-    527 Kandidaat(nimi=KALLE GRÜNTHAL, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=8
-    526 Kandidaat(nimi=ANDREI KOROBEINIK, erakond=Eesti Keskerakond, valimisringkond=12
-    521 Kandidaat(nimi=ENN EESMAA, erakond=Eesti Keskerakond, valimisringkond=12
-    520 Kandidaat(nimi=MERRY AART, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=11
-    518 Kandidaat(nimi=PIPI-LIIS SIEMANN, erakond=Eesti Reformierakond, valimisringkond=8
-    500 Kandidaat(nimi=TOOMAS UIBO, erakond=Erakond Eesti 200, valimisringkond=4
-    489 Kandidaat(nimi=OKSANA TANDIT, erakond=Eesti Reformierakond, valimisringkond=1
-    488 Kandidaat(nimi=JÜRI JAANSON, erakond=Eesti Reformierakond, valimisringkond=12
-    470 Kandidaat(nimi=PEETER ERNITS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=9
-    462 Kandidaat(nimi=DANIEL MEREÄÄR, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=5
-    460 Kandidaat(nimi=JOHANNA-MARIA LEHTME, erakond=Erakond Eesti 200, valimisringkond=1
-    442 Kandidaat(nimi=RAIMOND KALJULAID, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=1
-    434 Kandidaat(nimi=IGOR TARO, erakond=Erakond Eesti 200, valimisringkond=11
-    432 Kandidaat(nimi=EVELIN POOLAMETS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=6
+    904 Kandidaat(nimi=JAANUS KARILAID, erakond=Eesti Keskerakond, valimisringkond=5
+    899 Kandidaat(nimi=ANTI POOLAMETS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=6
+    899 Kandidaat(nimi=SIGNE RIISALO, erakond=Eesti Reformierakond, valimisringkond=1
+    895 Kandidaat(nimi=MARIS LAURI, erakond=Eesti Reformierakond, valimisringkond=3
+    895 Kandidaat(nimi=RIINA SOLMAN, erakond=ISAMAA Erakond, valimisringkond=1
+    893 Kandidaat(nimi=GRIGORE-KALEV STOICESCU, erakond=Erakond Eesti 200, valimisringkond=5
+    891 Kandidaat(nimi=TOOMAS KIVIMÄGI, erakond=Eesti Reformierakond, valimisringkond=12
+    890 Kandidaat(nimi=YANA TOOM, erakond=Eesti Keskerakond, valimisringkond=7
+    890 Kandidaat(nimi=YOKO ALENDER, erakond=Eesti Reformierakond, valimisringkond=10
+    874 Kandidaat(nimi=SIIM POHLAK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=4
+    867 Kandidaat(nimi=EERIK-NIILES KROSS, erakond=Eesti Reformierakond, valimisringkond=11
+    864 Kandidaat(nimi=HEIDY PURGA, erakond=Eesti Reformierakond, valimisringkond=2
+    851 Kandidaat(nimi=MART VÕRKLAEV, erakond=Eesti Reformierakond, valimisringkond=4
+    827 Kandidaat(nimi=KAIDO HÖÖVELSON, erakond=Eesti Keskerakond, valimisringkond=7
+    822 Kandidaat(nimi=TÕNIS LUKAS, erakond=ISAMAA Erakond, valimisringkond=10
+    808 Kandidaat(nimi=LUISA RÕIVAS, erakond=Eesti Reformierakond, valimisringkond=9
+    798 Kandidaat(nimi=ANNELY AKKERMANN, erakond=Eesti Reformierakond, valimisringkond=12
+    789 Kandidaat(nimi=HENDRIK JOHANNES TERRAS, erakond=Erakond Eesti 200, valimisringkond=1
+    779 Kandidaat(nimi=ARVO ALLER, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=7
+    770 Kandidaat(nimi=URMAS REITELMANN, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=1
+    763 Kandidaat(nimi=KADRI TALI, erakond=Erakond Eesti 200, valimisringkond=12
+    755 Kandidaat(nimi=KERSTI SARAPUU, erakond=Eesti Keskerakond, valimisringkond=8
+    737 Kandidaat(nimi=LAURI LAATS, erakond=Eesti Keskerakond, valimisringkond=3
+    729 Kandidaat(nimi=ANDRES SUTT, erakond=Eesti Reformierakond, valimisringkond=2
+    719 Kandidaat(nimi=ANTS LAANEOTS, erakond=Eesti Reformierakond, valimisringkond=10
+    715 Kandidaat(nimi=URVE TIIDUS, erakond=Eesti Reformierakond, valimisringkond=5
+    700 Kandidaat(nimi=EEVA HELME, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=2
+    698 Kandidaat(nimi=ERKKI KELDO, erakond=Eesti Reformierakond, valimisringkond=9
+    688 Kandidaat(nimi=RENE KOKK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=4
+    666 Kandidaat(nimi=AIVAR SÕERD, erakond=Eesti Reformierakond, valimisringkond=4
+    664 Kandidaat(nimi=EVA-MARIA LIIMETS, erakond=Eesti Keskerakond, valimisringkond=4
+    655 Kandidaat(nimi=AIVAR KOKK, erakond=ISAMAA Erakond, valimisringkond=9
+    649 Kandidaat(nimi=VADIM BELOBROVTSEV, erakond=Eesti Keskerakond, valimisringkond=1
+    649 Kandidaat(nimi=VLADIMIR SVET, erakond=Eesti Keskerakond, valimisringkond=2
+    645 Kandidaat(nimi=HELLE KULLERKUPP, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=12
+    619 Kandidaat(nimi=ANTS FROSCH, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=11
+    611 Kandidaat(nimi=REILI RAND, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=5
+    595 Kandidaat(nimi=KARMEN JOLLER, erakond=Eesti Reformierakond, valimisringkond=2
+    584 Kandidaat(nimi=ERKI SAVISAAR, erakond=Eesti Keskerakond, valimisringkond=11
+    569 Kandidaat(nimi=TAAVI AAS, erakond=Eesti Keskerakond, valimisringkond=9
+    568 Kandidaat(nimi=RIHO TERRAS, erakond=ISAMAA Erakond, valimisringkond=2
+    564 Kandidaat(nimi=ANDREI KOROBEINIK, erakond=Eesti Keskerakond, valimisringkond=12
+    562 Kandidaat(nimi=MEELIS KIILI, erakond=Eesti Reformierakond, valimisringkond=7
+    549 Kandidaat(nimi=HELMEN KÜTT, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=8
+    544 Kandidaat(nimi=PIPI-LIIS SIEMANN, erakond=Eesti Reformierakond, valimisringkond=8
+    543 Kandidaat(nimi=TARMO TAMM, erakond=Erakond Eesti 200, valimisringkond=6
+    542 Kandidaat(nimi=VILJA TOOMAST, erakond=Eesti Reformierakond, valimisringkond=3
+    541 Kandidaat(nimi=KALLE GRÜNTHAL, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=8
+    525 Kandidaat(nimi=TOOMAS UIBO, erakond=Erakond Eesti 200, valimisringkond=4
+    511 Kandidaat(nimi=MERRY AART, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=11
+    500 Kandidaat(nimi=VARRO VOOGLAID, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=1
+    497 Kandidaat(nimi=ENN EESMAA, erakond=Eesti Keskerakond, valimisringkond=12
+    489 Kandidaat(nimi=DANIEL MEREÄÄR, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=5
+    477 Kandidaat(nimi=OKSANA TANDIT, erakond=Eesti Reformierakond, valimisringkond=1
+    474 Kandidaat(nimi=JOHANNA-MARIA LEHTME, erakond=Erakond Eesti 200, valimisringkond=1
+    462 Kandidaat(nimi=LIISA-LY PAKOSTA, erakond=Erakond Eesti 200, valimisringkond=2
+    459 Kandidaat(nimi=JÜRI JAANSON, erakond=Eesti Reformierakond, valimisringkond=12
+    459 Kandidaat(nimi=TARMO TAMM, erakond=Eesti Keskerakond, valimisringkond=11
+    457 Kandidaat(nimi=IGOR SCHVEDE, erakond=Eesti Reformierakond, valimisringkond=3
+    453 Kandidaat(nimi=RAIMOND KALJULAID, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=1
+    448 Kandidaat(nimi=PEETER ERNITS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=9
+    445 Kandidaat(nimi=JEVGENI OSSINOVSKI, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=2
+    444 Kandidaat(nimi=KRISTINA ŠMIGUN-VÄHI, erakond=Eesti Reformierakond, valimisringkond=4
+    443 Kandidaat(nimi=ANDRUS SEEME, erakond=Eesti Reformierakond, valimisringkond=11
+    437 Kandidaat(nimi=LOONE OTS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=10
     430 Kandidaat(nimi=ANASTASSIA KOVALENKO-KÕLVART, erakond=Eesti Keskerakond, valimisringkond=1
-    429 Kandidaat(nimi=ESTER KARUSE, erakond=Eesti Keskerakond, valimisringkond=11
-    428 Kandidaat(nimi=LIISA-LY PAKOSTA, erakond=Erakond Eesti 200, valimisringkond=2
-    423 Kandidaat(nimi=TARMO TAMM, erakond=Eesti Keskerakond, valimisringkond=11
-    421 Kandidaat(nimi=IGOR SCHVEDE, erakond=Eesti Reformierakond, valimisringkond=3
-    421 Kandidaat(nimi=KRISTINA ŠMIGUN-VÄHI, erakond=Eesti Reformierakond, valimisringkond=4
-    418 Kandidaat(nimi=LOONE OTS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=10
-    417 Kandidaat(nimi=MADIS TIMPSON, erakond=Eesti Reformierakond, valimisringkond=8
-    412 Kandidaat(nimi=KATRIN KUUSEMÄE, erakond=Eesti Reformierakond, valimisringkond=6
-    406 Kandidaat(nimi=MARKUS JÄRVI, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=3
-    404 Kandidaat(nimi=JEVGENI OSSINOVSKI, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=2
-    398 Kandidaat(nimi=ANDRUS SEEME, erakond=Eesti Reformierakond, valimisringkond=11
-    388 Kandidaat(nimi=AIVAR RIISALU, erakond=Eesti Keskerakond, valimisringkond=2
-    387 Kandidaat(nimi=IRJA LUTSAR, erakond=Erakond Eesti 200, valimisringkond=9
-    384 Kandidaat(nimi=MARINA KALJURAND, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=4
-    383 Kandidaat(nimi=MAREK JÜRGENSON, erakond=Eesti Keskerakond, valimisringkond=1
-    380 Kandidaat(nimi=MARKO ŠORIN, erakond=Eesti Keskerakond, valimisringkond=12
-    373 Kandidaat(nimi=TIIT TERIK, erakond=Eesti Keskerakond, valimisringkond=3
-    371 Kandidaat(nimi=MARTI KUUSIK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=6
-    359 Kandidaat(nimi=MAIDO RUUSMANN, erakond=Eesti Reformierakond, valimisringkond=11
-    356 Kandidaat(nimi=PEETER TALI, erakond=Erakond Eesti 200, valimisringkond=12
-    335 Kandidaat(nimi=ANDRE HANIMÄGI, erakond=Eesti Keskerakond, valimisringkond=1
-    334 Kandidaat(nimi=MATI RAIDMA, erakond=Eesti Reformierakond, valimisringkond=1
-    333 Kandidaat(nimi=SIRET KOTKA, erakond=Eesti Keskerakond, valimisringkond=6
-    331 Kandidaat(nimi=TOOMAS JÄRVEOJA, erakond=Eesti Reformierakond, valimisringkond=9
-    325 Kandidaat(nimi=MARIS TOOMEL, erakond=Eesti Reformierakond, valimisringkond=7
+    424 Kandidaat(nimi=MADIS TIMPSON, erakond=Eesti Reformierakond, valimisringkond=8
+    421 Kandidaat(nimi=MARINA KALJURAND, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=4
+    415 Kandidaat(nimi=KATRIN KUUSEMÄE, erakond=Eesti Reformierakond, valimisringkond=6
+    414 Kandidaat(nimi=ESTER KARUSE, erakond=Eesti Keskerakond, valimisringkond=11
+    395 Kandidaat(nimi=IGOR TARO, erakond=Erakond Eesti 200, valimisringkond=11
+    395 Kandidaat(nimi=MARKUS JÄRVI, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=3
+    392 Kandidaat(nimi=EVELIN POOLAMETS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=6
+    389 Kandidaat(nimi=MAIDO RUUSMANN, erakond=Eesti Reformierakond, valimisringkond=11
+    377 Kandidaat(nimi=PEETER TALI, erakond=Erakond Eesti 200, valimisringkond=12
+    374 Kandidaat(nimi=IRJA LUTSAR, erakond=Erakond Eesti 200, valimisringkond=9
+    372 Kandidaat(nimi=AIVAR RIISALU, erakond=Eesti Keskerakond, valimisringkond=2
+    372 Kandidaat(nimi=TIIT TERIK, erakond=Eesti Keskerakond, valimisringkond=3
+    368 Kandidaat(nimi=MATI RAIDMA, erakond=Eesti Reformierakond, valimisringkond=1
+    360 Kandidaat(nimi=TOOMAS JÄRVEOJA, erakond=Eesti Reformierakond, valimisringkond=9
+    354 Kandidaat(nimi=IVARI PADAR, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=11
+    352 Kandidaat(nimi=MARTI KUUSIK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=6
+    351 Kandidaat(nimi=MAREK JÜRGENSON, erakond=Eesti Keskerakond, valimisringkond=1
+    337 Kandidaat(nimi=DMITRI DMITRIJEV, erakond=Eesti Keskerakond, valimisringkond=7
+    336 Kandidaat(nimi=ALAR LANEMAN, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=12
+    324 Kandidaat(nimi=MARIS TOOMEL, erakond=Eesti Reformierakond, valimisringkond=7
     322 Kandidaat(nimi=MARGIT SUTROP, erakond=Eesti Reformierakond, valimisringkond=10
-    321 Kandidaat(nimi=IRINA TALVISTE, erakond=Eesti Reformierakond, valimisringkond=12
-    315 Kandidaat(nimi=ALAR LANEMAN, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=12
-    315 Kandidaat(nimi=IVARI PADAR, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=11
-    313 Kandidaat(nimi=DMITRI DMITRIJEV, erakond=Eesti Keskerakond, valimisringkond=7
-    312 Kandidaat(nimi=JAAN TOOTS, erakond=Eesti Keskerakond, valimisringkond=10
-    310 Kandidaat(nimi=RAIVO AEG, erakond=ISAMAA Erakond, valimisringkond=4
-    306 Kandidaat(nimi=MARGUS TSAHKNA, erakond=Erakond Eesti 200, valimisringkond=3
-    305 Kandidaat(nimi=SVEN SOIVER, erakond=Eesti Keskerakond, valimisringkond=4
-    301 Kandidaat(nimi=ÕNNE PILLAK, erakond=Eesti Reformierakond, valimisringkond=3
-    299 Kandidaat(nimi=SILVER KUUSIK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=10
-    288 Kandidaat(nimi=VALDO RANDPERE, erakond=Eesti Reformierakond, valimisringkond=2
-    287 Kandidaat(nimi=AIVAR VIIDIK, erakond=Eesti Reformierakond, valimisringkond=5
-    285 Kandidaat(nimi=KAI RIMMEL, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=4
-    282 Kandidaat(nimi=EDUARD ODINETS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=7
-    276 Kandidaat(nimi=TANEL TEIN, erakond=Erakond Eesti 200, valimisringkond=10
-    265 Kandidaat(nimi=KÜLLI TAMMUR, erakond=Erakond Eesti 200, valimisringkond=4
-    263 Kandidaat(nimi=TIMO SUSLOV, erakond=Eesti Reformierakond, valimisringkond=4
-    261 Kandidaat(nimi=ANDRES METSOJA, erakond=ISAMAA Erakond, valimisringkond=12
-    259 Kandidaat(nimi=HELJO PIKHOF, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=10
-    253 Kandidaat(nimi=TRIIN VAREK, erakond=Eesti Keskerakond, valimisringkond=6
-    233 Kandidaat(nimi=MAIT TALU, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=2
-    230 Kandidaat(nimi=ELAR NIGLAS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=8
-    222 Kandidaat(nimi=MIHKEL LEES, erakond=Eesti Reformierakond, valimisringkond=10
-    219 Kandidaat(nimi=JUHANI JAEGER, erakond=ISAMAA Erakond, valimisringkond=9
-    206 Kandidaat(nimi=KOIT KELDER, erakond=Erakond Eesti 200, valimisringkond=5
-    199 Kandidaat(nimi=MARKO SAKSING, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=9
-    191 Kandidaat(nimi=MADLE LIPPUS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=2
-    188 Kandidaat(nimi=KRISTJAN JÄRVAN, erakond=ISAMAA Erakond, valimisringkond=1
-    188 Kandidaat(nimi=SIGNE KIVI, erakond=Eesti Reformierakond, valimisringkond=10
-    187 Kandidaat(nimi=JAAK JUSKE, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=1
-    186 Kandidaat(nimi=SVEN SILDNIK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=12
-    182 Kandidaat(nimi=TIIT MARAN, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=4
-    181 Kandidaat(nimi=MARIA JUFEREVA-SKURATOVSKI, erakond=Eesti Keskerakond, valimisringkond=2
-    173 Kandidaat(nimi=MAKSIM ILJIN, erakond=Erakond Eesti 200, valimisringkond=7
-    170 Kandidaat(nimi=AADU MUST, erakond=Eesti Keskerakond, valimisringkond=10
-    169 Kandidaat(nimi=KRISTJAN MOORA, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=5
-    168 Kandidaat(nimi=INDREK KESKÜLA, erakond=Eesti Reformierakond, valimisringkond=6
-    166 Kandidaat(nimi=RÜNDO MÜLTS, erakond=ISAMAA Erakond, valimisringkond=8
-    159 Kandidaat(nimi=MIHHAIL LOTMAN, erakond=ISAMAA Erakond, valimisringkond=10
-    157 Kandidaat(nimi=SVEN MIKSER, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=3
-    152 Kandidaat(nimi=PEETER RAHNEL, erakond=Eesti Keskerakond, valimisringkond=8
-    152 Kandidaat(nimi=TUNNE-VÄLDO KELAM, erakond=ISAMAA Erakond, valimisringkond=11
-    151 Kandidaat(nimi=RIHO BREIVEL, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=7
-    146 Kandidaat(nimi=ZÜLEYXA IZMAILOVA, erakond=Erakond Eesti 200, valimisringkond=1
-    141 Kandidaat(nimi=KRIS LEINATAMM, erakond=Erakond Eesti 200, valimisringkond=3
-    139 Kandidaat(nimi=ANTI ALLAS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=11
-    135 Kandidaat(nimi=HELEN REBANE, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=11
-    134 Kandidaat(nimi=RAIT PIHELGAS, erakond=Eesti Reformierakond, valimisringkond=8
-    131 Kandidaat(nimi=MART MAASTIK, erakond=ISAMAA Erakond, valimisringkond=5
-    130 Kandidaat(nimi=LAURI VAHTRE, erakond=ISAMAA Erakond, valimisringkond=4
-    130 Kandidaat(nimi=URMAS ESPENBERG, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=1
-    130 Kandidaat(nimi=VLADIMIR ARHIPOV, erakond=Eesti Keskerakond, valimisringkond=4
-    129 Kandidaat(nimi=ARKADI POPOV, erakond=Eesti Keskerakond, valimisringkond=3
+    321 Kandidaat(nimi=ÕNNE PILLAK, erakond=Eesti Reformierakond, valimisringkond=3
+    318 Kandidaat(nimi=SVEN SOIVER, erakond=Eesti Keskerakond, valimisringkond=4
+    313 Kandidaat(nimi=ANDRE HANIMÄGI, erakond=Eesti Keskerakond, valimisringkond=1
+    313 Kandidaat(nimi=IRINA TALVISTE, erakond=Eesti Reformierakond, valimisringkond=12
+    312 Kandidaat(nimi=MARKO ŠORIN, erakond=Eesti Keskerakond, valimisringkond=12
+    311 Kandidaat(nimi=JAAN TOOTS, erakond=Eesti Keskerakond, valimisringkond=10
+    309 Kandidaat(nimi=RAIVO AEG, erakond=ISAMAA Erakond, valimisringkond=4
+    307 Kandidaat(nimi=AIVAR VIIDIK, erakond=Eesti Reformierakond, valimisringkond=5
+    301 Kandidaat(nimi=SILVER KUUSIK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=10
+    296 Kandidaat(nimi=VALDO RANDPERE, erakond=Eesti Reformierakond, valimisringkond=2
+    295 Kandidaat(nimi=TANEL TEIN, erakond=Erakond Eesti 200, valimisringkond=10
+    294 Kandidaat(nimi=KAI RIMMEL, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=4
+    293 Kandidaat(nimi=MARGUS TSAHKNA, erakond=Erakond Eesti 200, valimisringkond=3
+    283 Kandidaat(nimi=SIRET KOTKA, erakond=Eesti Keskerakond, valimisringkond=6
+    278 Kandidaat(nimi=TIMO SUSLOV, erakond=Eesti Reformierakond, valimisringkond=4
+    276 Kandidaat(nimi=TRIIN VAREK, erakond=Eesti Keskerakond, valimisringkond=6
+    269 Kandidaat(nimi=HELJO PIKHOF, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=10
+    267 Kandidaat(nimi=ANDRES METSOJA, erakond=ISAMAA Erakond, valimisringkond=12
+    254 Kandidaat(nimi=EDUARD ODINETS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=7
+    250 Kandidaat(nimi=KÜLLI TAMMUR, erakond=Erakond Eesti 200, valimisringkond=4
+    226 Kandidaat(nimi=KOIT KELDER, erakond=Erakond Eesti 200, valimisringkond=5
+    224 Kandidaat(nimi=ELAR NIGLAS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=8
+    224 Kandidaat(nimi=MAIT TALU, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=2
+    206 Kandidaat(nimi=MIHKEL LEES, erakond=Eesti Reformierakond, valimisringkond=10
+    202 Kandidaat(nimi=SIGNE KIVI, erakond=Eesti Reformierakond, valimisringkond=10
+    196 Kandidaat(nimi=MARKO SAKSING, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=9
+    195 Kandidaat(nimi=MARIA JUFEREVA-SKURATOVSKI, erakond=Eesti Keskerakond, valimisringkond=2
+    190 Kandidaat(nimi=JAAK JUSKE, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=1
+    187 Kandidaat(nimi=JUHANI JAEGER, erakond=ISAMAA Erakond, valimisringkond=9
+    185 Kandidaat(nimi=SVEN SILDNIK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=12
+    184 Kandidaat(nimi=MAKSIM ILJIN, erakond=Erakond Eesti 200, valimisringkond=7
+    174 Kandidaat(nimi=AADU MUST, erakond=Eesti Keskerakond, valimisringkond=10
+    170 Kandidaat(nimi=TIIT MARAN, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=4
+    167 Kandidaat(nimi=KRISTJAN MOORA, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=5
+    162 Kandidaat(nimi=KRISTJAN JÄRVAN, erakond=ISAMAA Erakond, valimisringkond=1
+    160 Kandidaat(nimi=ALEKSEI JEVGRAFOV, erakond=Eesti Keskerakond, valimisringkond=7
+    159 Kandidaat(nimi=INDREK KESKÜLA, erakond=Eesti Reformierakond, valimisringkond=6
+    158 Kandidaat(nimi=MADLE LIPPUS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=2
+    158 Kandidaat(nimi=RÜNDO MÜLTS, erakond=ISAMAA Erakond, valimisringkond=8
+    158 Kandidaat(nimi=SVEN MIKSER, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=3
+    153 Kandidaat(nimi=MIHHAIL LOTMAN, erakond=ISAMAA Erakond, valimisringkond=10
+    151 Kandidaat(nimi=ARKADI POPOV, erakond=Eesti Keskerakond, valimisringkond=3
+    151 Kandidaat(nimi=KATRIN MARTINFELD, erakond=Erakond Eesti 200, valimisringkond=11
+    150 Kandidaat(nimi=TUNNE-VÄLDO KELAM, erakond=ISAMAA Erakond, valimisringkond=11
+    143 Kandidaat(nimi=MÄRT MEESAK, erakond=Erakond Eesti 200, valimisringkond=9
+    143 Kandidaat(nimi=RAIT PIHELGAS, erakond=Eesti Reformierakond, valimisringkond=8
+    135 Kandidaat(nimi=ZÜLEYXA IZMAILOVA, erakond=Erakond Eesti 200, valimisringkond=1
+    134 Kandidaat(nimi=ANTI ALLAS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=11
+    132 Kandidaat(nimi=HANAH LAHE, erakond=Eesti Reformierakond, valimisringkond=1
+    130 Kandidaat(nimi=MART MAASTIK, erakond=ISAMAA Erakond, valimisringkond=5
+    129 Kandidaat(nimi=HELEN REBANE, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=11
+    129 Kandidaat(nimi=PEETER RAHNEL, erakond=Eesti Keskerakond, valimisringkond=8
     128 Kandidaat(nimi=AIVAR SURVA, erakond=Eesti Reformierakond, valimisringkond=7
-    125 Kandidaat(nimi=ALEKSEI JEVGRAFOV, erakond=Eesti Keskerakond, valimisringkond=7
-    124 Kandidaat(nimi=KATRIN MARTINFELD, erakond=Erakond Eesti 200, valimisringkond=11
-    124 Kandidaat(nimi=MÄRT MEESAK, erakond=Erakond Eesti 200, valimisringkond=9
-    122 Kandidaat(nimi=HANAH LAHE, erakond=Eesti Reformierakond, valimisringkond=1
-    122 Kandidaat(nimi=IGNAR FJUK, erakond=Erakond Eesti 200, valimisringkond=2
-    120 Kandidaat(nimi=PÄRTEL-PEETER PERE, erakond=Eesti Reformierakond, valimisringkond=1
-    117 Kandidaat(nimi=AARNE MÄE, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=6
-    113 Kandidaat(nimi=RAIVO TAMM, erakond=ISAMAA Erakond, valimisringkond=3
-    113 Kandidaat(nimi=RUDOLF JEESER, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=4
-    112 Kandidaat(nimi=PRIIT LOMP, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=9
-    110 Kandidaat(nimi=NEEME VÄLI, erakond=Eesti Keskerakond, valimisringkond=5
-    109 Kandidaat(nimi=KRISTA ARU, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=10
-    103 Kandidaat(nimi=MARIO KADASTIK, erakond=Eesti Reformierakond, valimisringkond=4
-    103 Kandidaat(nimi=MONIKA HAUKANÕMM, erakond=Eesti Keskerakond, valimisringkond=2
-     98 Kandidaat(nimi=GEA KANGILASKI, erakond=Erakond Eesti 200, valimisringkond=10
-     98 Kandidaat(nimi=RAUL-STIG RÄSTA, erakond=Erakond Eesti 200, valimisringkond=4
-     90 Kandidaat(nimi=KADRI VILBA, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=3
-     85 Kandidaat(nimi=REIN SUURKASK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=8
-     85 Kandidaat(nimi=TRIIN NÕMMISTU, erakond=Eesti Reformierakond, valimisringkond=9
-     82 Kandidaat(nimi=DENIS LARCHENKO, erakond=Erakond Eesti 200, valimisringkond=7
-     78 Kandidaat(nimi=IVAN MAKAROV, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=2
-     77 Kandidaat(nimi=NATALIE METS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=1
-     72 Kandidaat(nimi=LIIVIKA TOMING, erakond=Eesti Reformierakond, valimisringkond=6
-     70 Kandidaat(nimi=JAANUS RATAS, erakond=Eesti Reformierakond, valimisringkond=5
-     70 Kandidaat(nimi=KAI TARMULA, erakond=Erakond Eesti 200, valimisringkond=5
-     70 Kandidaat(nimi=REET ALEV, erakond=ISAMAA Erakond, valimisringkond=9
-     69 Kandidaat(nimi=TIIT KALA, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=11
-     64 Kandidaat(nimi=AIVAR ROSENBERG, erakond=Eesti Reformierakond, valimisringkond=11
-     64 Kandidaat(nimi=ANTI HAUGAS, erakond=Eesti Reformierakond, valimisringkond=11
-     63 Kandidaat(nimi=HELVE SÄRGAVA, erakond=Eesti Keskerakond, valimisringkond=3
-     61 Kandidaat(nimi=ENN LISTRA, erakond=Eesti Reformierakond, valimisringkond=2
-     61 Kandidaat(nimi=KAAREL OJA, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=2
-     60 Kandidaat(nimi=KÜLLI URB, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=3
-     60 Kandidaat(nimi=LEA DANILSON-JÄRG, erakond=ISAMAA Erakond, valimisringkond=3
-     59 Kandidaat(nimi=IGOR GRÄZIN, erakond=Eesti Keskerakond, valimisringkond=9
-     59 Kandidaat(nimi=JÜRI ROSS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=4
-     59 Kandidaat(nimi=MIHKEL UNDREST, erakond=Eesti Keskerakond, valimisringkond=5
-     58 Kandidaat(nimi=HELEN HÄÄL, erakond=ISAMAA Erakond, valimisringkond=1
-     56 Kandidaat(nimi=ALAR KARU, erakond=ISAMAA Erakond, valimisringkond=8
-     56 Kandidaat(nimi=ARVI KAROTAM, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=12
+    126 Kandidaat(nimi=PÄRTEL-PEETER PERE, erakond=Eesti Reformierakond, valimisringkond=1
+    120 Kandidaat(nimi=AARNE MÄE, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=6
+    120 Kandidaat(nimi=URMAS ESPENBERG, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=1
+    119 Kandidaat(nimi=GEA KANGILASKI, erakond=Erakond Eesti 200, valimisringkond=10
+    119 Kandidaat(nimi=LAURI VAHTRE, erakond=ISAMAA Erakond, valimisringkond=4
+    118 Kandidaat(nimi=RUDOLF JEESER, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=4
+    116 Kandidaat(nimi=IGNAR FJUK, erakond=Erakond Eesti 200, valimisringkond=2
+    116 Kandidaat(nimi=RIHO BREIVEL, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=7
+    113 Kandidaat(nimi=KRIS LEINATAMM, erakond=Erakond Eesti 200, valimisringkond=3
+    112 Kandidaat(nimi=VLADIMIR ARHIPOV, erakond=Eesti Keskerakond, valimisringkond=4
+    110 Kandidaat(nimi=MARIO KADASTIK, erakond=Eesti Reformierakond, valimisringkond=4
+    108 Kandidaat(nimi=NEEME VÄLI, erakond=Eesti Keskerakond, valimisringkond=5
+    106 Kandidaat(nimi=RAIVO TAMM, erakond=ISAMAA Erakond, valimisringkond=3
+    105 Kandidaat(nimi=PRIIT LOMP, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=9
+     97 Kandidaat(nimi=REIN SUURKASK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=8
+     94 Kandidaat(nimi=IVAN MAKAROV, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=2
+     89 Kandidaat(nimi=KRISTA ARU, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=10
+     88 Kandidaat(nimi=KADRI VILBA, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=3
+     87 Kandidaat(nimi=RAUL-STIG RÄSTA, erakond=Erakond Eesti 200, valimisringkond=4
+     82 Kandidaat(nimi=REET ALEV, erakond=ISAMAA Erakond, valimisringkond=9
+     79 Kandidaat(nimi=JAANUS RATAS, erakond=Eesti Reformierakond, valimisringkond=5
+     77 Kandidaat(nimi=MONIKA HAUKANÕMM, erakond=Eesti Keskerakond, valimisringkond=2
+     75 Kandidaat(nimi=DENIS LARCHENKO, erakond=Erakond Eesti 200, valimisringkond=7
+     69 Kandidaat(nimi=NATALIE METS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=1
+     68 Kandidaat(nimi=HELEN HÄÄL, erakond=ISAMAA Erakond, valimisringkond=1
+     67 Kandidaat(nimi=TRIIN NÕMMISTU, erakond=Eesti Reformierakond, valimisringkond=9
+     66 Kandidaat(nimi=AIVAR ROSENBERG, erakond=Eesti Reformierakond, valimisringkond=11
+     66 Kandidaat(nimi=KAI TARMULA, erakond=Erakond Eesti 200, valimisringkond=5
+     65 Kandidaat(nimi=KAAREL OJA, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=2
+     64 Kandidaat(nimi=ENN LISTRA, erakond=Eesti Reformierakond, valimisringkond=2
+     64 Kandidaat(nimi=LEA DANILSON-JÄRG, erakond=ISAMAA Erakond, valimisringkond=3
+     63 Kandidaat(nimi=JÜRI ROSS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=4
+     63 Kandidaat(nimi=LIIVIKA TOMING, erakond=Eesti Reformierakond, valimisringkond=6
+     61 Kandidaat(nimi=ANTI HAUGAS, erakond=Eesti Reformierakond, valimisringkond=11
+     61 Kandidaat(nimi=KASPAR KOKK, erakond=ISAMAA Erakond, valimisringkond=10
+     61 Kandidaat(nimi=LAURI KONI, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=9
+     61 Kandidaat(nimi=MADIS KALLAS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=5
+     58 Kandidaat(nimi=ALAR KARU, erakond=ISAMAA Erakond, valimisringkond=8
+     58 Kandidaat(nimi=IGOR GRÄZIN, erakond=Eesti Keskerakond, valimisringkond=9
+     58 Kandidaat(nimi=MAIDO NÕLVAK, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=6
+     58 Kandidaat(nimi=SIRJE TOBRELUTS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=11
+     57 Kandidaat(nimi=ARVI KAROTAM, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=12
+     57 Kandidaat(nimi=KAUPO KUTSAR, erakond=Erakond Eesti 200, valimisringkond=11
+     56 Kandidaat(nimi=MIHKEL UNDREST, erakond=Eesti Keskerakond, valimisringkond=5
      56 Kandidaat(nimi=TARMO KRUUSIMÄE, erakond=ISAMAA Erakond, valimisringkond=2
-     55 Kandidaat(nimi=KASPAR KOKK, erakond=ISAMAA Erakond, valimisringkond=10
+     55 Kandidaat(nimi=KÜLLI URB, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=3
      55 Kandidaat(nimi=ÜLLAR SAAREMÄE, erakond=ISAMAA Erakond, valimisringkond=6
-     54 Kandidaat(nimi=LAURI KONI, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=9
-     54 Kandidaat(nimi=SIRJE TOBRELUTS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=11
-     53 Kandidaat(nimi=KAIRIT PIHLAK, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=6
-     52 Kandidaat(nimi=HARDI REHKALT, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=5
-     50 Kandidaat(nimi=ELO LUTSEPP, erakond=Erakond Eesti 200, valimisringkond=9
-     49 Kandidaat(nimi=ANNEKI TEELAHK, erakond=Eesti Reformierakond, valimisringkond=7
-     48 Kandidaat(nimi=ANDO KIVIBERG, erakond=Erakond Eesti 200, valimisringkond=8
-     48 Kandidaat(nimi=EERO MERILIND, erakond=Eesti Reformierakond, valimisringkond=3
-     48 Kandidaat(nimi=TARMO ALT, erakond=Eesti Reformierakond, valimisringkond=8
-     47 Kandidaat(nimi=ANNELI KANNUS, erakond=Erakond Eesti 200, valimisringkond=10
+     54 Kandidaat(nimi=HELVE SÄRGAVA, erakond=Eesti Keskerakond, valimisringkond=3
+     53 Kandidaat(nimi=TIIT KALA, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=11
+     51 Kandidaat(nimi=ANNIKA VAIKLA, erakond=Eesti Keskerakond, valimisringkond=4
+     51 Kandidaat(nimi=HARDI REHKALT, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=5
+     50 Kandidaat(nimi=HEIKI HEPNER, erakond=ISAMAA Erakond, valimisringkond=4
+     49 Kandidaat(nimi=MONIKA ROGENBAUM, erakond=ISAMAA Erakond, valimisringkond=11
+     49 Kandidaat(nimi=NIKOLAI BENTSLER, erakond=Erakond Eesti 200, valimisringkond=2
+     49 Kandidaat(nimi=TARMO ALT, erakond=Eesti Reformierakond, valimisringkond=8
+     47 Kandidaat(nimi=ANDO KIVIBERG, erakond=Erakond Eesti 200, valimisringkond=8
+     47 Kandidaat(nimi=ANNEKI TEELAHK, erakond=Eesti Reformierakond, valimisringkond=7
      47 Kandidaat(nimi=LAURI PAEVEER, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=3
-     47 Kandidaat(nimi=MADIS KALLAS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=5
-     47 Kandidaat(nimi=PAUL PUUSTUSMAA, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=4
-     46 Kandidaat(nimi=KAUPO KUTSAR, erakond=Erakond Eesti 200, valimisringkond=11
-     45 Kandidaat(nimi=SIIRI SISASK, erakond=Erakond Eesti 200, valimisringkond=4
-     44 Kandidaat(nimi=MAIDO NÕLVAK, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=6
-     44 Kandidaat(nimi=MONIKA ROGENBAUM, erakond=ISAMAA Erakond, valimisringkond=11
-     42 Kandidaat(nimi=OLGA KURDOVSKAJA, erakond=Eesti Keskerakond, valimisringkond=7
-     41 Kandidaat(nimi=EIMAR VELDRE, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=8
-     40 Kandidaat(nimi=ANNIKA VAIKLA, erakond=Eesti Keskerakond, valimisringkond=4
-     40 Kandidaat(nimi=TOIVO TASA, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=1
+     47 Kandidaat(nimi=OLGA KURDOVSKAJA, erakond=Eesti Keskerakond, valimisringkond=7
+     44 Kandidaat(nimi=ANDRUS TOSS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=7
+     43 Kandidaat(nimi=EERO MERILIND, erakond=Eesti Reformierakond, valimisringkond=3
+     43 Kandidaat(nimi=PAUL PUUSTUSMAA, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=4
+     42 Kandidaat(nimi=KAIRIT PIHLAK, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=6
+     41 Kandidaat(nimi=JUKU-KALLE RAID, erakond=Erakond Eesti 200, valimisringkond=3
+     40 Kandidaat(nimi=ANTI SAAREPUU, erakond=Eesti Keskerakond, valimisringkond=11
+     39 Kandidaat(nimi=ANNELI KANNUS, erakond=Erakond Eesti 200, valimisringkond=10
      39 Kandidaat(nimi=ANNELI OTT, erakond=Eesti Keskerakond, valimisringkond=10
-     39 Kandidaat(nimi=SULEV ALAJÕE, erakond=Erakond Eesti 200, valimisringkond=12
-     38 Kandidaat(nimi=MALLE PÄRN, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=10
-     37 Kandidaat(nimi=HEIKI HEPNER, erakond=ISAMAA Erakond, valimisringkond=4
-     35 Kandidaat(nimi=ANDRUS TOSS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=7
-     35 Kandidaat(nimi=MARIKA VALTER, erakond=Eesti Reformierakond, valimisringkond=12
-     35 Kandidaat(nimi=NIKOLAI BENTSLER, erakond=Erakond Eesti 200, valimisringkond=2
-     35 Kandidaat(nimi=ÜLLE RAJASALU, erakond=Eesti Reformierakond, valimisringkond=2
-     34 Kandidaat(nimi=JUKU-KALLE RAID, erakond=Erakond Eesti 200, valimisringkond=3
-     34 Kandidaat(nimi=MAKSIM BUTŠENKOV, erakond=Eesti Keskerakond, valimisringkond=6
-     34 Kandidaat(nimi=VALMAR HAAVA, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=8
-     31 Kandidaat(nimi=MARLIIS RETTAU, erakond=Eesti Reformierakond, valimisringkond=5
-     31 Kandidaat(nimi=PRIIT SEIRE, erakond=Eesti Keskerakond, valimisringkond=8
-     30 Kandidaat(nimi=AAT PURJE, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=2
-     30 Kandidaat(nimi=MERLE PUSSAK, erakond=Eesti Reformierakond, valimisringkond=4
-     29 Kandidaat(nimi=JEVGENI KRIŠTAFOVITŠ, erakond=Eesti Reformierakond, valimisringkond=1
-     27 Kandidaat(nimi=BETINA BEŠKINA, erakond=Eesti Keskerakond, valimisringkond=1
-     26 Kandidaat(nimi=TOOMAS RÕHU, erakond=Eesti Reformierakond, valimisringkond=12
-     24 Kandidaat(nimi=ANTI SAAREPUU, erakond=Eesti Keskerakond, valimisringkond=11
-     24 Kandidaat(nimi=KALEV KALJUSTE, erakond=Eesti Keskerakond, valimisringkond=12
-     24 Kandidaat(nimi=KRISTA PAAL, erakond=Eesti Keskerakond, valimisringkond=2
+     39 Kandidaat(nimi=ELO LUTSEPP, erakond=Erakond Eesti 200, valimisringkond=9
+     37 Kandidaat(nimi=MAKSIM BUTŠENKOV, erakond=Eesti Keskerakond, valimisringkond=6
+     37 Kandidaat(nimi=MARIKA VALTER, erakond=Eesti Reformierakond, valimisringkond=12
+     36 Kandidaat(nimi=EIMAR VELDRE, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=8
+     34 Kandidaat(nimi=MALLE PÄRN, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=10
+     33 Kandidaat(nimi=JEVGENI KRIŠTAFOVITŠ, erakond=Eesti Reformierakond, valimisringkond=1
+     33 Kandidaat(nimi=SIIRI SISASK, erakond=Erakond Eesti 200, valimisringkond=4
+     33 Kandidaat(nimi=SULEV ALAJÕE, erakond=Erakond Eesti 200, valimisringkond=12
+     32 Kandidaat(nimi=AAT PURJE, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=2
+     32 Kandidaat(nimi=KALEV KALJUSTE, erakond=Eesti Keskerakond, valimisringkond=12
+     32 Kandidaat(nimi=MERLE PUSSAK, erakond=Eesti Reformierakond, valimisringkond=4
+     31 Kandidaat(nimi=ELA TOMSON, erakond=ISAMAA Erakond, valimisringkond=12
+     30 Kandidaat(nimi=MART KALLAS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=3
+     30 Kandidaat(nimi=TOOMAS RÕHU, erakond=Eesti Reformierakond, valimisringkond=12
+     29 Kandidaat(nimi=KRISTA PAAL, erakond=Eesti Keskerakond, valimisringkond=2
+     29 Kandidaat(nimi=PRIIT HUMAL, erakond=ISAMAA Erakond, valimisringkond=10
+     29 Kandidaat(nimi=PRIIT SEIRE, erakond=Eesti Keskerakond, valimisringkond=8
+     29 Kandidaat(nimi=ÜLLE RAJASALU, erakond=Eesti Reformierakond, valimisringkond=2
+     28 Kandidaat(nimi=MARLIIS RETTAU, erakond=Eesti Reformierakond, valimisringkond=5
+     28 Kandidaat(nimi=PALLE KÕLAR, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=5
+     27 Kandidaat(nimi=KADRI KÕUSAAR, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=1
+     27 Kandidaat(nimi=SERGEI ANDREJEV, erakond=Erakond Eesti 200, valimisringkond=7
+     26 Kandidaat(nimi=ANGELA SAKSING, erakond=Eesti Keskerakond, valimisringkond=9
+     26 Kandidaat(nimi=RIHO TELL, erakond=Eesti Reformierakond, valimisringkond=6
+     25 Kandidaat(nimi=AIVAR ÕUN, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=9
      23 Kandidaat(nimi=ALEKSEI NAUMKIN, erakond=Eesti Keskerakond, valimisringkond=7
-     23 Kandidaat(nimi=ANGELA SAKSING, erakond=Eesti Keskerakond, valimisringkond=9
      23 Kandidaat(nimi=KEITH SIILATS, erakond=Erakond Eesti 200, valimisringkond=5
-     23 Kandidaat(nimi=MART KALLAS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=3
-     23 Kandidaat(nimi=RAIMOND TAMM, erakond=Eesti Reformierakond, valimisringkond=10
-     22 Kandidaat(nimi=ARGO ANNUK, erakond=ISAMAA Erakond, valimisringkond=9
-     21 Kandidaat(nimi=KADRI KÕUSAAR, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=1
-     20 Kandidaat(nimi=AGNES PULK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=12
-     20 Kandidaat(nimi=AIVAR ÕUN, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=9
-     20 Kandidaat(nimi=ANTTI LEIGRI, erakond=Eesti Keskerakond, valimisringkond=5
-     20 Kandidaat(nimi=EDUARD TOMAN, erakond=Eesti Keskerakond, valimisringkond=3
-     20 Kandidaat(nimi=ELA TOMSON, erakond=ISAMAA Erakond, valimisringkond=12
-     20 Kandidaat(nimi=MARKO KALJUVEER, erakond=ISAMAA Erakond, valimisringkond=2
-     20 Kandidaat(nimi=PRIIDU PÄRNA, erakond=ISAMAA Erakond, valimisringkond=1
-     19 Kandidaat(nimi=HELE EVERAUS, erakond=Eesti Reformierakond, valimisringkond=10
-     19 Kandidaat(nimi=LAURI DRUBINŠ, erakond=Eesti Reformierakond, valimisringkond=11
-     19 Kandidaat(nimi=MARIS HELLRAND, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=2
-     19 Kandidaat(nimi=PALLE KÕLAR, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=5
-     19 Kandidaat(nimi=PRIIT HUMAL, erakond=ISAMAA Erakond, valimisringkond=10
-     19 Kandidaat(nimi=SERGEI ANDREJEV, erakond=Erakond Eesti 200, valimisringkond=7
+     23 Kandidaat(nimi=TOIVO TASA, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=1
+     22 Kandidaat(nimi=RAIMOND TAMM, erakond=Eesti Reformierakond, valimisringkond=10
+     22 Kandidaat(nimi=TOOMAS JÜRGENSTEIN, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=10
+     21 Kandidaat(nimi=AGNES PULK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=12
+     21 Kandidaat(nimi=MARKO KALJUVEER, erakond=ISAMAA Erakond, valimisringkond=2
+     21 Kandidaat(nimi=VIKTOR SVJATÕŠEV, erakond=Eesti Reformierakond, valimisringkond=9
+     20 Kandidaat(nimi=VALMAR HAAVA, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=8
+     19 Kandidaat(nimi=ANDREA EICHE, erakond=Eesti Reformierakond, valimisringkond=7
+     19 Kandidaat(nimi=JAAK LAINESTE, erakond=Erakond Eesti 200, valimisringkond=9
+     19 Kandidaat(nimi=KAIDO KAABERMA, erakond=Eesti Reformierakond, valimisringkond=3
+     19 Kandidaat(nimi=PILLE PETERSOO, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=4
      19 Kandidaat(nimi=SIGRID NUUTRE, erakond=ISAMAA Erakond, valimisringkond=6
-     19 Kandidaat(nimi=VALDO HELMELAID, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=6
-     18 Kandidaat(nimi=ANTS LIIMETS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=7
      18 Kandidaat(nimi=MARGOT ROOSE, erakond=Erakond Eesti 200, valimisringkond=2
-     18 Kandidaat(nimi=PILLE PETERSOO, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=4
-     18 Kandidaat(nimi=VIKTOR SVJATÕŠEV, erakond=Eesti Reformierakond, valimisringkond=9
-     17 Kandidaat(nimi=ATSO MATSALU, erakond=Erakond Eesti 200, valimisringkond=4
-     17 Kandidaat(nimi=KARL KIRT, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=11
-     17 Kandidaat(nimi=TOOMAS JÜRGENSTEIN, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=10
-     17 Kandidaat(nimi=TOOMAS KRUUSIMÄGI, erakond=Eesti Reformierakond, valimisringkond=2
-     16 Kandidaat(nimi=ANDRUS UMBOJA, erakond=Eesti Reformierakond, valimisringkond=4
-     16 Kandidaat(nimi=KRIS SÜLD, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=8
-     16 Kandidaat(nimi=TAIMO TUGI, erakond=Eesti Reformierakond, valimisringkond=8
-     16 Kandidaat(nimi=TARMO PIIRMANN, erakond=ISAMAA Erakond, valimisringkond=11
-     15 Kandidaat(nimi=DIANA INGERAINEN, erakond=Erakond Eesti 200, valimisringkond=1
-     15 Kandidaat(nimi=JAANUS KALEV, erakond=Eesti Keskerakond, valimisringkond=4
-     15 Kandidaat(nimi=KADRI JÄÄTMA, erakond=Erakond Eesti 200, valimisringkond=3
-     15 Kandidaat(nimi=KAIDO KAABERMA, erakond=Eesti Reformierakond, valimisringkond=3
-     15 Kandidaat(nimi=MERILI RANNISTE, erakond=Eesti Reformierakond, valimisringkond=9
-     15 Kandidaat(nimi=RIHO TELL, erakond=Eesti Reformierakond, valimisringkond=6
-     14 Kandidaat(nimi=HASSO UUETOA, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=4
-     14 Kandidaat(nimi=JAAK LAINESTE, erakond=Erakond Eesti 200, valimisringkond=9
-     14 Kandidaat(nimi=KRISTA SILDOJA, erakond=Erakond Eesti 200, valimisringkond=11
-     14 Kandidaat(nimi=LILIA MÜLLER, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=11
-     13 Kandidaat(nimi=LAURI LUUR, erakond=ISAMAA Erakond, valimisringkond=12
-     13 Kandidaat(nimi=TARMO HINTS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=8
-     12 Kandidaat(nimi=ANDREA EICHE, erakond=Eesti Reformierakond, valimisringkond=7
-     12 Kandidaat(nimi=HARRI KINGO, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=2
-     12 Kandidaat(nimi=JAANUS RIIBE, erakond=Eesti Keskerakond, valimisringkond=1
-     12 Kandidaat(nimi=JULIANNA JURTŠENKO, erakond=Eesti Keskerakond, valimisringkond=2
-     12 Kandidaat(nimi=MAREK KULLAMÄGI, erakond=Erakond Eesti 200, valimisringkond=7
-     12 Kandidaat(nimi=MIHHAIL FEŠTŠIN, erakond=ISAMAA Erakond, valimisringkond=8
-     11 Kandidaat(nimi=ANDRO ROOS, erakond=Eesti Keskerakond, valimisringkond=10
-     11 Kandidaat(nimi=ANTS MILLER, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=1
-     11 Kandidaat(nimi=KÄTLIN JOALA, erakond=Erakond Eesti 200, valimisringkond=12
-     11 Kandidaat(nimi=NEEME SUUR, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=5
-     10 Kandidaat(nimi=ANDRES SÕBER, erakond=Eesti Keskerakond, valimisringkond=6
-     10 Kandidaat(nimi=PÄRTEL PIIRIMÄE, erakond=Erakond Eesti 200, valimisringkond=10
-      9 Kandidaat(nimi=ESTER TUIKSOO, erakond=Eesti Keskerakond, valimisringkond=11
-      9 Kandidaat(nimi=JAANUS TAMKIVI, erakond=Eesti Reformierakond, valimisringkond=5
+     18 Kandidaat(nimi=PRIIDU PÄRNA, erakond=ISAMAA Erakond, valimisringkond=1
+     17 Kandidaat(nimi=DIANA INGERAINEN, erakond=Erakond Eesti 200, valimisringkond=1
+     17 Kandidaat(nimi=EDUARD TOMAN, erakond=Eesti Keskerakond, valimisringkond=3
+     17 Kandidaat(nimi=HASSO UUETOA, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=4
+     17 Kandidaat(nimi=MARIS HELLRAND, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=2
+     16 Kandidaat(nimi=ARGO ANNUK, erakond=ISAMAA Erakond, valimisringkond=9
+     16 Kandidaat(nimi=KARL KIRT, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=11
+     16 Kandidaat(nimi=MERILI RANNISTE, erakond=Eesti Reformierakond, valimisringkond=9
+     16 Kandidaat(nimi=TANEL OTS, erakond=ISAMAA Erakond, valimisringkond=4
+     15 Kandidaat(nimi=ATSO MATSALU, erakond=Erakond Eesti 200, valimisringkond=4
+     15 Kandidaat(nimi=BETINA BEŠKINA, erakond=Eesti Keskerakond, valimisringkond=1
+     15 Kandidaat(nimi=MIHHAIL FEŠTŠIN, erakond=ISAMAA Erakond, valimisringkond=8
+     15 Kandidaat(nimi=TAIMO TUGI, erakond=Eesti Reformierakond, valimisringkond=8
+     14 Kandidaat(nimi=ESTER TUIKSOO, erakond=Eesti Keskerakond, valimisringkond=11
+     14 Kandidaat(nimi=TOOMAS KRUUSIMÄGI, erakond=Eesti Reformierakond, valimisringkond=2
+     13 Kandidaat(nimi=ANDRO ROOS, erakond=Eesti Keskerakond, valimisringkond=10
+     13 Kandidaat(nimi=ANDRUS UMBOJA, erakond=Eesti Reformierakond, valimisringkond=4
+     13 Kandidaat(nimi=JAANUS KALEV, erakond=Eesti Keskerakond, valimisringkond=4
+     13 Kandidaat(nimi=JAANUS TAMKIVI, erakond=Eesti Reformierakond, valimisringkond=5
+     13 Kandidaat(nimi=KRISTA SILDOJA, erakond=Erakond Eesti 200, valimisringkond=11
+     13 Kandidaat(nimi=LAURI DRUBINŠ, erakond=Eesti Reformierakond, valimisringkond=11
+     12 Kandidaat(nimi=ANTS MILLER, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=1
+     12 Kandidaat(nimi=KADRI JÄÄTMA, erakond=Erakond Eesti 200, valimisringkond=3
+     12 Kandidaat(nimi=MARKO POMERANTS, erakond=ISAMAA Erakond, valimisringkond=6
+     11 Kandidaat(nimi=AARE ANDERSON, erakond=ISAMAA Erakond, valimisringkond=9
+     11 Kandidaat(nimi=PRIIT PRAMANN, erakond=Eesti Keskerakond, valimisringkond=8
+     11 Kandidaat(nimi=TARMO PIIRMANN, erakond=ISAMAA Erakond, valimisringkond=11
+     11 Kandidaat(nimi=VARJE TIPP, erakond=Eesti Keskerakond, valimisringkond=12
+     11 Kandidaat(nimi=ÜLLE ROSIN, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=9
+     10 Kandidaat(nimi=ANTS LIIMETS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=7
+     10 Kandidaat(nimi=HELE EVERAUS, erakond=Eesti Reformierakond, valimisringkond=10
+     10 Kandidaat(nimi=IVAR LILLEBERG, erakond=Eesti Reformierakond, valimisringkond=6
+     10 Kandidaat(nimi=KRIS SÜLD, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=8
+     10 Kandidaat(nimi=KÄTLIN JOALA, erakond=Erakond Eesti 200, valimisringkond=12
+     10 Kandidaat(nimi=LAURI LUUR, erakond=ISAMAA Erakond, valimisringkond=12
+      9 Kandidaat(nimi=ANDRES SÕBER, erakond=Eesti Keskerakond, valimisringkond=6
       9 Kandidaat(nimi=KALLE MUULI, erakond=ISAMAA Erakond, valimisringkond=3
-      9 Kandidaat(nimi=KALMAR LUISK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=11
-      9 Kandidaat(nimi=KIRILL KLAUS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=2
-      9 Kandidaat(nimi=MIKK LÕHMUS, erakond=ISAMAA Erakond, valimisringkond=5
+      9 Kandidaat(nimi=NEEME SUUR, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=5
+      9 Kandidaat(nimi=PÄRTEL PIIRIMÄE, erakond=Erakond Eesti 200, valimisringkond=10
       9 Kandidaat(nimi=ROGER TIBAR, erakond=Eesti Reformierakond, valimisringkond=5
-      9 Kandidaat(nimi=TANEL OTS, erakond=ISAMAA Erakond, valimisringkond=4
-      9 Kandidaat(nimi=TRIIN TOOMESAAR, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=4
-      9 Kandidaat(nimi=TÕNU OTS, erakond=Erakond Eesti 200, valimisringkond=5
-      8 Kandidaat(nimi=AARE ANDERSON, erakond=ISAMAA Erakond, valimisringkond=9
-      8 Kandidaat(nimi=INDREK KALDA, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=10
-      8 Kandidaat(nimi=MEELIS MÕTTUS, erakond=ISAMAA Erakond, valimisringkond=11
-      8 Kandidaat(nimi=PEETER LAASIK, erakond=Eesti Keskerakond, valimisringkond=9
-      8 Kandidaat(nimi=RIIDO VILLUP, erakond=Eesti Reformierakond, valimisringkond=12
-      8 Kandidaat(nimi=VARJE TIPP, erakond=Eesti Keskerakond, valimisringkond=12
-      7 Kandidaat(nimi=ANDERO PÕLLU, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=6
-      7 Kandidaat(nimi=HELDUR PAULSON, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=12
-      7 Kandidaat(nimi=KERSTI KIVIRÜÜT, erakond=Erakond Eesti 200, valimisringkond=9
-      7 Kandidaat(nimi=PIRET MOORA, erakond=Eesti Reformierakond, valimisringkond=8
-      7 Kandidaat(nimi=PIRKO KONSA, erakond=Erakond Eesti 200, valimisringkond=1
-      7 Kandidaat(nimi=RAIVO PÕHJAKIVI, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=3
-      7 Kandidaat(nimi=TIIA SIHVER, erakond=Erakond Eesti 200, valimisringkond=6
-      6 Kandidaat(nimi=ELVIS BRAUER, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=1
-      6 Kandidaat(nimi=IVAR LILLEBERG, erakond=Eesti Reformierakond, valimisringkond=6
+      9 Kandidaat(nimi=TARMO HINTS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=8
+      9 Kandidaat(nimi=VALDO HELMELAID, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=6
+      8 Kandidaat(nimi=ANTTI LEIGRI, erakond=Eesti Keskerakond, valimisringkond=5
+      8 Kandidaat(nimi=KADRI LEETMAA, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=10
+      8 Kandidaat(nimi=KADRI PAAS, erakond=Erakond Eesti 200, valimisringkond=8
+      8 Kandidaat(nimi=LILIA MÜLLER, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=11
+      8 Kandidaat(nimi=MAREK KULLAMÄGI, erakond=Erakond Eesti 200, valimisringkond=7
+      8 Kandidaat(nimi=RAIVO PÕHJAKIVI, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=3
+      7 Kandidaat(nimi=KALMAR LUISK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=11
+      7 Kandidaat(nimi=KERSTIN-OUDEKKI LOONE, erakond=Eesti Keskerakond, valimisringkond=3
+      7 Kandidaat(nimi=LIIS KLAAR, erakond=Eesti Reformierakond, valimisringkond=1
+      7 Kandidaat(nimi=PEETER LAASIK, erakond=Eesti Keskerakond, valimisringkond=9
+      7 Kandidaat(nimi=PILLE LILL, erakond=ISAMAA Erakond, valimisringkond=2
+      7 Kandidaat(nimi=REIN-ERIK JÕE, erakond=Erakond Eesti 200, valimisringkond=11
+      6 Kandidaat(nimi=AINAR SEPNIK, erakond=Eesti Reformierakond, valimisringkond=6
+      6 Kandidaat(nimi=IRMA VÄRE, erakond=ISAMAA Erakond, valimisringkond=8
       6 Kandidaat(nimi=JOOSEP VIMM, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=1
-      6 Kandidaat(nimi=KADRI LEETMAA, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=10
+      6 Kandidaat(nimi=JULIANNA JURTŠENKO, erakond=Eesti Keskerakond, valimisringkond=2
       6 Kandidaat(nimi=KARL SANDER KASE, erakond=ISAMAA Erakond, valimisringkond=1
+      6 Kandidaat(nimi=KASPAR TAIMSOO, erakond=Erakond Eesti 200, valimisringkond=8
+      6 Kandidaat(nimi=KIRILL KLAUS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=2
       6 Kandidaat(nimi=MARTIN JUDANOV, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=5
-      6 Kandidaat(nimi=MERLI REIDOLF, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=3
-      5 Kandidaat(nimi=ANDRUS ILUMETS, erakond=ISAMAA Erakond, valimisringkond=5
+      6 Kandidaat(nimi=MIKK LÕHMUS, erakond=ISAMAA Erakond, valimisringkond=5
+      6 Kandidaat(nimi=NIKOLAI PÕDRAMÄGI, erakond=Eesti Keskerakond, valimisringkond=10
+      6 Kandidaat(nimi=RIIDO VILLUP, erakond=Eesti Reformierakond, valimisringkond=12
+      6 Kandidaat(nimi=RON LUVIŠTŠUK, erakond=Erakond Eesti 200, valimisringkond=2
+      6 Kandidaat(nimi=TRIIN TOOMESAAR, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=4
       5 Kandidaat(nimi=ENE TÄHT, erakond=ISAMAA Erakond, valimisringkond=12
+      5 Kandidaat(nimi=ENO LEIES, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=2
       5 Kandidaat(nimi=JAANUS MÜÜR, erakond=Eesti Reformierakond, valimisringkond=5
+      5 Kandidaat(nimi=KAJAR LEMBER, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=9
       5 Kandidaat(nimi=KATRE KIKKAS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=11
-      5 Kandidaat(nimi=MARKO POMERANTS, erakond=ISAMAA Erakond, valimisringkond=6
+      5 Kandidaat(nimi=KERSTI KIVIRÜÜT, erakond=Erakond Eesti 200, valimisringkond=9
+      5 Kandidaat(nimi=MEELIS MÕTTUS, erakond=ISAMAA Erakond, valimisringkond=11
       5 Kandidaat(nimi=MERIKE VÄRIK, erakond=ISAMAA Erakond, valimisringkond=3
-      5 Kandidaat(nimi=NIKOLAI PÕDRAMÄGI, erakond=Eesti Keskerakond, valimisringkond=10
-      5 Kandidaat(nimi=PRIIT PRAMANN, erakond=Eesti Keskerakond, valimisringkond=8
+      5 Kandidaat(nimi=MERLE JÄÄGER, erakond=ISAMAA Erakond, valimisringkond=10
+      5 Kandidaat(nimi=MERLE KIVEST, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=10
+      5 Kandidaat(nimi=PIRET MOORA, erakond=Eesti Reformierakond, valimisringkond=8
       5 Kandidaat(nimi=TANEL SOKK, erakond=Erakond Eesti 200, valimisringkond=3
-      4 Kandidaat(nimi=AIVAR SAARELA, erakond=Eesti Reformierakond, valimisringkond=9
-      4 Kandidaat(nimi=ALEKSANDR ANDREJEV, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=7
-      4 Kandidaat(nimi=DORIS RAUDSEPP, erakond=Eesti Reformierakond, valimisringkond=3
+      5 Kandidaat(nimi=TARMO KÕUTS, erakond=ISAMAA Erakond, valimisringkond=4
+      5 Kandidaat(nimi=TIIA SIHVER, erakond=Erakond Eesti 200, valimisringkond=6
+      5 Kandidaat(nimi=TRIIN SAAG, erakond=Erakond Eesti 200, valimisringkond=1
+      5 Kandidaat(nimi=TÕNU OTS, erakond=Erakond Eesti 200, valimisringkond=5
+      4 Kandidaat(nimi=ALEKSANDR TŠAPLÕGIN, erakond=Eesti Keskerakond, valimisringkond=2
+      4 Kandidaat(nimi=ANDERO PÕLLU, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=6
+      4 Kandidaat(nimi=ANDRES OSTRA, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=9
+      4 Kandidaat(nimi=ANDRI VÕSOKOVSKI, erakond=Eesti Keskerakond, valimisringkond=6
+      4 Kandidaat(nimi=EIKI NESTOR, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=5
       4 Kandidaat(nimi=EVELIN AUSMEES, erakond=Erakond Eesti 200, valimisringkond=4
-      4 Kandidaat(nimi=KAJAR LEMBER, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=9
-      4 Kandidaat(nimi=MARGIT HIIET, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=2
-      4 Kandidaat(nimi=MERLE JÄÄGER, erakond=ISAMAA Erakond, valimisringkond=10
-      4 Kandidaat(nimi=RON LUVIŠTŠUK, erakond=Erakond Eesti 200, valimisringkond=2
-      4 Kandidaat(nimi=SULO SÄRKINEN, erakond=ISAMAA Erakond, valimisringkond=8
-      4 Kandidaat(nimi=TARMO KÕUTS, erakond=ISAMAA Erakond, valimisringkond=4
-      4 Kandidaat(nimi=TIIT MEREN, erakond=ISAMAA Erakond, valimisringkond=1
-      4 Kandidaat(nimi=ULLA PREEDEN, erakond=ISAMAA Erakond, valimisringkond=11
-      4 Kandidaat(nimi=ÜLLE ROSIN, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=9
-      3 Kandidaat(nimi=AIVAR JAESKI, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=4
-      3 Kandidaat(nimi=ANDRE LAINE, erakond=Eesti Keskerakond, valimisringkond=11
-      3 Kandidaat(nimi=ANDRI VÕSOKOVSKI, erakond=Eesti Keskerakond, valimisringkond=6
-      3 Kandidaat(nimi=ARLI KANTER, erakond=Erakond Eesti 200, valimisringkond=12
-      3 Kandidaat(nimi=ENO LEIES, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=2
-      3 Kandidaat(nimi=IRMA VÄRE, erakond=ISAMAA Erakond, valimisringkond=8
-      3 Kandidaat(nimi=JAAN SVEN MÄNNIK, erakond=ISAMAA Erakond, valimisringkond=2
-      3 Kandidaat(nimi=JAANIKA ROOSMAN, erakond=Erakond Eesti 200, valimisringkond=5
-      3 Kandidaat(nimi=KADRI PAAS, erakond=Erakond Eesti 200, valimisringkond=8
-      3 Kandidaat(nimi=KASPAR TAIMSOO, erakond=Erakond Eesti 200, valimisringkond=8
-      3 Kandidaat(nimi=KERSTIN-OUDEKKI LOONE, erakond=Eesti Keskerakond, valimisringkond=3
-      3 Kandidaat(nimi=LEMBIT KALEV, erakond=ISAMAA Erakond, valimisringkond=10
-      3 Kandidaat(nimi=LIIS KLAAR, erakond=Eesti Reformierakond, valimisringkond=1
-      3 Kandidaat(nimi=MAIT ALLAS, erakond=Eesti Reformierakond, valimisringkond=8
-      3 Kandidaat(nimi=MAIT KLAASSEN, erakond=Eesti Reformierakond, valimisringkond=11
-      3 Kandidaat(nimi=MARGUS LEPIK, erakond=Eesti Reformierakond, valimisringkond=11
+      4 Kandidaat(nimi=HARRI KINGO, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=2
+      4 Kandidaat(nimi=INDREK KALDA, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=10
+      4 Kandidaat(nimi=JAANUS RIIBE, erakond=Eesti Keskerakond, valimisringkond=1
+      4 Kandidaat(nimi=JÜRI KIRSS, erakond=Eesti Keskerakond, valimisringkond=12
+      4 Kandidaat(nimi=KATRIN ANTO, erakond=Eesti Keskerakond, valimisringkond=4
+      4 Kandidaat(nimi=MARIS SILD, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=1
+      4 Kandidaat(nimi=VLADIMIR VÕSSOTSKI, erakond=Eesti Keskerakond, valimisringkond=7
+      3 Kandidaat(nimi=ANDRUS ILUMETS, erakond=ISAMAA Erakond, valimisringkond=5
+      3 Kandidaat(nimi=ANTI TOPLAAN, erakond=ISAMAA Erakond, valimisringkond=5
+      3 Kandidaat(nimi=DANIIL STARODUBTSEV, erakond=Eesti Reformierakond, valimisringkond=7
+      3 Kandidaat(nimi=GERT GORŠANOV, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=10
+      3 Kandidaat(nimi=HELDUR PAULSON, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=12
+      3 Kandidaat(nimi=KRISTO ENN VAGA, erakond=Eesti Reformierakond, valimisringkond=1
+      3 Kandidaat(nimi=MANUELA PIHLAP, erakond=Eesti Keskerakond, valimisringkond=1
       3 Kandidaat(nimi=MART EENSALU, erakond=Eesti Reformierakond, valimisringkond=4
       3 Kandidaat(nimi=MART KIVASTIK, erakond=Erakond Eesti 200, valimisringkond=10
-      3 Kandidaat(nimi=MATI KUKLANE, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=11
-      3 Kandidaat(nimi=MERLE KIVEST, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=10
+      3 Kandidaat(nimi=OLGA PIHLAK, erakond=Erakond Eesti 200, valimisringkond=7
       3 Kandidaat(nimi=PEEP PETERSON, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=12
-      3 Kandidaat(nimi=PILLE LILL, erakond=ISAMAA Erakond, valimisringkond=2
-      3 Kandidaat(nimi=PIRET HARTMAN, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=7
-      3 Kandidaat(nimi=RAINER MILTOP, erakond=Erakond Eesti 200, valimisringkond=6
-      3 Kandidaat(nimi=RAUL SIEM, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=4
-      3 Kandidaat(nimi=TENE METSMA, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=8
-      3 Kandidaat(nimi=VILJAR JAAMU, erakond=Eesti Reformierakond, valimisringkond=2
-      3 Kandidaat(nimi=VLADIMIR VÕSSOTSKI, erakond=Eesti Keskerakond, valimisringkond=7
-      2 Kandidaat(nimi=EIKI NESTOR, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=5
-      2 Kandidaat(nimi=EVE ALTROV, erakond=Eesti Reformierakond, valimisringkond=2
-      2 Kandidaat(nimi=HANS KRUUSAMÄGI, erakond=Eesti Keskerakond, valimisringkond=6
-      2 Kandidaat(nimi=IRINA ORLOVA, erakond=ISAMAA Erakond, valimisringkond=9
-      2 Kandidaat(nimi=JAEN TEÄR, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=5
-      2 Kandidaat(nimi=JANIKA GEDVIL, erakond=Erakond Eesti 200, valimisringkond=8
-      2 Kandidaat(nimi=JULIA BELOVA, erakond=Eesti Keskerakond, valimisringkond=11
-      2 Kandidaat(nimi=JÜRI KIRSS, erakond=Eesti Keskerakond, valimisringkond=12
-      2 Kandidaat(nimi=JÜRI LEBEDEV, erakond=Eesti Reformierakond, valimisringkond=12
+      2 Kandidaat(nimi=AIVAR SAARELA, erakond=Eesti Reformierakond, valimisringkond=9
+      2 Kandidaat(nimi=ALEKSANDR ANDREJEV, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=7
+      2 Kandidaat(nimi=ARLI KANTER, erakond=Erakond Eesti 200, valimisringkond=12
+      2 Kandidaat(nimi=ARTUR TIGANIK, erakond=ISAMAA Erakond, valimisringkond=4
+      2 Kandidaat(nimi=DORIS RAUDSEPP, erakond=Eesti Reformierakond, valimisringkond=3
+      2 Kandidaat(nimi=EINAR VALLBAUM, erakond=ISAMAA Erakond, valimisringkond=6
+      2 Kandidaat(nimi=HARDI PIKKMETS, erakond=Eesti Keskerakond, valimisringkond=12
       2 Kandidaat(nimi=KADRI GIANNAKAINA LAUBE, erakond=Erakond Eesti 200, valimisringkond=11
-      2 Kandidaat(nimi=KAISA EDENBERG, erakond=Eesti Reformierakond, valimisringkond=9
-      2 Kandidaat(nimi=KARMO KURI, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=3
-      2 Kandidaat(nimi=KEN VAHER, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=12
-      2 Kandidaat(nimi=MAARJA METSTAK, erakond=Eesti Reformierakond, valimisringkond=4
-      2 Kandidaat(nimi=MARIS SILD, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=1
-      2 Kandidaat(nimi=MART JÄRVIK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=8
-      2 Kandidaat(nimi=MERLE KLANDORF, erakond=Eesti Keskerakond, valimisringkond=2
-      2 Kandidaat(nimi=REIN-ERIK JÕE, erakond=Erakond Eesti 200, valimisringkond=11
-      2 Kandidaat(nimi=ROLAND MERE, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=5
+      2 Kandidaat(nimi=KAROLINA EBBA ANNA ULLMAN, erakond=Erakond Eesti 200, valimisringkond=2
+      2 Kandidaat(nimi=KRISTEL MENNING, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=4
+      2 Kandidaat(nimi=KRISTIINA TÕNNISSON, erakond=Erakond Eesti 200, valimisringkond=10
+      2 Kandidaat(nimi=LEMMIT KAPLINSKI, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=10
+      2 Kandidaat(nimi=MARGUS LEPIK, erakond=Eesti Reformierakond, valimisringkond=11
+      2 Kandidaat(nimi=MARJA-LIISA VEISER, erakond=ISAMAA Erakond, valimisringkond=7
+      2 Kandidaat(nimi=MERLI REIDOLF, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=3
+      2 Kandidaat(nimi=MIKK TARROS, erakond=Eesti Reformierakond, valimisringkond=11
+      2 Kandidaat(nimi=PIRKO KONSA, erakond=Erakond Eesti 200, valimisringkond=1
+      2 Kandidaat(nimi=PRIIT PÕDER, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=8
+      2 Kandidaat(nimi=RAUL ÖPIK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=2
+      2 Kandidaat(nimi=SIIMO LOPSIK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=12
+      2 Kandidaat(nimi=SULO SÄRKINEN, erakond=ISAMAA Erakond, valimisringkond=8
       2 Kandidaat(nimi=TIIT KUUSMIK, erakond=Eesti Reformierakond, valimisringkond=7
-      2 Kandidaat(nimi=TOIVO SAKS, erakond=Erakond Eesti 200, valimisringkond=11
-      2 Kandidaat(nimi=TÕNU MEIJEL, erakond=Eesti Reformierakond, valimisringkond=3
-      1 Kandidaat(nimi=AINAR SEPNIK, erakond=Eesti Reformierakond, valimisringkond=6
+      2 Kandidaat(nimi=TIIT MEREN, erakond=ISAMAA Erakond, valimisringkond=1
+      2 Kandidaat(nimi=ULLA PREEDEN, erakond=ISAMAA Erakond, valimisringkond=11
+      2 Kandidaat(nimi=URMAS KRISTAL, erakond=Erakond Eesti 200, valimisringkond=4
+      2 Kandidaat(nimi=VALERI KORB, erakond=Eesti Keskerakond, valimisringkond=7
+      1 Kandidaat(nimi=AARE LILL, erakond=Erakond Eesti 200, valimisringkond=9
       1 Kandidaat(nimi=ALEKSEI JAŠIN, erakond=Erakond Eesti 200, valimisringkond=3
-      1 Kandidaat(nimi=ANNELI PÄRLIN, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=4
-      1 Kandidaat(nimi=ANTI TOPLAAN, erakond=ISAMAA Erakond, valimisringkond=5
-      1 Kandidaat(nimi=ARTJOM DMITRIJEV, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=2
-      1 Kandidaat(nimi=BIRGIT SITSKA, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=8
-      1 Kandidaat(nimi=DANIIL STARODUBTSEV, erakond=Eesti Reformierakond, valimisringkond=7
-      1 Kandidaat(nimi=EINAR VALLBAUM, erakond=ISAMAA Erakond, valimisringkond=6
-      1 Kandidaat(nimi=ENE MAATEN, erakond=ISAMAA Erakond, valimisringkond=8
-      1 Kandidaat(nimi=GERT GORŠANOV, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=10
-      1 Kandidaat(nimi=HARDI PIKKMETS, erakond=Eesti Keskerakond, valimisringkond=12
+      1 Kandidaat(nimi=ANDRE LAINE, erakond=Eesti Keskerakond, valimisringkond=11
+      1 Kandidaat(nimi=ANDRES RAID, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=1
+      1 Kandidaat(nimi=ANDRUS VAARIK, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=1
+      1 Kandidaat(nimi=ARMEN ŠAHBAZJAN, erakond=Eesti Reformierakond, valimisringkond=10
+      1 Kandidaat(nimi=ASSO NETTAN, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=9
+      1 Kandidaat(nimi=ELVIS BRAUER, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=1
+      1 Kandidaat(nimi=ETTI KAGAROV, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=7
+      1 Kandidaat(nimi=EVE PÄRNASTE, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=3
+      1 Kandidaat(nimi=FRIEDRICH KAASIK, erakond=ISAMAA Erakond, valimisringkond=10
+      1 Kandidaat(nimi=GERDA KULLI-KORDEMETS, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=12
       1 Kandidaat(nimi=HELENE LUMI, erakond=Erakond Eesti 200, valimisringkond=6
-      1 Kandidaat(nimi=HELI KOIT, erakond=ISAMAA Erakond, valimisringkond=8
-      1 Kandidaat(nimi=JAANEK PAHKA, erakond=Erakond Eesti 200, valimisringkond=7
-      1 Kandidaat(nimi=JOANNA HOFFMANN, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=10
-      1 Kandidaat(nimi=KADI ALATALU, erakond=ISAMAA Erakond, valimisringkond=3
-      1 Kandidaat(nimi=KATRIN ANTO, erakond=Eesti Keskerakond, valimisringkond=4
-      1 Kandidaat(nimi=KRISTEL KRANICH, erakond=Eesti Reformierakond, valimisringkond=1
-      1 Kandidaat(nimi=KRISTEL MENNING, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=4
-      1 Kandidaat(nimi=KRISTO ENN VAGA, erakond=Eesti Reformierakond, valimisringkond=1
-      1 Kandidaat(nimi=KULDAR KESKÜLA, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=1
+      1 Kandidaat(nimi=INGRID MÜHLING, erakond=ISAMAA Erakond, valimisringkond=1
+      1 Kandidaat(nimi=IRINA ORLOVA, erakond=ISAMAA Erakond, valimisringkond=9
+      1 Kandidaat(nimi=IVAR TEDREMA, erakond=ISAMAA Erakond, valimisringkond=9
+      1 Kandidaat(nimi=JAANIKA ROOSMAN, erakond=Erakond Eesti 200, valimisringkond=5
+      1 Kandidaat(nimi=JAANUS HÄRMS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=4
+      1 Kandidaat(nimi=JULIA BELOVA, erakond=Eesti Keskerakond, valimisringkond=11
+      1 Kandidaat(nimi=KAISA EDENBERG, erakond=Eesti Reformierakond, valimisringkond=9
+      1 Kandidaat(nimi=KALLE TOOMET, erakond=Eesti Reformierakond, valimisringkond=4
+      1 Kandidaat(nimi=KARL ERIK HEINSOO, erakond=Erakond Eesti 200, valimisringkond=8
+      1 Kandidaat(nimi=KARMO KURI, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=3
+      1 Kandidaat(nimi=KERT KARUS, erakond=ISAMAA Erakond, valimisringkond=6
+      1 Kandidaat(nimi=KERTI KOLLOM SEIDELBERG, erakond=Erakond Eesti 200, valimisringkond=3
       1 Kandidaat(nimi=LAURA KIVISELG, erakond=Eesti Reformierakond, valimisringkond=12
+      1 Kandidaat(nimi=LEA NILSON, erakond=ISAMAA Erakond, valimisringkond=2
       1 Kandidaat(nimi=LEO BERGSTRÖM, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=6
-      1 Kandidaat(nimi=MADIS VESKIMÄGI, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=12
-      1 Kandidaat(nimi=MANUELA PIHLAP, erakond=Eesti Keskerakond, valimisringkond=1
-      1 Kandidaat(nimi=MARIS NEENO, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=11
+      1 Kandidaat(nimi=MAARJA METSTAK, erakond=Eesti Reformierakond, valimisringkond=4
+      1 Kandidaat(nimi=MAIT ALLAS, erakond=Eesti Reformierakond, valimisringkond=8
+      1 Kandidaat(nimi=MAIT KLAASSEN, erakond=Eesti Reformierakond, valimisringkond=11
+      1 Kandidaat(nimi=MARGIT HIIET, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=2
+      1 Kandidaat(nimi=MARI SPEEK, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=3
+      1 Kandidaat(nimi=MARJU MÄGER, erakond=Erakond Eesti 200, valimisringkond=8
       1 Kandidaat(nimi=MARKO MATVEI, erakond=Erakond Eesti 200, valimisringkond=5
-      1 Kandidaat(nimi=MARKO SANDRE, erakond=Erakond Eesti 200, valimisringkond=7
+      1 Kandidaat(nimi=MART SALUMÄE, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=8
       1 Kandidaat(nimi=MEEME LUKS, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=3
-      1 Kandidaat(nimi=MERLIN LINDE, erakond=Erakond Eesti 200, valimisringkond=4
+      1 Kandidaat(nimi=MERLE KLANDORF, erakond=Eesti Keskerakond, valimisringkond=2
       1 Kandidaat(nimi=MIKK TARGO, erakond=ISAMAA Erakond, valimisringkond=3
-      1 Kandidaat(nimi=MIKK TARROS, erakond=Eesti Reformierakond, valimisringkond=11
-      1 Kandidaat(nimi=OLGA PIHLAK, erakond=Erakond Eesti 200, valimisringkond=7
-      1 Kandidaat(nimi=PRIIT PÕDER, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=8
+      1 Kandidaat(nimi=OLEG SILJANOV, erakond=Eesti Keskerakond, valimisringkond=1
+      1 Kandidaat(nimi=OLEG TŠUBAROV, erakond=Eesti Keskerakond, valimisringkond=4
+      1 Kandidaat(nimi=PEEP PÕDDER, erakond=Eesti Keskerakond, valimisringkond=9
       1 Kandidaat(nimi=RAINER ASUKÜLA, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=7
+      1 Kandidaat(nimi=RAUL SIEM, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=4
+      1 Kandidaat(nimi=REIO RANDMAA, erakond=Erakond Eesti 200, valimisringkond=12
       1 Kandidaat(nimi=RENO LAIDRE, erakond=Eesti Reformierakond, valimisringkond=10
-      1 Kandidaat(nimi=SANDER MARIPUU, erakond=Erakond Eesti 200, valimisringkond=2
+      1 Kandidaat(nimi=SANDER ANDLA, erakond=Eesti Reformierakond, valimisringkond=2
       1 Kandidaat(nimi=SIIM SUURSILD, erakond=ISAMAA Erakond, valimisringkond=12
-      1 Kandidaat(nimi=SIIMO LOPSIK, erakond=Eesti Konservatiivne Rahvaerakond, valimisringkond=12
-      1 Kandidaat(nimi=SILVER TAMBUR, erakond=Sotsiaaldemokraatlik Erakond, valimisringkond=12
       1 Kandidaat(nimi=SIRLI TALLO, erakond=Eesti Reformierakond, valimisringkond=8
-      1 Kandidaat(nimi=SVETLANA SKREBNEVA, erakond=Erakond Eesti 200, valimisringkond=2
       1 Kandidaat(nimi=TOOMAS TAMMIK, erakond=Eesti Keskerakond, valimisringkond=8
-      1 Kandidaat(nimi=TRIIN SAAG, erakond=Erakond Eesti 200, valimisringkond=1
-      1 Kandidaat(nimi=URMAS KRISTAL, erakond=Erakond Eesti 200, valimisringkond=4
-      1 Kandidaat(nimi=VAHUR KÕLVART, erakond=Eesti Keskerakond, valimisringkond=3
+      1 Kandidaat(nimi=TÕNU MEIJEL, erakond=Eesti Reformierakond, valimisringkond=3
+      1 Kandidaat(nimi=VADIM ORLOV, erakond=Eesti Reformierakond, valimisringkond=7
+      1 Kandidaat(nimi=VILJAR JAAMU, erakond=Eesti Reformierakond, valimisringkond=2
+      1 Kandidaat(nimi=VILLU LOONDE, erakond=Erakond Eesti 200, valimisringkond=1

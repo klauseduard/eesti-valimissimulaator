@@ -52,7 +52,7 @@ private fun simuleeriÜksKord(seaded: Seaded, juhus: Random) {
 }
 
 private fun simuleeriJaKirjutaSagedused(seaded: Seaded, kordi: Int, juhus: Random) {
-  val viga = if (seaded.arvestaViga) Küsitluseviga.KALIBREERITUD else null
+  val viga = if (seaded.arvestaViga) küsitluseViga(seaded.küsitleja, seaded.reitingufail) else null
   val kokkuvõte = simuleeriKorduvalt(seaded.küsitleja, kordi, juhus, seaded.reitingufail, viga)
 
   val andmed = when (seaded.küsitleja) {
@@ -64,7 +64,8 @@ private fun simuleeriJaKirjutaSagedused(seaded: Seaded, kordi: Int, juhus: Rando
     "",
     "andmed: $andmed",
     "kordusi: ${kokkuvõte.kordi}, seeme: ${seaded.seeme ?: "juhuslik"}",
-    if (viga != null) "küsitluse viga: üleriigiline ${viga.üleriigiline}, ringkondlik ${viga.ringkondlik} (2023. aasta küsitluste järgi)"
+    if (viga != null) "küsitluse viga: üleriigiline ${"%.3f".format(Locale.ROOT, viga.üleriigiline)}, " +
+      "ringkondlik ${viga.ringkondlik} (küsitluste koondmudeli tagasitestist, vt docs/tagasitestimine.md)"
     else "küsitluse viga: arvestamata",
     "",
     "erakondade mandaadid (vähim–suurim, keskmine):",

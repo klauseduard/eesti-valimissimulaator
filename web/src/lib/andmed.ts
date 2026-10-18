@@ -20,6 +20,9 @@ export const andmeTekstid: AndmeTekstid = { ringkondadeTekstid, üleriigilisedNi
 
 export interface Küsitlus {
   küsitleja: string;
+  kuupäev: string;
+  /** küsitluse viga simulatsiooni jaoks: [üleriigiline, ringkondlik] logaritmilisel skaalal */
+  viga: [number, number];
   erakonnad: string[];
   protsendid: number[][];
 }

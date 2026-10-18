@@ -62,7 +62,7 @@ fun tagasitesti(valimised: List<Valimised>, lugeja: AndmeFailideLugeja? = null):
   // andmed
   r.appendLine("## Data")
   r.appendLine()
-  r.appendLine("| Election | Polls | Pollsters (polls) | Rows summing outside 95–105 |")
+  r.appendLine("| Election | Polls | Pollsters (polls) | Rows summing outside 95–105 before \"others\" is filled in |")
   r.appendLine("|---|---|---|---|")
   for (v in valimised) {
     val küsitlejad = v.küsitlused.groupingBy { it.küsitleja }.eachCount().entries.sortedByDescending { it.value }
@@ -177,6 +177,29 @@ fun tagasitesti(valimised: List<Valimised>, lugeja: AndmeFailideLugeja? = null):
   r.appendLine("- Correlations between parties' errors (parties in at least three elections: ${püsivad.joinToString(", ")}), " +
     "leave-one-out log score over $hinnatud forecasts: ${f(korreleeritud)} with correlations against ${f(sõltumatu)} " +
     "with independent errors. Correlations are " + (if (korrelatsioonidKehtivad) "adopted." else "not adopted."))
+  r.appendLine()
+
+  // suurimad erinevused: näitab, millised vead dispersioonihinnanguid mõjutavad
+  r.appendLine("## Largest pollster errors")
+  r.appendLine()
+  r.appendLine("The five largest differences (log of a pollster's mean minus log of the result) at each horizon. The")
+  r.appendLine("variance estimates average squares, so a few large differences can dominate them.")
+  r.appendLine()
+  r.appendLine("| Horizon | Election | Party | Pollster | Pollster mean | Result | Difference |")
+  r.appendLine("|---|---|---|---|---|---|---|")
+  for (h in HORISONDID) {
+    val erinevused = valimised.flatMap { v ->
+      val t = v.kuupäev.minusDays(h)
+      val valitudKüsitlused = valiKüsitlused(v.küsitlused, t)
+      v.tulemus.filter { it.value >= HINNATAVA_PIIR }.flatMap { (e, tul) ->
+        valitudKüsitlused.groupBy { it.küsitleja }.values.mapNotNull { küsitlejaHinnang(it, e, t) }
+          .map { listOf(v.aasta, e, it.küsitleja, kotlin.math.exp(it.logKeskmine) * 100, tul, it.logKeskmine - kotlin.math.ln(tul / 100.0)) }
+      }
+    }.sortedByDescending { kotlin.math.abs(it[5] as Double) }.take(5)
+    for (x in erinevused) {
+      r.appendLine("| $h d | ${x[0]} | ${x[1]} | ${x[2]} | ${f(x[3] as Double, 1)}% | ${f(x[4] as Double, 1)}% | ${f(x[5] as Double)} |")
+    }
+  }
   r.appendLine()
 
   // lõplikud parameetrid kõigist valimistest

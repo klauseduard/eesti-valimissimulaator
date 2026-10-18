@@ -117,4 +117,18 @@ first backtest run:
 
 ## Changes after the backtest
 
-None yet.
+- The estimates for 30 and 90 days before the election (common error about
+  0.5–0.6) are dominated by one event: Vabaerakond, then a new party, polled
+  at about 1% a month before the 2015 election and received 8.7%, a log
+  difference of about −2.2. The estimator averages squares, so this single
+  surge decides the value. The 3-day estimate has no such outlier. All
+  presets on the web page lie 2–13 days before the election, so they use the
+  3-day parameters, and the program refuses horizons over 14 days. A
+  forecast months ahead needs an estimator that is robust to such surges;
+  that is part of the later work on 2027.
+- The criteria compared trust weights only with equal weights. The simplest
+  baseline, the latest poll of each pollster, was slightly better at the
+  3-day horizon (1.75 against 1.80 percentage points) but worse at 30 and 90
+  days. The equal-weight aggregate stays the chosen method, because it uses
+  more information and is more stable across horizons; the report shows all
+  numbers.

@@ -1,0 +1,10 @@
+{
+  "meetod": "VÕRDSED_KAALUD",
+  "veamudelKehtib": true,
+  "korrelatsioonidKehtivad": false,
+  "horisondid": {
+    "3": {"ühine": 0.008652902105054035, "majaefekt": 0.013958411636247503, "küsitlejad": {"Faktum & Ariko": 0.002641752110029036, "Kantar Emor": 0.019226516623537145, "Norstat": 0.016240356528623053, "Turu-uuringute AS": 0.00918033902991226}},
+    "30": {"ühine": 0.2715176850481862, "majaefekt": 0.012598679615397313, "küsitlejad": {"Kantar Emor": 0.013652454969810868, "Norstat": 0.01897026920445907, "Turu-uuringute AS": 0.0075145057637355395}},
+    "90": {"ühine": 0.24128815128995562, "majaefekt": 0.013449586602819636, "küsitlejad": {"Kantar Emor": 0.011718209855342552, "Norstat": 0.02216358952271828, "Turu-uuringute AS": 0.009764368617439624}}
+  }
+}

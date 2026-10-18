@@ -25,7 +25,7 @@ class KüsitluseVigaTest {
 
   @Test
   fun `sama seemnega on tulemus sama`() {
-    val viga = Küsitluseviga.KALIBREERITUD
+    val viga = Küsitluseviga.MÕÕDETUD_2023
     assertEquals(juhuslikToetus(toetus, viga, Random(5)), juhuslikToetus(toetus, viga, Random(5)))
   }
 
@@ -33,7 +33,7 @@ class KüsitluseVigaTest {
   fun `ringkonna toetuste summa ei muutu ja null jääb nulliks`() {
     val juhus = Random(2)
     repeat(100) {
-      val uus = juhuslikToetus(toetus, Küsitluseviga.KALIBREERITUD, juhus)
+      val uus = juhuslikToetus(toetus, Küsitluseviga.MÕÕDETUD_2023, juhus)
       for (ringkond in listOf(1, 2)) {
         val vana = toetus.values.sumOf { it[ringkond]!! }
         assertTrue(abs(vana - uus.values.sumOf { it[ringkond]!! }) < 1e-9, "ringkond $ringkond")
@@ -48,7 +48,7 @@ class KüsitluseVigaTest {
     val juhus = Random(3)
     val kordi = 4000
     var summa = 0.0
-    repeat(kordi) { summa += üleriigilineToetus(juhuslikToetus(toetus, Küsitluseviga.KALIBREERITUD, juhus)["A"]!!, kehtivad) }
+    repeat(kordi) { summa += üleriigilineToetus(juhuslikToetus(toetus, Küsitluseviga.MÕÕDETUD_2023, juhus)["A"]!!, kehtivad) }
     val oodatud = üleriigilineToetus(toetus["A"]!!, kehtivad)
     assertTrue(abs(summa / kordi - oodatud) / oodatud < 0.03, "keskmine ${summa / kordi}, küsitlus $oodatud")
   }
@@ -80,14 +80,14 @@ class KüsitluseVigaTest {
     }
     fun ruutkeskmine(väärtused: List<Double>) = sqrt(väärtused.sumOf { it * it } / väärtused.size)
     fun kolmeKohaga(x: Double) = round(x * 1000) / 1000
-    assertEquals(kolmeKohaga(ruutkeskmine(üleriigilised)), Küsitluseviga.KALIBREERITUD.üleriigiline)
-    assertEquals(kolmeKohaga(ruutkeskmine(ringkondlikud)), Küsitluseviga.KALIBREERITUD.ringkondlik)
+    assertEquals(kolmeKohaga(ruutkeskmine(üleriigilised)), Küsitluseviga.MÕÕDETUD_2023.üleriigiline)
+    assertEquals(kolmeKohaga(ruutkeskmine(ringkondlikud)), Küsitluseviga.MÕÕDETUD_2023.ringkondlik)
   }
 
   @Test
   fun `küsitluse veaga erinevad erakondade mandaadid korduste vahel`() {
     val ilmaVeata = simuleeriKorduvalt(Testiandmed.kandidaadid(), Testiandmed.norstatiToetus(), 30, Random(1))
-    val veaga = simuleeriKorduvalt(Testiandmed.kandidaadid(), Testiandmed.norstatiToetus(), 30, Random(1), viga = Küsitluseviga.KALIBREERITUD)
+    val veaga = simuleeriKorduvalt(Testiandmed.kandidaadid(), Testiandmed.norstatiToetus(), 30, Random(1), viga = Küsitluseviga.MÕÕDETUD_2023)
     val reform = "Eesti Reformierakond"
     assertEquals(1, ilmaVeata.erakondadeMandaadid[reform]!!.toSet().size)
     assertTrue(veaga.erakondadeMandaadid[reform]!!.toSet().size > 3)

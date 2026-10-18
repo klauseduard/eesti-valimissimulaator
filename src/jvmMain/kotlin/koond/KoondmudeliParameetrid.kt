@@ -21,6 +21,9 @@ val ERAKONNA_KOODID = mapOf(
   "EUVP" to "EESTIMAA ÜHENDATUD VASAKPARTEI",
 )
 
+/** pikim horisont päevades, mille jaoks küsitluse viga on usaldusväärne (vt [Koondmudel.viga]) */
+const val KASUTATAV_HORISONT_KUNI = 14L
+
 /** Tagasitestimise lõplikud parameetrid (fail src/jvmMain/resources/kusitlused/koondmudel.json). */
 data class Koondmudel(
   val meetod: Meetod,
@@ -56,7 +59,10 @@ data class Koondmudel(
    * @param küsitlejad - küsitlejad, kelle küsitlused hinnangus on; üks küsitleja tähendab üksikküsitlust
    */
   fun viga(küsitlejad: List<String>, horisontPäevi: Long): Küsitluseviga {
-    val p = parameetrid(horisontPäevi)
+    // 30 ja 90 päeva hinnangud on ühe uue erakonna tõusu tõttu (Vabaerakond 2015) liiga suured, seega kasutatakse
+    // kuni kahe nädala horisondil 3 päeva parameetreid (docs/kusitluste-koond.md, muudatused pärast tagasitesti)
+    require(horisontPäevi <= KASUTATAV_HORISONT_KUNI) { "Horisondi $horisontPäevi päeva jaoks pole usaldusväärset veahinnangut" }
+    val p = parameetrid(3)
     val majaefekt = küsitlejad.sumOf { p.majaefekt(it) } / (küsitlejad.size * küsitlejad.size)
     val mõõdetud = Küsitluseviga.MÕÕDETUD_2023
     val üleriigiline = sqrt(p.ühine + majaefekt)

@@ -6,6 +6,20 @@
 
 ### Changed
 
+  * A poll aggregate combines the latest polls of all pollsters: a time-weighted
+  mean per pollster, then equal weights per pollster, so repeated polls by one
+  source do not count as independent. It is the web page's default preset
+  (3 March 2023). Trust weights by past pollster accuracy were tested and were
+  not more accurate, so they are not used.
+
+  * The poll error per preset now comes from a leave-one-election-out backtest
+  of pollster accuracy in 2011–2023 (polls from Wikipedia, see
+  `docs/tagasitestimine.md`): the error common to all pollsters plus the
+  pollster's house effect. The aggregate's national error is about 0.11 against
+  0.16 for a single Norstat poll. The district part (0.251) is still measured
+  on 2023 only. The model choices and adoption criteria were committed before
+  the backtest ran (`docs/kusitluste-koond.md`).
+
   * Repeated simulations now model poll uncertainty. Each run multiplies every
   party's support by a random factor with a national part shared by all
   districts and a smaller district part, then rescales each district to its

@@ -14,7 +14,7 @@
   import { dekodeeri, kodeeri, type Olek, type Teadaolevad } from './lib/olek';
   import type { Kokkuvõte, SõnumTöölisele, SõnumTöölselt } from './lib/protokoll';
   import {
-    EELSEADISTUSED, VAIKIMISI_EELSEADISTUS, jaota, kontrolliToetust, olekuToetus, type Tulemus,
+    EELSEADISTUSED, VAIKIMISI_EELSEADISTUS, eelseadistuseViga, jaota, kontrolliToetust, olekuToetus, type Tulemus,
   } from './lib/simulaator';
 
   /** Monte Carlo korduste arv ja partii suurus (pärast iga partiid uuenevad vahemikud) */
@@ -107,7 +107,7 @@
     // sõltuvused: toetus, seeme ja tegelike häälte valik
     const andmed = { erakonnad: [...toetus.erakonnad], protsendid: toetus.protsendid.map((r) => [...r]) };
     const seeme = olek.seeme;
-    const viga = olek.viga;
+    const viga: [number, number] = olek.viga ? eelseadistuseViga(olek.eelseadistus) : [0, 0];
     const ilmaJuhuseta = olek.tegelikudHääled;
     const vigane = sisendiVead.length > 0;
 

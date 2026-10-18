@@ -73,3 +73,14 @@ tasks.register<JavaExec>("veebiandmed") {
     args("build/veebiandmed")
     outputs.dir("build/veebiandmed")
 }
+
+// küsitluste koondmudeli tagasitestimine: aruanne ja parameetrid (vt docs/kusitluste-koond.md)
+tasks.register<JavaExec>("tagasitest") {
+    group = "andmed"
+    description = "Tagasitestib küsitluste koondmudelit ja kirjutab aruande ning parameetrid."
+    val jvmMain = kotlin.jvm().compilations.getByName("main")
+    classpath(jvmMain.output.allOutputs, jvmMain.runtimeDependencyFiles)
+    mainClass.set("koond.TagasitestimineKt")
+    workingDir = projectDir
+    args("docs/tagasitestimine.md", "src/jvmMain/resources/kusitlused/koondmudel.json")
+}

@@ -14,9 +14,16 @@ export const simulaator = new Simulaator(
   andmeTekstid.rk2023,
 );
 
-/** eelseadistuste tunnused valiku järjekorras; vaikimisi on viimane Norstati küsitlus */
-export const EELSEADISTUSED = [...Object.keys(KÜSITLUSED), RK2023];
-export const VAIKIMISI_EELSEADISTUS = 'norstat-2023-03-03';
+/**
+ * eelseadistuste tunnused valiku järjekorras: küsitluste koond, üksikküsitlused, 2023. aasta tulemus.
+ * Vaikimisi on koond, sest see oli tagasitestis täpsem kui üksik küsitlus (docs/tagasitestimine.md).
+ */
+export const VAIKIMISI_EELSEADISTUS = 'koond-2023-03-03';
+export const EELSEADISTUSED = [
+  ...Object.keys(KÜSITLUSED).filter((k) => k.startsWith('koond-')),
+  ...Object.keys(KÜSITLUSED).filter((k) => !k.startsWith('koond-')),
+  RK2023,
+];
 
 export const RINGKONNAD = tavaliseks(simulaator.ringkonnad());
 
@@ -28,6 +35,16 @@ export function eelseadistuseToetus(tunnus: string): ToetuseAndmed {
   const küsitlus = KÜSITLUSED[tunnus];
   if (!küsitlus) throw new Error(`Tundmatu eelseadistus ${tunnus}`);
   return { erakonnad: [...küsitlus.erakonnad], protsendid: küsitlus.protsendid.map((r) => [...r]) };
+}
+
+/**
+ * Eelseadistuse küsitluse viga [üleriigiline, ringkondlik]; 2023. aasta tegelikul tulemusel küsitluse viga pole.
+ */
+export function eelseadistuseViga(tunnus: string): [number, number] {
+  if (tunnus === RK2023) return [0, 0];
+  const küsitlus = KÜSITLUSED[tunnus];
+  if (!küsitlus) throw new Error(`Tundmatu eelseadistus ${tunnus}`);
+  return küsitlus.viga;
 }
 
 /** eelseadistuse toetus koos olekus olevate muudatustega */

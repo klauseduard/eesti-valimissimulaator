@@ -121,7 +121,7 @@
   "kandidaadid.näidiskordus": "näidiskordus, seeme {seeme}",
   "parlament.alus.veaga": "Keskmised mandaadid {kordi} korduse põhjal, küsitluse viga arvestatud.",
   "parlament.alus.veata": "Keskmised mandaadid {kordi} korduse põhjal, küsitluse viga arvestamata.",
-  "parlament.viga": "Arvesta küsitluse viga (2023. aasta küsitluste tegeliku vea järgi)",
+  "parlament.viga": "Arvesta küsitluse viga (selle andmestiku puhul tüüpiliselt ±{protsent}% erakonna toetusest)",
   "parlament.keskmine": "Keskmiselt",
   "parlament.keskmine.selgitus": "Erakonna keskmine mandaatide arv kordustes; diagrammil on keskmised jagatud 101 kohaks suurima jäägi meetodil",
   "parlament.mandaadiga": "Mandaadiga",
@@ -129,6 +129,9 @@
   "parlament.jaotus": "Jaotus",
   "parlament.jaotus.silt": "{erakond} mandaatide arvu jaotus kordustes: {min} kuni {max}; heledamad tulbad on väljaspool 90% vahemikku",
   "parlament.hääled.selgitus": "Häälte osakaal (2023. aasta tegelik tulemus)",
-  "mc.valmis.veaga": "Iga kordus kõigutab kõigepealt erakondade toetust küsitluse vea võrra: viga on üleriigiliselt ühine ja ringkonniti väiksem, ning selle suurus vastab 2023. aasta viimaste küsitluste tegelikule veale. Seejärel jagab kordus erakonna hääled kandidaatide vahel juhuslikult. Vahemik näitab, kui palju mandaate erakond 90% kordustest sai.",
-  "mc.valmis.veata": "Küsitluse viga ei ole arvestatud: erakondade hääled on igas korduses samad ja kordused jagavad need ainult kandidaatide vahel uuesti juhuslikult. Seepärast muutub erakondade mandaatide arv vähe."
+  "mc.valmis.veaga": "Iga kordus kõigutab kõigepealt erakondade toetust küsitluse vea võrra: viga on üleriigiliselt ühine ja ringkonniti väiksem. Üleriigilise vea suurus tuleb küsitlejate täpsuse tagasitestist 2011–2023 valimistel (küsitleja majaefekt ja kõigi küsitlejate ühine viga), ringkondlik osa 2023. aasta valimistest. Seejärel jagab kordus erakonna hääled kandidaatide vahel juhuslikult. Vahemik näitab, kui palju mandaate erakond 90% kordustest sai.",
+  "mc.valmis.veata": "Küsitluse viga ei ole arvestatud: erakondade hääled on igas korduses samad ja kordused jagavad need ainult kandidaatide vahel uuesti juhuslikult. Seepärast muutub erakondade mandaatide arv vähe.",
+  "eelseadistus.koond-2023-03-03": "Küsitluste koond, 03.03.2023",
+  "jalus.ajalugu": "Küsitluste ajalugu 2011–2023 (koondi ja küsitlejate täpsuse jaoks)",
+  "jalus.tagasitest": "tagasitesti aruanne"
 }

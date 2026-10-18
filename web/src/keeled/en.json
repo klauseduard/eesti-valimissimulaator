@@ -121,7 +121,7 @@
   "kandidaadid.näidiskordus": "example run, seed {seeme}",
   "parlament.alus.veaga": "Average seats from {kordi} runs, poll error included.",
   "parlament.alus.veata": "Average seats from {kordi} runs, poll error not included.",
-  "parlament.viga": "Include poll error (based on the actual error of the 2023 polls)",
+  "parlament.viga": "Include poll error (for this data typically ±{protsent}% of a party's support)",
   "parlament.keskmine": "Average",
   "parlament.keskmine.selgitus": "The party's average number of seats across runs; the diagram distributes the averages to 101 seats by the largest remainder method",
   "parlament.mandaadiga": "With seats",
@@ -129,6 +129,9 @@
   "parlament.jaotus": "Distribution",
   "parlament.jaotus.silt": "Distribution of {erakond} seats across runs: {min} to {max}; lighter bars are outside the 90% range",
   "parlament.hääled.selgitus": "Vote share (actual 2023 result)",
-  "mc.valmis.veaga": "Each run first moves the party support by a poll error: the error is shared across the country, with smaller deviations by district, and its size matches the actual error of the last 2023 polls. The run then splits each party's votes among its candidates at random. The range shows how many seats the party won in 90% of the runs.",
-  "mc.valmis.veata": "The poll error is not included: party votes are the same in every run, and the runs only split them among the candidates again at random. The party seat counts therefore vary little."
+  "mc.valmis.veaga": "Each run first moves the party support by a poll error: the error is shared across the country, with smaller deviations by district. The size of the national error comes from a backtest of pollster accuracy in the 2011–2023 elections (each pollster's house effect and the error common to all pollsters); the district part comes from the 2023 election. The run then splits each party's votes among its candidates at random. The range shows how many seats the party won in 90% of the runs.",
+  "mc.valmis.veata": "The poll error is not included: party votes are the same in every run, and the runs only split them among the candidates again at random. The party seat counts therefore vary little.",
+  "eelseadistus.koond-2023-03-03": "Poll aggregate, 3 Mar 2023",
+  "jalus.ajalugu": "Poll history 2011–2023 (for the aggregate and pollster accuracy)",
+  "jalus.tagasitest": "backtest report"
 }

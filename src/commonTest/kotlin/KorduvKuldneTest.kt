@@ -11,7 +11,7 @@ class KorduvKuldneTest {
   @Test
   fun `küsitluse veaga kordused annavad mõlemal platvormil sama tulemuse`() {
     val kokkuvõte = simuleeriKorduvalt(
-      Testiandmed.kandidaadid(), Testiandmed.norstatiToetus(), 40, Random(1), viga = Küsitluseviga.KALIBREERITUD
+      Testiandmed.kandidaadid(), Testiandmed.norstatiToetus(), 40, Random(1), viga = Küsitluseviga.MÕÕDETUD_2023
     )
     val tekst = kokkuvõte.erakondadeMandaadid.entries.sortedBy { it.key }
       .joinToString("\n") { (erakond, mandaadid) -> "$erakond: ${mandaadid.joinToString(",")}" }

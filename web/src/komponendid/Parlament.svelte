@@ -4,7 +4,7 @@
   import { arv, protsent, t } from '../lib/i18n.svelte';
   import type { Olek } from '../lib/olek';
   import type { Kokkuvõte } from '../lib/protokoll';
-  import type { Tulemus } from '../lib/simulaator';
+  import { eelseadistuseViga, type Tulemus } from '../lib/simulaator';
   import { jaotaSuurimaJäägiga, statistika } from '../lib/statistika';
 
   let {
@@ -56,6 +56,9 @@
 
   const paigutus = kohad();
   const tegelikud = $derived(olek.tegelikudHääled);
+  /** eelseadistuse küsitluse viga; tüüpiline suhteline viga protsentides (üks standardhälve) */
+  const eelseadistuseVeaga = $derived(eelseadistuseViga(olek.eelseadistus)[0] > 0);
+  const tüüpilineViga = $derived(Math.round((Math.exp(eelseadistuseViga(olek.eelseadistus)[0]) - 1) * 100));
   const kordustest = $derived(!tegelikud && kokkuvõte !== null && kokkuvõte.kordi > 0);
 
   /** erakonna mandaatide arv igas korduses (ka nende erakondade jaoks, kes kordagi mandaati ei saanud) */
@@ -113,16 +116,16 @@
   {#if tegelikud}
     {t('parlament.alus.tegelikud')}
   {:else if kordustest && kokkuvõte && kokkuvõteKehtib}
-    {olek.viga ? t('parlament.alus.veaga', { kordi: kokkuvõte.kordi }) : t('parlament.alus.veata', { kordi: kokkuvõte.kordi })}
+    {olek.viga && eelseadistuseVeaga ? t('parlament.alus.veaga', { kordi: kokkuvõte.kordi }) : t('parlament.alus.veata', { kordi: kokkuvõte.kordi })}
   {:else}
     {t('parlament.alus.arvutan')}
   {/if}
 </p>
 
-{#if !tegelikud}
+{#if !tegelikud && eelseadistuseVeaga}
   <label class="vaike lüliti">
     <input type="checkbox" bind:checked={olek.viga} data-testid="küsitluse-viga" />
-    <span>{t('parlament.viga')}</span>
+    <span>{t('parlament.viga', { protsent: tüüpilineViga })}</span>
   </label>
 {/if}
 
@@ -222,7 +225,7 @@
     <progress max={kordi} value={kokkuvõte?.kordi ?? 0}></progress>
     {t('mc.käib', { tehtud: kokkuvõte?.kordi ?? 0, kordi })}
   {:else if kokkuvõte}
-    {olek.viga ? t('mc.valmis.veaga', { kordi: kokkuvõte.kordi }) : t('mc.valmis.veata', { kordi: kokkuvõte.kordi })}
+    {olek.viga && eelseadistuseVeaga ? t('mc.valmis.veaga', { kordi: kokkuvõte.kordi }) : t('mc.valmis.veata', { kordi: kokkuvõte.kordi })}
   {/if}
 </p>
 

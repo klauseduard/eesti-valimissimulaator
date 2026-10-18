@@ -19,6 +19,12 @@
         (<a href="https://www.err.ee/1608901703/kantar-emori-kusitlus-reformierakond-liigub-valimisvoidu-poole">ERR</a>)
       </li>
       <li>
+        {t('jalus.ajalugu')}:
+        <a href="https://en.wikipedia.org/wiki/Opinion_polling_for_the_2023_Estonian_parliamentary_election">Wikipedia</a>
+        (<a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>);
+        <a href="https://github.com/klauseduard/eesti-valimissimulaator/blob/main/docs/tagasitestimine.md">{t('jalus.tagasitest')}</a>
+      </li>
+      <li>
         {t('jalus.kaart')}:
         <a href="https://geoportaal.maaruum.ee/avaandmete-litsents">Haldus- ja asustusjaotus: Maa- ja Ruumiamet</a>
       </li>

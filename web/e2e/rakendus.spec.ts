@@ -69,7 +69,7 @@ test('jagatud link taastab oleku', async ({ page }) => {
 test('vigane link annab teate ja vaikimisi oleku', async ({ page }) => {
   await page.goto('/#v=olematu&s=1');
   await expect(page.getByTestId('lingi-teade')).toContainText('v=olematu');
-  await expect(page.getByTestId('eelseadistus')).toHaveValue('norstat-2023-03-03');
+  await expect(page.getByTestId('eelseadistus')).toHaveValue('koond-2023-03-03');
 });
 
 test('kaart joonistab kõik ringkonnad ja korduvad simulatsioonid lõpevad', async ({ page }) => {

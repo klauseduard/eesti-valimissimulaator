@@ -16,9 +16,12 @@ data class Küsitluseviga(val üleriigiline: Double, val ringkondlik: Double) {
   companion object {
     /**
      * 2023. aasta viimaste küsitluste (Norstat 03.03.2023 ja Emor märts 2023) tegelik viga valimistulemuse
-     * suhtes; arvutus on testis KüsitluseVigaTest.
+     * suhtes; arvutus on testis KüsitluseVigaTest. See on mõõdetud samadel valimistel, mida simuleeritakse
+     * (valimisisene hinnang). Ringkondlikku osa ei saa teiste valimiste põhjal hinnata, sest ringkondade
+     * tulemused on avaandmetena olemas ainult 2023. aasta kohta; üleriigilise osa annab küsitluste
+     * koondmudeli tagasitestimine (vt docs/kusitluste-koond.md).
      */
-    val KALIBREERITUD = Küsitluseviga(üleriigiline = 0.156, ringkondlik = 0.251)
+    val MÕÕDETUD_2023 = Küsitluseviga(üleriigiline = 0.156, ringkondlik = 0.251)
   }
 }
 

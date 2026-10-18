@@ -127,20 +127,31 @@ Muudatuste täpne loetelu on failis `CHANGELOG.md`.
 
 ## Kuidas hääled simuleeritakse
 
+Andmestikke on kahte liiki. Üksikküsitlused (Norstat, Kantar Emor) on
+ühe küsitleja tulemused. Küsitluste koond ühendab kõigi küsitlejate
+viimased küsitlused: iga küsitleja küsitlustest arvutatakse ajaliselt
+kaalutud keskmine, ja küsitlejate keskmised liidetakse võrdsete kaaludega
+(„üks küsitleja, üks hääl"), nii et sama küsitleja korduvad küsitlused ei
+loe kui sõltumatud. Küsitlejate varasema täpsuse järgi kaalumist katsetati,
+kuid see ei olnud tagasitestis täpsem. Koondi ringkondade profiil tuleb
+Norstati küsitlusest. Mudeli valikud on kirjas failis
+`docs/kusitluste-koond.md` ja tagasitesti tulemused failis
+`docs/tagasitestimine.md`.
+
 Korduvas simulatsioonis (veebilehel ja käsuga `--runs=N`) kõigutab iga
 kordus kõigepealt erakondade toetust küsitluse vea võrra. Iga erakonna
 toetus korrutatakse juhusliku teguriga, mis koosneb kahest osast: ühine
 osa kõigi ringkondade jaoks (küsitlus eksib erakonna toetuses enamasti
 kõikjal samas suunas) ja väiksem osa iga ringkonna jaoks. Seejärel
-skaleeritakse ringkonna erakondade toetused tagasi esialgse summani. Vea
-suurus on mõõdetud 2023. aasta viimaste küsitluste (Norstat 3. märts ja
-Emor) ja valimistulemuse erinevusest: logaritmilisel skaalal on
-üleriigiline hälve 0,156 ja ringkondlik 0,251 (vt fail
-`src/commonMain/kotlin/KüsitluseViga.kt` ja test `KüsitluseVigaTest`).
-Näiteks EKRE toetus oli 3. märtsi küsitluses 20,5% ja valimistel 16,1%.
-Küsitluse vea saab välja lülitada veebilehel või käsuga `--ilma-veata`.
-Ühekordne simulatsioon ja veebilehe näidiskordus kasutavad küsitluse
-toetust täpselt.
+skaleeritakse ringkonna erakondade toetused tagasi esialgse summani.
+Üleriigilise osa suurus tuleb küsitlejate täpsuse tagasitestist 2011–2023
+valimistel: see on kõigi küsitlejate ühise vea ja küsitleja majaefekti
+summa, ning koondi viga on väiksem kui üksikküsitluse oma (logaritmilisel
+skaalal umbes 0,11 ja 0,16). Ringkondliku osa (0,251) saab mõõta ainult
+2023. aasta valimistel, sest varasemate valimiste ringkondade tulemusi
+avaandmetes pole. Küsitluse vea saab välja lülitada veebilehel või käsuga
+`--ilma-veata`. Ühekordne simulatsioon ja veebilehe näidiskordus kasutavad
+küsitluse toetust täpselt.
 
 Erakonna hääled ringkonnas on erakonna toetusprotsent selles ringkonnas
 korrutatud ringkonna kehtivate häälte arvuga. Kehtivate häälte arv on

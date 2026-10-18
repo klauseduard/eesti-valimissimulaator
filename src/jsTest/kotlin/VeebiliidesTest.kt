@@ -71,8 +71,8 @@ class VeebiliidesTest {
 
   @Test
   fun `korduv simulatsioon osade kaupa annab sama tulemuse kui korraga`() {
-    val osadena = simulaator.korduv(norstat, 7, true).apply { korda(20); korda(30) }.kokkuvõte()
-    val korraga = simulaator.korduv(norstat, 7, true).apply { korda(50) }.kokkuvõte()
+    val osadena = simulaator.korduv(norstat, 7, Küsitluseviga.MÕÕDETUD_2023.üleriigiline, Küsitluseviga.MÕÕDETUD_2023.ringkondlik).apply { korda(20); korda(30) }.kokkuvõte()
+    val korraga = simulaator.korduv(norstat, 7, Küsitluseviga.MÕÕDETUD_2023.üleriigiline, Küsitluseviga.MÕÕDETUD_2023.ringkondlik).apply { korda(50) }.kokkuvõte()
     assertEquals(50, osadena.kordi)
     assertEquals(korraga.kandidaadid.map { "${it.nimi} ${it.kordi}" }, osadena.kandidaadid.map { "${it.nimi} ${it.kordi}" })
     assertEquals(korraga.mandaadid.map { it.toList() }, osadena.mandaadid.map { it.toList() })
@@ -81,8 +81,8 @@ class VeebiliidesTest {
 
   @Test
   fun `küsitluse veaga erinevad erakondade mandaadid korduste vahel`() {
-    val veaga = simulaator.korduv(norstat, 1, true).apply { korda(30) }.kokkuvõte()
-    val ilma = simulaator.korduv(norstat, 1, false).apply { korda(30) }.kokkuvõte()
+    val veaga = simulaator.korduv(norstat, 1, Küsitluseviga.MÕÕDETUD_2023.üleriigiline, Küsitluseviga.MÕÕDETUD_2023.ringkondlik).apply { korda(30) }.kokkuvõte()
+    val ilma = simulaator.korduv(norstat, 1, 0.0, 0.0).apply { korda(30) }.kokkuvõte()
     val i = veaga.erakonnad.indexOf("Eesti Reformierakond")
     val j = ilma.erakonnad.indexOf("Eesti Reformierakond")
     assertTrue(veaga.mandaadid[i].toSet().size > 3)

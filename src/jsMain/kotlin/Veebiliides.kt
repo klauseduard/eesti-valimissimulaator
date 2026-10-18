@@ -244,17 +244,15 @@ class Simulaator(ringkondadeTekstid: Array<String>, üleriigilisedNimekirjad: St
   /**
    * Alustab korduvat simulatsiooni; kordused lisatakse meetodiga [KorduvSimulatsioonJs.korda].
    *
-   * @param arvestaViga - kas iga kordus kõigutab erakondade toetust küsitluse vea võrra ([Küsitluseviga.KALIBREERITUD])
+   * @param üleriigilineViga - küsitluse vea üleriigiline osa (vt [Küsitluseviga]); 0 tähendab veata
+   * @param ringkondlikViga - küsitluse vea ringkondlik osa; 0 tähendab veata
    */
-  fun korduv(toetus: ToetusJs, seeme: Int, arvestaViga: Boolean): KorduvSimulatsioonJs {
+  fun korduv(toetus: ToetusJs, seeme: Int, üleriigilineViga: Double, ringkondlikViga: Double): KorduvSimulatsioonJs {
     kontrolli(toetus)
-    val viga = if (arvestaViga) Küsitluseviga.KALIBREERITUD else null
+    require(üleriigilineViga >= 0.0 && ringkondlikViga >= 0.0) { "Küsitluse viga ei saa olla negatiivne" }
+    val viga = if (üleriigilineViga == 0.0 && ringkondlikViga == 0.0) null else Küsitluseviga(üleriigilineViga, ringkondlikViga)
     return KorduvSimulatsioonJs(KorduvSimulatsioon(kandidaadid, toetusMap(toetus), Random(seeme), viga = viga))
   }
-
-  /** küsitluse vea parameetrid: [üleriigiline, ringkondlik] (vt Küsitluseviga) */
-  fun küsitluseViga(): Array<Double> =
-    arrayOf(Küsitluseviga.KALIBREERITUD.üleriigiline, Küsitluseviga.KALIBREERITUD.ringkondlik)
 
   private fun kontrolli(toetus: ToetusJs) {
     val vead = kontrolliToetust(toetus)

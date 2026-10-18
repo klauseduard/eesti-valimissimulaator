@@ -7,6 +7,9 @@ declare module '@andmed/*?raw' {
 }
 
 declare module '@veebiandmed/toetused.json' {
-  const küsitlused: Record<string, { küsitleja: string; erakonnad: string[]; protsendid: number[][] }>;
+  const küsitlused: Record<
+    string,
+    { küsitleja: string; kuupäev: string; viga: [number, number]; erakonnad: string[]; protsendid: number[][] }
+  >;
   export default küsitlused;
 }
