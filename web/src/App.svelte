@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy } from 'svelte';
-  import Päis from './komponendid/Päis.svelte';
+  import Ylariba from './komponendid/Ylariba.svelte';
   import ToetuseSisend from './komponendid/ToetuseSisend.svelte';
   import Parlament from './komponendid/Parlament.svelte';
   import Kaart from './komponendid/Kaart.svelte';
@@ -82,7 +82,7 @@
   let tööline: Worker | null = null;
 
   try {
-    tööline = new Worker(new URL('./lib/tööline.ts', import.meta.url), { type: 'module' });
+    tööline = new Worker(new URL('./lib/taustasimulatsioon.ts', import.meta.url), { type: 'module' });
     tööline.postMessage({ tüüp: 'andmed', andmed: andmeTekstid } satisfies SõnumTöölisele);
     tööline.onmessage = (sündmus: MessageEvent<SõnumTöölselt>) => {
       const s = sündmus.data;
@@ -137,7 +137,7 @@
 
 <svelte:window onhashchange={fragmendiMuutus} />
 
-<Päis bind:olek />
+<Ylariba bind:olek />
 
 <main>
   {#if lingiVead.length > 0}

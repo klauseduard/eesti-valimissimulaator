@@ -1,4 +1,4 @@
-// Põhilõime ja taustalõime (tööline.ts) vahelised sõnumid.
+// Põhilõime ja taustalõime (taustasimulatsioon.ts) vahelised sõnumid.
 import type { KokkuvõteJs } from '@simulaator';
 import type { Tavaline } from './tavaline';
 

@@ -1,4 +1,10 @@
 import mudel.Kandidaat
+import kotlin.math.pow
+
+/** modifitseeritud d'Hondti jagaja: (juba saadud mandaatide arv + 1)^0,9 */
+fun leiaDHondtiJagaja(saadudMandaatideArv: Int): Double {
+  return (saadudMandaatideArv + 1).toDouble().pow(0.9)
+}
 
 /** Ühe kompensatsioonimandaadi jagamise samm; veebilehe selgituse jaoks. */
 data class KompensatsiooniSamm(

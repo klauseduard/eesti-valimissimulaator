@@ -20,7 +20,7 @@ parandatud.
 | `rk2027.csv` | 263 | 2023-03-13 … 2026-10-07 | Norstat 180, Kantar Emor 44, Turu-uuringute AS 39 | 262 (neist 4 ligikaudsed) |
 
 `tulemused.csv` sisaldab nelja valimise tulemusi erakondade kaupa (41 rida).
-Fail `tooma.py` laadib lähtetekstid uuesti alla ja koostab kõik CSV-failid
+Skript `skriptid/laadi_kusitlused.py` laadib lähtetekstid uuesti alla ja koostab kõik CSV-failid
 uuesti.
 
 ## Allikad ja litsents
@@ -188,7 +188,7 @@ Failides ei ole seega ühtegi libisevat keskmist.
 
 ## Parandused
 
-Need parandused on skriptis `tooma.py` loendis `PARANDUSED`. Iga parandus on
+Need parandused on skriptis `skriptid/laadi_kusitlused.py` loendis `PARANDUSED`. Iga parandus on
 ka vastava rea veerus `markus`.
 
 | fail | rida | parandus | põhjendus |
@@ -251,17 +251,17 @@ ka vastava rea veerus `markus`.
 
 ## Failide uuesti koostamine
 
-`tooma.py` vajab ainult Python 3 standardteeki. Vaikimisi laadib see alla
+`skriptid/laadi_kusitlused.py` vajab ainult Python 3 standardteeki. Vaikimisi laadib see alla
 täpselt ülaltoodud lehtede versioonid, nii et väljund on sama:
 
 ```
-python3 tooma.py
+python3 skriptid/laadi_kusitlused.py
 ```
 
 Lehtede uusimate versioonide kasutamiseks:
 
 ```
-python3 tooma.py --uusim
+python3 skriptid/laadi_kusitlused.py --uusim
 ```
 
 Uusima versiooni puhul teatab skript, kui mõni parandus või väljajätmine ei

@@ -3,6 +3,36 @@ import mudel.Kandidaat
 import mudel.Valimisringkond
 import kotlin.random.Random
 
+/** erakonna häälte arv ringkonnas: kehtivad hääled korrutatud toetusprotsendiga, allapoole ümardatuna */
+fun arvutaHäälteArv(hääled: Int, toetusprotsent: Double): Int {
+  return (hääled * toetusprotsent / 100).toInt()
+}
+
+/**
+ * Jagab arvu [osi] juhuslikuks osaks nimekirja järjekorras: esimene osa on juhuslik arv 1 kuni arv, järgmine
+ * juhuslik arv 1 kuni jääk jne; kui jääk saab otsa, on ülejäänud osad 0. Kui osi on null, jäävad hääled jagamata.
+ */
+fun jagaJuhuslikeksOsadeks(arv: Int, osi: Int, juhus: Random = Random): List<Int> {
+  val osad = mutableListOf<Int>()
+  var jääk: Int = arv
+
+  while (osad.size < osi) {
+    if (jääk == 0) {
+      osad.add(0)
+      continue
+    }
+    val osa: Int = (1..jääk).random(juhus)
+    osad.add(osa)
+    jääk -= osa
+  }
+
+  // kui jääk > 0, lisa see esimesele osale
+  if (jääk > 0 && osad.isNotEmpty()) {
+    osad[0] += jääk
+  }
+  return osad
+}
+
 /** Määrab kandidaatidele juhusliku häälte arvu.
  * <p>
  *   Erakonna hääled ringkonnas arvutatakse toetusprotsendi ja ringkonna kehtivate häälte arvu põhjal
@@ -29,7 +59,7 @@ fun simuleeriHääled(
       val hääli = arvutaHäälteArv(kehtivaidHääli[ringkond.nr]!!, toetusprotsent)
       val kandidaadidRingkonnas =
         kandidaadid.filter { it.erakond == erakond && it.valimisringkond == ringkond.nr }
-      val kandidaatideHääled = jagadaArvNiksJuhuslikuksOsaks(hääli, kandidaadidRingkonnas.size, juhus)
+      val kandidaatideHääled = jagaJuhuslikeksOsadeks(hääli, kandidaadidRingkonnas.size, juhus)
       for (i in kandidaadidRingkonnas.indices) {
         kandidaadidRingkonnas[i].hääli = kandidaatideHääled[i]
       }

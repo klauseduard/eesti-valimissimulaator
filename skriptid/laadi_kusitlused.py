@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 # > **Märkus tehisintellekti kohta.** Selle faili teksti kirjutas tehisintellekt (Claude, Anthropic, tööriistas Claude Code) 2026. aasta oktoobris.
 """Laadib Vikipeediast alla Riigikogu valimiste arvamusküsitluste tabelid ja
-ametlikud tulemused ning kirjutab need CSV-failidesse (vt LOEMIND.md).
+ametlikud tulemused ning kirjutab need CSV-failidesse (vt src/jvmMain/resources/kusitlused/LOEMIND.md).
 
 Kasutamine (ainult Python 3 standardteek):
 
-    python3 tooma.py                 # kasutab LOEMIND.md-s nimetatud versioone (oldid)
-    python3 tooma.py --uusim         # kasutab lehtede uusimaid versioone
-    python3 tooma.py --vahemalu DIR  # salvestab/loeb vikiteksti kataloogist DIR
-    python3 tooma.py --valjund DIR   # kirjutab CSV-failid kataloogi DIR (vaikimisi skripti kataloog)
+    python3 laadi_kusitlused.py                 # kasutab LOEMIND.md-s nimetatud versioone (oldid)
+    python3 laadi_kusitlused.py --uusim         # kasutab lehtede uusimaid versioone
+    python3 laadi_kusitlused.py --vahemalu DIR  # salvestab/loeb vikiteksti kataloogist DIR
+    python3 laadi_kusitlused.py --valjund DIR   # kirjutab CSV-failid kataloogi DIR (vaikimisi src/jvmMain/resources/kusitlused)
 
 Parsimine on automaatne, kuid käsitsi kontrollitud. Leitud vead ja
 allikate erinevused on parandatud selgesõnaliselt loendis PARANDUSED;
@@ -736,7 +736,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--uusim', action='store_true')
     ap.add_argument('--vahemalu')
-    ap.add_argument('--valjund', default=os.path.dirname(os.path.abspath(__file__)))
+    # andmefailid on projekti JVM-i ressurssides; skript ise on kaustas skriptid/
+    ap.add_argument('--valjund', default=os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'src', 'jvmMain', 'resources', 'kusitlused'))
     a = ap.parse_args()
     tekstid = {}
     for key in LEHED:

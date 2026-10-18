@@ -6,6 +6,13 @@
 
 ### Changed
 
+  * File names: the poll download script moved out of the resources (it was
+  packed into the JAR) to `skriptid/laadi_kusitlused.py`; files with diacritics
+  in their names got ASCII names (`KusitluseViga.kt`, `taustasimulatsioon.ts`,
+  `Ylariba.svelte`); the catch-all `Funktsioonid.kt` was split into the files
+  that use its functions, and `jagadaArvNiksJuhuslikuksOsaks` is now
+  `jagaJuhuslikeksOsadeks`. Identifiers inside the code keep their Estonian names.
+
   * Interface revision: a summary sentence states the largest party, its range
   and how often it was largest; the parliament diagram marks the majority
   boundary; the seat histograms share one axis so spreads can be compared; a
