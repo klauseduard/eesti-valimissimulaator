@@ -3,12 +3,47 @@ import andmed.ÜKSIKKANDIDAADID
 import mudel.Kandidaat
 import mudel.Valimisringkond
 
+/** Erakonna ringkonnamandaatide arvutus ühes ringkonnas (RKVS § 62 lg 3); veebilehe selgituse jaoks. */
+data class ErakonnaRingkonnaArvutus(
+  val erakond: String,
+  /** erakonna kandidaatide häälte summa ringkonnas */
+  val hääli: Int,
+  /** hääled jagatud lihtkvoodiga */
+  val kvoote: Double,
+  /** mandaatide arv lihtkvoodi ja 0,75 reegli järgi */
+  val mandaate: Int,
+  /** kas mandaatide arvu suurendati, sest jääk oli vähemalt 75% lihtkvoodist */
+  val lisamandaat: Boolean,
+  /** valituks osutunud kandidaadid (sh isikumandaadi saanud) */
+  val valitud: List<Kandidaat>,
+  /** kandidaadid, kes oleksid häälte järgi valituks osutunud, kuid said alla 10% lihtkvoodist */
+  val alla10Protsendi: List<Kandidaat>,
+)
+
+/** Ühe ringkonna mandaatide arvutus; veebilehe selgituse jaoks. */
+data class RingkonnaArvutus(
+  val ringkond: Int,
+  val kehtivaidHääli: Int,
+  val mandaate: Int,
+  val lihtkvoot: Double,
+  /** 5% künnise ületanud erakonnad häälte arvu järgi kahanevalt */
+  val erakonnad: List<ErakonnaRingkonnaArvutus>,
+  /** kandidaadid, kelle häälte arv on vähemalt lihtkvoot (RKVS § 62 lg 2), sõltumata nimekirjast */
+  val isikumandaadid: List<Kandidaat>,
+)
+
 /** Mandaatide jagamise tulemus. */
 data class Mandaadijaotus(
   /** ringkonna number -> erakonna nimi -> ringkonnamandaatide arv */
   val ringkonnamandaatideArv: Map<Int, Map<String, Int>>,
   val ringkonnamandaadid: List<Kandidaat>,
   val kompensatsioonimandaadid: List<Kandidaat>,
+  /** erakonna nimi -> häälte arv üle riigi (üksikkandidaatideta) */
+  val erakondadeHääled: Map<String, Int> = emptyMap(),
+  /** 5% künnise ületanud erakonnad */
+  val künniseÜletanud: Set<String> = emptySet(),
+  val ringkonnaArvutused: List<RingkonnaArvutus> = emptyList(),
+  val kompensatsiooniSammud: List<KompensatsiooniSamm> = emptyList(),
 ) {
   /** kõik mandaadi saanud kandidaadid erakonna ja üleriigilise nimekirja järjekorra järgi */
   fun kõikMandaadid(): List<Kandidaat> =
@@ -54,6 +89,7 @@ fun jaotaMandaadid(
 
   val ringkonnamandaatideArv = mutableMapOf<Int, Map<String, Int>>()
   val ringkonnamandaadid = mutableListOf<Kandidaat>()
+  val ringkonnaArvutused = mutableListOf<RingkonnaArvutus>()
   for (ringkond in ringkonnad) {
     val kvoot = lihtkvoodid[ringkond.nr]!!
     val kandidaadidRingkonnas = kandidaadidSorteeritud.filter { it.valimisringkond == ringkond.nr }
@@ -66,9 +102,22 @@ fun jaotaMandaadid(
       .mapValues { (_, erakonnaKandidaadid) -> erakonnaKandidaadid.sumOf { it.hääli } }
       .toList().sortedByDescending { (_, hääled) -> hääled }.toMap()
     val erakondadeMandaadid = arvutaRingkonnaMandaadid(erakondadeHääled, kehtivaidHääli[ringkond.nr]!!, ringkond.mandaatideArv)
+    val erakondadeArvutused = mutableListOf<ErakonnaRingkonnaArvutus>()
     for ((erakond, mandaate) in erakondadeMandaadid) {
-      valitudRingkonnas.addAll(
-        kandidaadidRingkonnas.filter { it.erakond == erakond && it.hääli >= 0.10 * kvoot }.take(mandaate)
+      val erakonnaKandidaadid = kandidaadidRingkonnas.filter { it.erakond == erakond }
+      val valitud = erakonnaKandidaadid.filter { it.hääli >= 0.10 * kvoot }.take(mandaate)
+      valitudRingkonnas.addAll(valitud)
+      val hääli = erakondadeHääled[erakond]!!
+      erakondadeArvutused.add(
+        ErakonnaRingkonnaArvutus(
+          erakond = erakond,
+          hääli = hääli,
+          kvoote = hääli / kvoot,
+          mandaate = mandaate,
+          lisamandaat = mandaate > (hääli / kvoot).toInt(),
+          valitud = valitud,
+          alla10Protsendi = erakonnaKandidaadid.take(mandaate).filter { it.hääli < 0.10 * kvoot },
+        )
       )
     }
 
@@ -77,6 +126,16 @@ fun jaotaMandaadid(
 
     ringkonnamandaatideArv[ringkond.nr] = valitudRingkonnas.groupingBy { it.erakond }.eachCount()
     ringkonnamandaadid.addAll(valitudRingkonnas)
+    ringkonnaArvutused.add(
+      RingkonnaArvutus(
+        ringkond = ringkond.nr,
+        kehtivaidHääli = kehtivaidHääli[ringkond.nr]!!,
+        mandaate = ringkond.mandaatideArv,
+        lihtkvoot = kvoot,
+        erakonnad = erakondadeArvutused,
+        isikumandaadid = kandidaadidRingkonnas.filter { it.hääli >= kvoot },
+      )
+    )
   }
 
   // erakonna koht valimisringkonna kandidaatide koondnimekirjas: kandidaadid on seal erakondade kaupa
@@ -89,7 +148,7 @@ fun jaotaMandaadid(
     ringkonnamandaadid.count { it.erakond == erakond }
   }
 
-  val kompensatsioonimandaadid = arvutaKompensatsioonimandaadid(
+  val kompensatsiooniSammud = arvutaKompensatsiooniSammud(
     nimekirjadeKandidaadid.filter { it.erakond in künniseÜletanud } - ringkonnamandaadid.toSet(),
     jagamataMandaate = mandaateKokku - ringkonnamandaadid.size,
     jagatudMandaadidErakondadeKaupa,
@@ -98,7 +157,10 @@ fun jaotaMandaadid(
     erakondadeKohtKoondnimekirjas
   )
 
-  return Mandaadijaotus(ringkonnamandaatideArv, ringkonnamandaadid, kompensatsioonimandaadid)
+  return Mandaadijaotus(
+    ringkonnamandaatideArv, ringkonnamandaadid, kompensatsiooniSammud.map { it.kandidaat },
+    erakondadeHääledKoguRiigis, künniseÜletanud, ringkonnaArvutused, kompensatsiooniSammud
+  )
 }
 
 /** mandaadi saanud kandidaadid tekstina, üks kandidaat reas; see on ka runs/ kausta failide vorming */
