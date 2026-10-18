@@ -5,29 +5,8 @@ import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-/**
- * Kuldsed failid on salvestatud käsuga `./gradlew run --args='--seed=N'` (Emori puhul lisaks
- * `--pollster=emor`). Test kontrollib, et sama seemne korral annab programm sama tulemuse.
- * Kui mandaatide jagamise reeglid muutuvad teadlikult, tuleb failid uuesti salvestada.
- * Viimati salvestatud 2026-10-18 pärast registreerimisnumbri lisamist kandidaadi andmetesse.
- */
+/** Käsurea programmi andmeallikate ja korduva simulatsiooni testid (kuldsed failid: KuldsedFailidTest). */
 class SimulatsioonTest {
-
-  @Test
-  fun `Norstati andmetega simulatsioon annab seemne korral salvestatud tulemuse`() {
-    for (seeme in listOf(1L, 2L)) {
-      val jaotus = simuleeriValimised(Küsitleja.NORSTAT, Random(seeme))
-      assertEquals(loeKuldneFail("norstat-seed$seeme.txt"), mandaadidTekstina(jaotus), "seeme $seeme")
-    }
-  }
-
-  @Test
-  fun `Emori andmetega simulatsioon annab seemne korral salvestatud tulemuse`() {
-    for (seeme in listOf(1L, 2L)) {
-      val jaotus = simuleeriValimised(Küsitleja.EMOR, Random(seeme))
-      assertEquals(loeKuldneFail("emor-seed$seeme.txt"), mandaadidTekstina(jaotus), "seeme $seeme")
-    }
-  }
 
   @Test
   fun `Norstati andmetest loetakse kõigi kaheksa erakonna toetus kõigis ringkondades`() {
@@ -41,7 +20,7 @@ class SimulatsioonTest {
   @Test
   fun `reitingufaili saab valida`() {
     // 1. ringkonnas oli Keskerakonna toetus 27.02 failis 27,6% ja 03.03 failis 25,6%
-    val fail = "src/main/resources/reitingud/reitingud-2023-02-27.json"
+    val fail = "src/jvmMain/resources/reitingud/reitingud-2023-02-27.json"
     assertEquals(27.6, loeToetusprotsendid(Küsitleja.NORSTAT, fail)[andmed.KESKERAKOND]!![1])
     assertEquals(25.6, loeToetusprotsendid(Küsitleja.NORSTAT)[andmed.KESKERAKOND]!![1])
   }
@@ -64,7 +43,4 @@ class SimulatsioonTest {
     val korduv = simuleeriKorduvalt(Küsitleja.EMOR, kordi = 1, juhus = Random(1))
     assertEquals(üksik, korduv.valitudKordi.keys.map { it.nimi }.toSet())
   }
-
-  private fun loeKuldneFail(nimi: String): String =
-    SimulatsioonTest::class.java.getResource("/kuldsed/$nimi")!!.readText()
 }

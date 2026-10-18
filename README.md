@@ -101,9 +101,8 @@ kandidaatide nimekirju ja reitinguid.
 ## Kuidas rakendust kasutada?
 
 Rakenduse ehitamiseks ja käivitamiseks on vaja Java arenduskeskkonda
-(JDK). Gradle laadib esimesel ehitamisel programmi kompileerimiseks
-vajaliku JDK 8 vajadusel ise alla; Gradle ennast on kontrollitud JDK
-21-ga.
+(JDK) versiooniga 17 või uuem. Programm kompileeritakse JDK 21-ga, mille
+Gradle laadib esimesel ehitamisel vajadusel ise alla.
 
 Ühe simulatsiooni käivitamiseks kirjuta:
 
@@ -131,8 +130,8 @@ Käsurea argumendid on järgmised:
 - `--pollster=emor`: kasuta Emori andmeid failist `Andmed.kt`
   (vaikimisi Norstati andmed).
 - `--reitingud=FAIL`: kasuta antud Norstati reitingufaili. Kaasas on
-  failid kaustas `src/main/resources/reitingud/`, nt
-  `--reitingud=src/main/resources/reitingud/reitingud-2023-02-27.json`.
+  failid kaustas `src/jvmMain/resources/reitingud/`, nt
+  `--reitingud=src/jvmMain/resources/reitingud/reitingud-2023-02-27.json`.
 - `--runs=N`: korda simulatsiooni N korda.
 - `--seed=N`: juhuslikkuse seeme, et tulemus oleks korratav.
 
@@ -160,9 +159,9 @@ Testid kontrollivad mandaatide jagamist kolmel viisil. Väikesed näited
 kontrollivad lihtkvooti, 0,75 jäägi reeglit, kompensatsioonimandaatide
 jagajaid, 5% künnist, isikumandaate, kandidaatide 10% ja 5% nõudeid ning
 varureeglit, kui 5% nõudele vastavaid kandidaate ei ole, ning
-viigireegleid. Kuldsed failid (`src/test/resources/kuldsed/`) kontrollivad, et
+viigireegleid. Kuldsed failid (`src/commonTest/resources/kuldsed/`) kontrollivad, et
 sama seemne korral annab simulatsioon sama tulemuse. Test `Rk2023Test`
 jagab mandaadid 2023. aasta valimiste tegelike häälte põhjal ja võrdleb
-tulemust ametliku tulemusega (vt `src/test/resources/rk2023/LOEMIND.md`).
+tulemust ametliku tulemusega (vt `src/jvmTest/resources/rk2023/LOEMIND.md`).
 Kui muudad mandaatide jagamise reegleid teadlikult, salvesta kuldsed
 failid uuesti ülaltoodud käsuga.
