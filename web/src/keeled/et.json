@@ -183,9 +183,11 @@
   "riba.keskmine": "Keskmine koosseis",
   "riba.tegelik": "2023. aasta koosseis",
   "sisend.ruudud": "{erakond} toetus ringkonniti",
-  "sisend.kokku": "Kokku",
-  "sisend.ruudud.selgitus": "Ruudud näitavad erakonna toetust igas ringkonnas: mida tumedam, seda lähemal erakonna tugevaimale ringkonnale (iga erakonna skaala on eraldi). Klõpsa ruudul, et väärtust muuta, näiteks taktikalise hääletamise katsetamiseks. Kokku-rida näitab, kui suure osa kehtivatest häältest erakonnad ringkonnas saavad; ülejäänu läheb teistele nimekirjadele.",
+  "sisend.ruudud.selgitus": "Ruudud näitavad erakonna toetust igas ringkonnas: mida tumedam, seda lähemal erakonna tugevaimale ringkonnale (iga erakonna skaala on eraldi). Vii hiir või fookus veerule, et näha ringkonna nime. Klõpsa ruudul, et väärtust muuta, näiteks taktikalise hääletamise katsetamiseks. Rida „Muud\" on kehtivate häälte osa, mis jääb teistele nimekirjadele ja üksikkandidaatidele; punane tähendab, et erakondade toetus ringkonnas ületab 100%.",
   "kompensatsioon.võrdlusarv.veerg": "Võrdlusarv",
   "seeme.uuesti": "Simuleeri uuesti",
-  "seeme.uus.selgitus": "Uus juhuslik seeme: korduvad simulatsioonid ja näidiskordus arvutatakse uuesti."
+  "seeme.uus.selgitus": "Uus juhuslik seeme: korduvad simulatsioonid ja näidiskordus arvutatakse uuesti.",
+  "sisend.muud": "Muud",
+  "sisend.muud.täis": "teised nimekirjad ja üksikkandidaadid",
+  "sisend.muud.selgitus": "Kehtivate häälte osa, mida ükski ülaltoodud erakond ei saa: teised nimekirjad ja üksikkandidaadid. Simulaator neile mandaate ei jaga. See tuleb erakondade toetusest: kui erakonna toetus kasvab, väheneb muude osa."
 }

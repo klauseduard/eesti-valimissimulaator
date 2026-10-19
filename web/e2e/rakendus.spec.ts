@@ -138,9 +138,18 @@ test('ringkonna ruudu muutmine jõuab linki ja üle 100% annab hoiatuse', async 
   await ruut.press('Enter');
   await expect(page).toHaveURL(/p\.PP=3,/);
   await expect(ruut).toHaveValue(/^3/);
+  // veerule osutamine näitab ringkonna nime päises
+  await page.getByTestId('ruut-KESK-7').hover();
+  await expect(page.getByTestId('ringkonna-nimi')).toHaveText('7. Ida-Virumaa');
+  await expect(page.getByTestId('ruudu-silt')).toHaveText('7. Ida-Virumaa');
+  const muudEnne = Number((await page.getByTestId('muud-1').textContent())!.replace(',', '.'));
+  expect(muudEnne).toBeGreaterThan(0);
   await page.getByTestId('ruut-REF-1').fill('90');
   await page.getByTestId('ruut-REF-1').press('Enter');
   await expect(page.getByRole('alert').first()).toBeVisible();
+  // muude osa muutub negatiivseks ja punaseks
+  await expect(page.getByTestId('muud-1')).toHaveClass(/vigane/);
+  expect(Number((await page.getByTestId('muud-1').textContent())!.replace(',', '.').replace('−', '-'))).toBeLessThan(0);
   // vigane väärtus taastab endise
   await page.getByTestId('ruut-PP-2').fill('abc');
   await page.getByTestId('ruut-PP-2').press('Enter');

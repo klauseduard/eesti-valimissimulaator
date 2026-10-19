@@ -6,6 +6,13 @@
 
 ### Changed
 
+  * District support: pointing at or focusing a district cell shows the
+  district's name above the cell and in the column header, and highlights the
+  column. A new row "Others" shows the share of the valid votes left for
+  other lists and independent candidates, nationally and per district, and
+  turns red where the parties' support exceeds 100%; it replaces the total
+  row.
+
   * Dark mode has its own party colours. The light colours were too light (REF,
   E200) or too dark (EKRE) for a dark background. The dark set keeps each
   party's hue where possible and passes the palette validator; to keep the

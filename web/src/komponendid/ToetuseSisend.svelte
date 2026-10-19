@@ -23,6 +23,23 @@
   );
 
   const summad = $derived(RINGKONNAD.map((_, j) => toetus.protsendid.reduce((s, r) => s + r[j], 0)));
+  /** teised nimekirjad ja üksikkandidaadid: kehtivate häälte osa, mida ükski loetletud erakond ei saa */
+  const muud = $derived(summad.map((s) => 100 - s));
+  const muudÜleriigiliselt = $derived(100 - read.reduce((s, r) => s + r.üleriigiline, 0));
+
+  /** ringkond (0–11), mille veerule on hiir või fookus; selle nimi on päises ja veerg esile tõstetud */
+  let aktiivne = $state<number | null>(null);
+  /** rida (erakonna lühend või „muud"), mille ruudule osutatakse; selle ruudu kohal on ringkonna nimi */
+  let aktiivneRida = $state<string | null>(null);
+  function valiRuut(sündmus: Event) {
+    const el = (sündmus.target as HTMLElement | null)?.closest<HTMLElement>('[data-ringkond]');
+    aktiivne = el ? Number(el.dataset.ringkond) : null;
+    aktiivneRida = el?.dataset.rida ?? null;
+  }
+  function tühjenda() {
+    aktiivne = null;
+    aktiivneRida = null;
+  }
   const muudetud = $derived(Object.keys(olek.muudatused).length > 0);
 
   function muudaÜleriigilist(erakond: string, väärtus: number) {
@@ -81,12 +98,35 @@
 </div>
 <p class="vaigne vaike">{t('sisend.selgitus')}</p>
 
-<div class="tabel">
+{#snippet silt(j: number)}
+  <!-- ringkonna nimi ruudu kohal; servades joondatud, et see ei ulatuks paneelist välja -->
+  <span
+    class="ruudu-silt"
+    class:vasak={j < 3}
+    class:parem={j > 8}
+    style:left="{((j + 0.5) / 12) * 100}%"
+    aria-hidden="true"
+    data-testid="ruudu-silt"
+  >{RINGKONNAD[j].nr}. {RINGKONNAD[j].nimetus}</span>
+{/snippet}
+
+<div
+  class="tabel"
+  role="presentation"
+  onpointerover={valiRuut}
+  onpointerleave={tühjenda}
+  onfocusin={valiRuut}
+  onfocusout={tühjenda}
+>
   <div class="rida pea vaike" aria-hidden="true">
     <span class="ruudud-pea" bind:clientWidth={ruuduRida}>
-      <span class="pealdis">{t('sisend.ringkonnad')}</span>
+      <span class="pealdis" class:ringkonnaga={aktiivne !== null} data-testid="ringkonna-nimi">
+        {aktiivne === null ? t('sisend.ringkonnad') : `${RINGKONNAD[aktiivne].nr}. ${RINGKONNAD[aktiivne].nimetus}`}
+      </span>
       <span class="numbrid">
-        {#each RINGKONNAD as r (r.nr)}<span title={r.nimetus} class:vigane={summad[r.nr - 1] > 100}>{r.nr}</span>{/each}
+        {#each RINGKONNAD as r, j (r.nr)}
+          <span title={r.nimetus} data-ringkond={j} class:vigane={muud[j] < 0} class:aktiivne={aktiivne === j}>{r.nr}</span>
+        {/each}
       </span>
     </span>
   </div>
@@ -118,18 +158,22 @@
         <span class="künnis" aria-hidden="true"></span>
       </div>
       <div class="ruudud" role="group" aria-label={t('sisend.ruudud', { erakond: rida.info.lühend })}>
+        {#if aktiivneRida === rida.info.lühend && aktiivne !== null}{@render silt(aktiivne)}{/if}
         {#each rida.protsendid as väärtus, j}
           {@const stiil = ruuduStiil(rida.info.värv, väärtus, suurim)}
           <input
             class="ruut"
-            class:vigane={summad[j] > 100}
+            class:vigane={muud[j] < 0}
+            class:aktiivne={aktiivne === j}
+            data-ringkond={j}
+            data-rida={rida.info.lühend}
             type="text"
             inputmode="decimal"
             value={arv(väärtus, kümnendkohti)}
             style:background={stiil.taust}
             style:color={stiil.tekst}
             title={`${RINGKONNAD[j].nr}. ${RINGKONNAD[j].nimetus}: ${protsent(väärtus)}`}
-            aria-label={t('sisend.lahter', { erakond: rida.info.lühend, ringkond: j + 1 })}
+            aria-label={t('sisend.lahter', { erakond: rida.info.lühend, ringkond: `${j + 1} (${RINGKONNAD[j].nimetus})` })}
             onfocus={(e) => {
               // täpne väärtus ja kogu tekst valitud, et kirjutamine asendaks selle
               e.currentTarget.value = arv(väärtus, 1);
@@ -145,13 +189,27 @@
     </div>
   {/each}
 
-  <div class="rida kokku vaike">
-    <span class="kokku-ruudud">
-      <span class="pealdis">{t('sisend.kokku')}</span>
-      <span class="numbrid">
-        {#each summad as summa, j}<span class:vigane={summa > 100} title={`${RINGKONNAD[j].nimetus}: ${protsent(summa)}`}>{arv(summa, 0)}</span>{/each}
-      </span>
+  <div class="rida erakond muud" data-testid="muud">
+    <span class="nimi" title={t('sisend.muud.selgitus')}>
+      <span class="varv muu-varv"></span>
+      <span class="lühend">{t('sisend.muud')}</span>
+      <span class="täisnimi vaike vaigne">{t('sisend.muud.täis')}</span>
     </span>
+    <span class="väärtus" class:vigane-tekst={muudÜleriigiliselt < 0}>{protsent(muudÜleriigiliselt)}</span>
+    <div class="ruudud" role="group" aria-label={t('sisend.ruudud', { erakond: t('sisend.muud') })}>
+      {#if aktiivneRida === 'muud' && aktiivne !== null}{@render silt(aktiivne)}{/if}
+      {#each muud as väärtus, j}
+        <span
+          class="ruut muu"
+          class:vigane={väärtus < 0}
+          class:aktiivne={aktiivne === j}
+          data-ringkond={j}
+          data-rida="muud"
+          title={`${RINGKONNAD[j].nr}. ${RINGKONNAD[j].nimetus}: ${protsent(väärtus)}`}
+          data-testid="muud-{j + 1}"
+        >{arv(väärtus, kümnendkohti)}</span>
+      {/each}
+    </div>
   </div>
 </div>
 
@@ -198,13 +256,11 @@
     border-top: 1px solid var(--pind-3);
   }
 
-  .pea,
-  .kokku {
+  .pea {
     grid-template-areas: '. ruudud ruudud';
   }
 
-  .ruudud-pea,
-  .kokku-ruudud {
+  .ruudud-pea {
     grid-area: ruudud;
     display: grid;
     gap: 0.15rem;
@@ -233,9 +289,78 @@
     font-size: 0.72rem;
   }
 
-  .kokku {
-    border-top: 1px solid var(--joon);
-    padding-top: 0.35rem;
+  .pealdis.ringkonnaga {
+    color: var(--tekst);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .numbrid span.aktiivne {
+    color: var(--tekst);
+    font-weight: 700;
+  }
+
+  .ruudud {
+    position: relative;
+  }
+
+  .ruudu-silt {
+    position: absolute;
+    bottom: calc(100% + 4px);
+    transform: translateX(-50%);
+    z-index: 2;
+    max-width: 100%;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    background: var(--tekst);
+    color: var(--paber);
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+  }
+
+  .ruudu-silt.vasak {
+    transform: none;
+    left: 0 !important;
+  }
+
+  .ruudu-silt.parem {
+    transform: none;
+    left: auto !important;
+    right: 0;
+  }
+
+  .ruut.aktiivne {
+    box-shadow: inset 0 0 0 1.5px var(--tekst);
+  }
+
+  .muud {
+    border-top: 1px solid var(--joon) !important;
+  }
+
+  .muu-varv {
+    background: repeating-linear-gradient(45deg, var(--tekst-3) 0 2px, transparent 2px 4px);
+    border: 1px solid var(--tekst-3);
+  }
+
+  .ruut.muu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--pind-2);
+    color: var(--tekst-2);
+    cursor: default;
+  }
+
+  .vigane-tekst {
+    color: var(--viga);
   }
 
   .numbrid .vigane {
@@ -379,8 +504,7 @@
         'ruudud ruudud';
     }
 
-    .pea,
-    .kokku {
+    .pea {
       grid-template-areas: 'ruudud ruudud';
     }
 

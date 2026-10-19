@@ -183,9 +183,11 @@
   "riba.keskmine": "Average composition",
   "riba.tegelik": "2023 composition",
   "sisend.ruudud": "{erakond} support by district",
-  "sisend.kokku": "Total",
-  "sisend.ruudud.selgitus": "The cells show the party's support in each district: the darker, the closer to the party's strongest district (each party has its own scale). Click a cell to change it, for example to test tactical voting. The total row shows what share of the valid votes the parties receive in a district; the rest goes to other lists.",
+  "sisend.ruudud.selgitus": "The cells show the party's support in each district: the darker, the closer to the party's strongest district (each party has its own scale). Point at a column or focus a cell to see the district's name. Click a cell to change it, for example to test tactical voting. The \"Others\" row is the share of the valid votes left for other lists and independent candidates; red means that the parties' support in the district exceeds 100%.",
   "kompensatsioon.võrdlusarv.veerg": "Comparison figure",
   "seeme.uuesti": "Simulate again",
-  "seeme.uus.selgitus": "New random seed: the repeated simulations and the example run are computed again."
+  "seeme.uus.selgitus": "New random seed: the repeated simulations and the example run are computed again.",
+  "sisend.muud": "Others",
+  "sisend.muud.täis": "other lists and independent candidates",
+  "sisend.muud.selgitus": "The share of the valid votes that none of the parties above receives: other lists and independent candidates. The simulator gives them no seats. It follows from the party support: when a party grows, the others' share shrinks."
 }
