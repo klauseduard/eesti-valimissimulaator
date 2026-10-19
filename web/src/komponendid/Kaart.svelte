@@ -1,9 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { geoArea, geoConicConformal, geoPath, type GeoProjection } from 'd3-geo';
-  import { feature } from 'topojson-client';
-  import type { Feature, FeatureCollection, Geometry, Polygon } from 'geojson';
-  import type { Topology, GeometryCollection } from 'topojson-specification';
+  import { geoPath } from 'd3-geo';
+  import type { FeatureCollection, Geometry, Polygon } from 'geojson';
+  import { laadiRingkonnad, projektsioon, suurimOsa, TALLINN, type Ringkond } from '../lib/ringkonnakaart';
   import { erakonnaInfo, järjekorraNr, nimiLühendist } from '../lib/erakonnad';
   import { arv, protsent, t } from '../lib/i18n.svelte';
   import { KAART_VÕITJA, type Olek } from '../lib/olek';
@@ -20,12 +19,9 @@
   }: { tulemus: Tulemus; toetus: ToetuseAndmed; kokkuvõte: Kokkuvõte | null; kokkuvõteKehtib: boolean; olek: Olek } =
     $props();
 
-  type Ringkond = Feature<Geometry, { nr: number }>;
-
   const LAIUS = 640;
   /** Tallinna lisakaart: ringkonnad 1–3 suuremas mõõtkavas */
   const LISAKAART = { x: 8, y: 8, laius: 170, kõrgus: 170 };
-  const TALLINN = [1, 2, 3];
   /**
    * Siltide nihked pikslites, kus ringkonna keskpunkt ei sobi sildi kohaks: ringkond 5 koosneb saartest
    * ja Läänemaast (keskpunkt jääb merele), ringkond 9 ümbritseb Tartu linna (ringkond 10).
@@ -39,24 +35,13 @@
   async function laadi() {
     laadimisViga = null;
     try {
-      const vastus = await fetch(`${import.meta.env.BASE_URL}data/ringkonnad.topo.json`);
-      if (!vastus.ok) throw new Error(`HTTP ${vastus.status}`);
-      const topo = (await vastus.json()) as Topology<{ ringkonnad: GeometryCollection<{ nr: number }> }> & {
-        metadata?: { allikas?: string };
-      };
-      ringkonnad = (feature(topo, topo.objects.ringkonnad) as FeatureCollection<Geometry, { nr: number }>).features;
-      allikas = topo.metadata?.allikas ?? '';
+      ({ ringkonnad, allikas } = await laadiRingkonnad());
     } catch (viga) {
       laadimisViga = viga instanceof Error ? viga.message : String(viga);
     }
   }
 
   onMount(laadi);
-
-  function projektsioon(): GeoProjection {
-    // Lamberti konformne kooniline projektsioon L-EST97 parameetritega
-    return geoConicConformal().parallels([58, 59 + 20 / 60]).rotate([-24, 0]);
-  }
 
   const joonistus = $derived.by(() => {
     if (!ringkonnad) return null;
@@ -95,13 +80,6 @@
       tallinnaKast: { x0, y0, x1, y1 },
     };
   });
-
-  function suurimOsa(geomeetria: Geometry): Polygon {
-    if (geomeetria.type === 'Polygon') return geomeetria;
-    if (geomeetria.type !== 'MultiPolygon') throw new Error(`Ootamatu geomeetria ${geomeetria.type}`);
-    const osad: Polygon[] = geomeetria.coordinates.map((coordinates) => ({ type: 'Polygon', coordinates }));
-    return osad.reduce((suurim, osa) => (geoArea(osa) > geoArea(suurim) ? osa : suurim));
-  }
 
   /**
    * ringkonnast valitud kandidaatide arv erakonniti (kõik mandaadiliigid): tegelike häältega selle

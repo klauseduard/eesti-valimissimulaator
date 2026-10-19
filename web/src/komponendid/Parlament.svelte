@@ -60,6 +60,21 @@
   /** eelseadistuse küsitluse viga; tüüpiline suhteline viga protsentides (üks standardhälve) */
   const eelseadistuseVeaga = $derived(eelseadistuseViga(olek.eelseadistus)[0] > 0);
   const tüüpilineViga = $derived(Math.round((Math.exp(eelseadistuseViga(olek.eelseadistus)[0]) - 1) * 100));
+  /**
+   * vea näide suurima erakonna peal: viga on suhteline (log-normaalne), seega üks standardhälve annab
+   * vahemiku toetus · e^−σ … toetus · e^σ, kuhu jääb umbes kaks kolmandikku kordustest
+   */
+  const veaNäide = $derived.by(() => {
+    const σ = eelseadistuseViga(olek.eelseadistus)[0];
+    const suurim = [...tulemus.erakonnad].sort((a, b) => b.protsent - a.protsent)[0];
+    if (!suurim || σ <= 0) return null;
+    return {
+      erakond: erakonnaInfo(suurim.erakond).lühend,
+      toetus: protsent(suurim.protsent),
+      alla: arv(suurim.protsent * Math.exp(-σ), 0),
+      üle: arv(suurim.protsent * Math.exp(σ), 0),
+    };
+  });
   const kordustest = $derived(!tegelikud && kokkuvõte !== null && kokkuvõte.kordi > 0);
 
   /** erakonna mandaatide arv igas korduses (ka nende erakondade jaoks, kes kordagi mandaati ei saanud) */
@@ -156,7 +171,14 @@
     {#if eelseadistuseVeaga}
       <label class="lüliti">
         <input type="checkbox" bind:checked={olek.viga} data-testid="küsitluse-viga" />
-        <span>{t('parlament.viga', { protsent: tüüpilineViga })}</span>
+        <span>
+          {t('parlament.viga')}
+          {#if veaNäide}
+            <span class="vaigne" data-testid="vea-näide">
+              {t('parlament.viga.näide', { protsent: tüüpilineViga, ...veaNäide })}
+            </span>
+          {/if}
+        </span>
       </label>
     {/if}
     <Seeme bind:olek nupuSilt={t('seeme.uuesti')} testid="-ülal" />

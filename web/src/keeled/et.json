@@ -125,7 +125,7 @@
   "kandidaadid.näidiskordus": "näidiskordus, seeme {seeme}",
   "parlament.alus.veaga": "Poolring näitab keskmist koosseisu {kordi} korduse põhjal, küsitluse viga arvestatud.",
   "parlament.alus.veata": "Poolring näitab keskmist koosseisu {kordi} korduse põhjal, küsitluse viga arvestamata.",
-  "parlament.viga": "Arvesta küsitluse viga (selle andmestiku puhul tüüpiliselt ±{protsent}% erakonna toetusest)",
+  "parlament.viga": "Arvesta küsitluse viga.",
   "parlament.mandaadiga": "Mandaadiga",
   "parlament.mandaadiga.selgitus": "Kui suures osas kordustest sai erakond vähemalt ühe mandaadi",
   "parlament.jaotus": "Jaotus",
@@ -136,7 +136,7 @@
   "eelseadistus.koond-2023-03-03": "Küsitluste koond, 03.03.2023",
   "jalus.ajalugu": "Küsitluste ajalugu 2011–2023 (koondi ja küsitlejate täpsuse jaoks)",
   "jalus.tagasitest": "tagasitesti aruanne",
-  "parlament.lause": "Suurim erakond oleks {erakond}: 90% kordustest {p05}–{p95} kohta, mediaan {mediaan}; suurim {osakaal} kordustest.",
+  "parlament.lause": "Suurim erakond oleks {erakond}: 90% kordustest {p05}⁠–⁠{p95} kohta, mediaan {mediaan}; suurim {osakaal} kordustest.",
   "parlament.lause.tegelikud": "Suurim erakond: {erakond}, {mandaate} kohta.",
   "ringkonnad.pealkiri": "Valitud ringkondade kaupa",
   "ringkonnad.selgitus": "Ringkonnast valitud kandidaatide keskmine arv erakondade kaupa, ka kompensatsioonimandaadid. Klõpsa real, et näha ringkonna arvutust allpool.",
@@ -189,5 +189,6 @@
   "seeme.uus.selgitus": "Uus juhuslik seeme: korduvad simulatsioonid ja näidiskordus arvutatakse uuesti.",
   "sisend.muud": "Muud",
   "sisend.muud.täis": "teised nimekirjad ja üksikkandidaadid",
-  "sisend.muud.selgitus": "Kehtivate häälte osa, mida ükski ülaltoodud erakond ei saa: teised nimekirjad ja üksikkandidaadid. Simulaator neile mandaate ei jaga. See tuleb erakondade toetusest: kui erakonna toetus kasvab, väheneb muude osa."
+  "sisend.muud.selgitus": "Kehtivate häälte osa, mida ükski ülaltoodud erakond ei saa: teised nimekirjad ja üksikkandidaadid. Simulaator neile mandaate ei jaga. See tuleb erakondade toetusest: kui erakonna toetus kasvab, väheneb muude osa.",
+  "parlament.viga.näide": "Viga on tüüpiliselt ±{protsent}% erakonna enda toetusest: näiteks {erakond} {toetus} korral jääb toetus umbes kahes kolmandikus kordustest vahemikku {alla}–{üle}%."
 }

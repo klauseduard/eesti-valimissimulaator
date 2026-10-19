@@ -6,6 +6,13 @@
 
 ### Changed
 
+  * Pointing at a district cell in the support panel shows a small map of
+  Estonia with that district highlighted (Tallinn's districts in an enlarged
+  inset), together with its name. The poll-error switch now explains the
+  error with an example: the error is relative to a party's own support, so
+  for the largest party it states the range that holds about two thirds of
+  the runs.
+
   * District support: pointing at or focusing a district cell shows the
   district's name above the cell and in the column header, and highlights the
   column. A new row "Others" shows the share of the valid votes left for

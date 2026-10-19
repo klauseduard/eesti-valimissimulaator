@@ -125,7 +125,7 @@
   "kandidaadid.näidiskordus": "example run, seed {seeme}",
   "parlament.alus.veaga": "The hemicycle shows the average composition over {kordi} runs, poll error included.",
   "parlament.alus.veata": "The hemicycle shows the average composition over {kordi} runs, poll error not included.",
-  "parlament.viga": "Include poll error (for this data typically ±{protsent}% of a party's support)",
+  "parlament.viga": "Include poll error.",
   "parlament.mandaadiga": "With seats",
   "parlament.mandaadiga.selgitus": "Share of runs in which the party won at least one seat",
   "parlament.jaotus": "Distribution",
@@ -136,7 +136,7 @@
   "eelseadistus.koond-2023-03-03": "Poll aggregate, 3 Mar 2023",
   "jalus.ajalugu": "Poll history 2011–2023 (for the aggregate and pollster accuracy)",
   "jalus.tagasitest": "backtest report",
-  "parlament.lause": "The largest party would be {erakond}: {p05}–{p95} seats in 90% of runs, median {mediaan}; largest in {osakaal} of runs.",
+  "parlament.lause": "The largest party would be {erakond}: {p05}⁠–⁠{p95} seats in 90% of runs, median {mediaan}; largest in {osakaal} of runs.",
   "parlament.lause.tegelikud": "Largest party: {erakond}, {mandaate} seats.",
   "ringkonnad.pealkiri": "Elected by district",
   "ringkonnad.selgitus": "Average number of candidates elected from each district by party, compensation mandates included. Click a row to see the district's calculation below.",
@@ -189,5 +189,6 @@
   "seeme.uus.selgitus": "New random seed: the repeated simulations and the example run are computed again.",
   "sisend.muud": "Others",
   "sisend.muud.täis": "other lists and independent candidates",
-  "sisend.muud.selgitus": "The share of the valid votes that none of the parties above receives: other lists and independent candidates. The simulator gives them no seats. It follows from the party support: when a party grows, the others' share shrinks."
+  "sisend.muud.selgitus": "The share of the valid votes that none of the parties above receives: other lists and independent candidates. The simulator gives them no seats. It follows from the party support: when a party grows, the others' share shrinks.",
+  "parlament.viga.näide": "The error is typically ±{protsent}% of the party's own support: for {erakond} at {toetus}, support falls within {alla}–{üle}% in about two thirds of the runs."
 }

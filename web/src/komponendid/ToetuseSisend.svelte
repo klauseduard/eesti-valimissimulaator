@@ -4,6 +4,7 @@
   import { ümarda, type Olek } from '../lib/olek';
   import type { ToetuseAndmed } from '../lib/protokoll';
   import { RINGKONNAD, üleriigilineToetus, üleriigiliseToetuseMuudatused } from '../lib/simulaator';
+  import Minikaart from './Minikaart.svelte';
 
   let { olek = $bindable(), toetus, vead }: { olek: Olek; toetus: ToetuseAndmed; vead: string[] } = $props();
 
@@ -107,7 +108,10 @@
     style:left="{((j + 0.5) / 12) * 100}%"
     aria-hidden="true"
     data-testid="ruudu-silt"
-  >{RINGKONNAD[j].nr}. {RINGKONNAD[j].nimetus}</span>
+  >
+    <Minikaart ringkond={j + 1} silt={RINGKONNAD[j].nimetus} />
+    <span class="nimi-tekst">{RINGKONNAD[j].nr}. {RINGKONNAD[j].nimetus}</span>
+  </span>
 {/snippet}
 
 <div
@@ -312,18 +316,26 @@
     position: absolute;
     bottom: calc(100% + 4px);
     transform: translateX(-50%);
-    z-index: 2;
-    max-width: 100%;
-    padding: 0.15rem 0.45rem;
-    border-radius: 4px;
+    z-index: 3;
+    display: grid;
+    justify-items: start;
+    gap: 0.3rem;
+    width: max-content;
+    max-width: min(100%, 15rem);
+    padding: 0.4rem 0.5rem 0.35rem;
+    border-radius: 6px;
     background: var(--tekst);
     color: var(--paber);
+    box-shadow: 0 4px 14px rgb(0 0 0 / 0.25);
     font-size: 0.72rem;
     font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     pointer-events: none;
+  }
+
+  .nimi-tekst {
+    max-width: 100%;
+    white-space: normal;
+    line-height: 1.25;
   }
 
   .ruudu-silt.vasak {
