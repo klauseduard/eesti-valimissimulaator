@@ -147,9 +147,11 @@ test('ringkonna ruudu muutmine jõuab linki ja üle 100% annab hoiatuse', async 
   await expect(kaart.locator('path.valitud')).toHaveCount(1);
   await expect(kaart).toBeInViewport();
   // kaardil ringkonnale osutamine tõstab esile selle veeru
-  await kaart.locator('path[data-ringkond="4"]').first().hover();
-  await expect(page.getByTestId('ringkonna-nimi')).toHaveText('5. Hiiu-, Lääne- ja Saaremaa');
-  await expect(page.getByTestId('ruut-KESK-5')).toHaveClass(/aktiivne/);
+  // sündmus saadetakse otse ringkonna kujule: hiirega osutamisel võtaks Playwright piirdekasti keskpunkti, mis
+  // saartega ringkondade (5, 12) puhul jääb merele
+  await kaart.locator('path[data-ringkond="11"]').first().dispatchEvent('pointerover');
+  await expect(page.getByTestId('ringkonna-nimi')).toHaveText('12. Pärnumaa');
+  await expect(page.getByTestId('ruut-KESK-12')).toHaveClass(/aktiivne/);
   const muudEnne = Number((await page.getByTestId('muud-1').textContent())!.replace(',', '.'));
   expect(muudEnne).toBeGreaterThan(0);
   await page.getByTestId('ruut-REF-1').fill('90');
