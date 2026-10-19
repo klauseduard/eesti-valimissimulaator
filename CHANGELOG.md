@@ -6,6 +6,10 @@
 
 ### Changed
 
+  * The support panel has a district map in its header, pinned while the party
+  rows scroll. Pointing at a district column highlights the district on the
+  map, and pointing at a district on the map highlights its column.
+
   * Pointing at a district cell in the support panel shows a small map of
   Estonia with that district highlighted (Tallinn's districts in an enlarged
   inset), together with its name. The poll-error switch now explains the

@@ -61,6 +61,9 @@
   let ruuduRida = $state(0);
   const kümnendkohti = $derived((ruuduRida - 11 * 2) / 12 >= 36 ? 1 : 0);
 
+  /** kleepuva päise kaardi laius: kitsal paneelil väiksem, et päis ei võtaks liiga palju kõrgust */
+  const kaardiLaius = $derived(ruuduRida > 0 && ruuduRida < 360 ? 132 : 190);
+
   /** ruudu värv: erakonna värv seda tugevamalt, mida lähemal on toetus erakonna tugevaimale ringkonnale */
   function ruuduStiil(värv: string, väärtus: number, suurim: number): { taust: string; tekst: string } {
     if (suurim <= 0 || väärtus <= 0) return { taust: 'var(--pind-2)', tekst: 'var(--tekst-3)' };
@@ -109,7 +112,6 @@
     aria-hidden="true"
     data-testid="ruudu-silt"
   >
-    <Minikaart ringkond={j + 1} silt={RINGKONNAD[j].nimetus} />
     <span class="nimi-tekst">{RINGKONNAD[j].nr}. {RINGKONNAD[j].nimetus}</span>
   </span>
 {/snippet}
@@ -122,17 +124,26 @@
   onfocusin={valiRuut}
   onfocusout={tühjenda}
 >
+  <!-- kleepuv päis: ringkondade kaart ja veergude numbrid jäävad erakondade ridu kerides nähtavaks -->
+  <div class="kaardipea" data-testid="toetuse-kaart">
+    <div class="kaardirida">
+      <Minikaart ringkond={aktiivne === null ? null : aktiivne + 1} silt={t('sisend.kaart')} laius={kaardiLaius} />
+      <div class="kaardiinfo">
+        <span class="pealdis">{t('sisend.ringkonnad')}</span>
+        <span class="ringkonna-nimi" class:tühi={aktiivne === null} data-testid="ringkonna-nimi">
+          {aktiivne === null ? t('sisend.kaart.vihje') : `${RINGKONNAD[aktiivne].nr}. ${RINGKONNAD[aktiivne].nimetus}`}
+        </span>
+      </div>
+    </div>
   <div class="rida pea vaike" aria-hidden="true">
     <span class="ruudud-pea" bind:clientWidth={ruuduRida}>
-      <span class="pealdis" class:ringkonnaga={aktiivne !== null} data-testid="ringkonna-nimi">
-        {aktiivne === null ? t('sisend.ringkonnad') : `${RINGKONNAD[aktiivne].nr}. ${RINGKONNAD[aktiivne].nimetus}`}
-      </span>
       <span class="numbrid">
         {#each RINGKONNAD as r, j (r.nr)}
           <span title={r.nimetus} data-ringkond={j} class:vigane={muud[j] < 0} class:aktiivne={aktiivne === j}>{r.nr}</span>
         {/each}
       </span>
     </span>
+  </div>
   </div>
 
   {#each read as rida (rida.erakond)}
@@ -293,14 +304,40 @@
     font-size: 0.72rem;
   }
 
-  .pealdis.ringkonnaga {
-    color: var(--tekst);
-    text-transform: none;
-    letter-spacing: 0;
+  .kaardipea {
+    position: sticky;
+    top: var(--riba-kõrgus);
+    z-index: 2;
+    background: var(--pind);
+    padding: 0.35rem 0 0.15rem;
+    border-bottom: 1px solid var(--joon);
+  }
+
+  .kaardirida {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .kaardiinfo {
+    display: grid;
+    gap: 0.2rem;
+    min-width: 0;
+  }
+
+  .ringkonna-nimi {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .ringkonna-nimi.tühi {
+    font-family: var(--sans);
     font-size: 0.78rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-weight: 400;
+    color: var(--tekst-3);
   }
 
   .numbrid span.aktiivne {

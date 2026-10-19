@@ -26,6 +26,11 @@
   let klõpsatud = '';
   let loend = $state<HTMLUListElement>();
   let tulbaLaius = $state(0);
+  /** riba tegelik kõrgus CSS-muutujaks, et teised kleepuvad osad (toetuse paneeli päis) jääksid selle alla */
+  let ribaKõrgus = $state(0);
+  $effect(() => {
+    if (ribaKõrgus > 0) document.documentElement.style.setProperty('--riba-kõrgus', `${ribaKõrgus}px`);
+  });
 
   const lõigud = $derived(
     koosseis === null
@@ -95,7 +100,7 @@
   });
 </script>
 
-<div class="kleepriba">
+<div class="kleepriba" bind:offsetHeight={ribaKõrgus}>
   <div class="sisu">
     <div class="koosseis" class:uueneb>
       <span class="pealdis">{tegelikud ? t('riba.tegelik') : t('riba.keskmine')}</span>

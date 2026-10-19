@@ -1,15 +1,16 @@
 <script lang="ts">
   // Väike Eesti kaart, millel üks ringkond on esile tõstetud; Tallinna kolm ringkonda on lisaks suurendatult
-  // vasakul ülal, sest Eesti kaardil on need vaid mõne piksli suurused.
+  // vasakul ülal, sest Eesti kaardil on need vaid mõne piksli suurused. Igal ringkonnal on atribuut
+  // data-ringkond (0–11), et ümbritsev komponent saaks osutamise järgi ringkonna valida.
   import { onMount } from 'svelte';
   import { geoPath } from 'd3-geo';
   import type { FeatureCollection, Geometry, Polygon } from 'geojson';
   import { laadiRingkonnad, projektsioon, suurimOsa, TALLINN, type Ringkond } from '../lib/ringkonnakaart';
 
-  let { ringkond, silt }: { ringkond: number | null; silt: string } = $props();
+  let { ringkond, silt, laius = 168 }: { ringkond: number | null; silt: string; laius?: number } = $props();
 
-  const LAIUS = 168;
-  const LISA = 44;
+  const LAIUS = $derived(laius);
+  const LISA = $derived(Math.round(laius * 0.26));
 
   let ringkonnad = $state<Ringkond[] | null>(null);
   onMount(() => {
@@ -43,11 +44,11 @@
 {#if joonistus}
   <svg viewBox="0 0 {LAIUS} {joonistus.kõrgus}" width={LAIUS} height={joonistus.kõrgus} role="img" aria-label={silt}>
     {#each joonistus.põhi as r (r.nr)}
-      <path d={r.d} class:valitud={r.nr === ringkond} />
+      <path d={r.d} class:valitud={r.nr === ringkond} data-ringkond={r.nr - 1}><title>{r.nr}</title></path>
     {/each}
     <rect x="0.5" y="0.5" width={LISA} height={LISA} rx="3" class="lisa-kast" />
     {#each joonistus.lisa as r (r.nr)}
-      <path d={r.d} class:valitud={r.nr === ringkond} />
+      <path d={r.d} class:valitud={r.nr === ringkond} data-ringkond={r.nr - 1}><title>{r.nr}</title></path>
     {/each}
   </svg>
 {/if}
@@ -58,19 +59,24 @@
   }
 
   path {
-    fill: color-mix(in srgb, var(--paber) 35%, transparent);
-    stroke: var(--paber);
-    stroke-width: 0.6;
+    fill: color-mix(in srgb, var(--tekst) 20%, var(--pind));
+    stroke: var(--pind);
+    stroke-width: 0.7;
+    cursor: pointer;
+    transition: fill 0.12s;
+  }
+
+  path:hover {
+    fill: color-mix(in srgb, var(--rohk) 45%, var(--pind));
   }
 
   path.valitud {
-    fill: var(--paber);
-    stroke: var(--paber);
+    fill: var(--rohk);
   }
 
   .lisa-kast {
     fill: none;
-    stroke: color-mix(in srgb, var(--paber) 45%, transparent);
+    stroke: var(--joon);
     stroke-width: 0.8;
   }
 </style>

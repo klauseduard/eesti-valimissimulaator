@@ -334,12 +334,6 @@
     background: var(--viga-pind);
   }
 
-  @media (max-width: 1099px) {
-    :global(:root) {
-      --riba-kõrgus: 70px;
-    }
-  }
-
   @media (max-width: 600px) {
     main {
       padding: 0.8rem 12px 2rem;

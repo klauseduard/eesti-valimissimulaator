@@ -190,5 +190,7 @@
   "sisend.muud": "Muud",
   "sisend.muud.täis": "teised nimekirjad ja üksikkandidaadid",
   "sisend.muud.selgitus": "Kehtivate häälte osa, mida ükski ülaltoodud erakond ei saa: teised nimekirjad ja üksikkandidaadid. Simulaator neile mandaate ei jaga. See tuleb erakondade toetusest: kui erakonna toetus kasvab, väheneb muude osa.",
-  "parlament.viga.näide": "Viga on tüüpiliselt ±{protsent}% erakonna enda toetusest: näiteks {erakond} {toetus} korral jääb toetus umbes kahes kolmandikus kordustest vahemikku {alla}–{üle}%."
+  "parlament.viga.näide": "Viga on tüüpiliselt ±{protsent}% erakonna enda toetusest: näiteks {erakond} {toetus} korral jääb toetus umbes kahes kolmandikus kordustest vahemikku {alla}–{üle}%.",
+  "sisend.kaart": "Ringkondade kaart",
+  "sisend.kaart.vihje": "Osuta veerule või kaardil ringkonnale, et näha, kus see asub."
 }

@@ -190,5 +190,7 @@
   "sisend.muud": "Others",
   "sisend.muud.täis": "other lists and independent candidates",
   "sisend.muud.selgitus": "The share of the valid votes that none of the parties above receives: other lists and independent candidates. The simulator gives them no seats. It follows from the party support: when a party grows, the others' share shrinks.",
-  "parlament.viga.näide": "The error is typically ±{protsent}% of the party's own support: for {erakond} at {toetus}, support falls within {alla}–{üle}% in about two thirds of the runs."
+  "parlament.viga.näide": "The error is typically ±{protsent}% of the party's own support: for {erakond} at {toetus}, support falls within {alla}–{üle}% in about two thirds of the runs.",
+  "sisend.kaart": "Map of the districts",
+  "sisend.kaart.vihje": "Point at a column or at a district on the map to see where it is."
 }

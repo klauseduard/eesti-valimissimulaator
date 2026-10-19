@@ -142,7 +142,14 @@ test('ringkonna ruudu muutmine jõuab linki ja üle 100% annab hoiatuse', async 
   await page.getByTestId('ruut-KESK-7').hover();
   await expect(page.getByTestId('ringkonna-nimi')).toHaveText('7. Ida-Virumaa');
   await expect(page.getByTestId('ruudu-silt')).toContainText('7. Ida-Virumaa');
-  await expect(page.getByTestId('ruudu-silt').locator('path.valitud')).toHaveCount(1);
+  // päise kaardil on sama ringkond esile tõstetud ja kaart jääb ridu kerides nähtavaks
+  const kaart = page.getByTestId('toetuse-kaart');
+  await expect(kaart.locator('path.valitud')).toHaveCount(1);
+  await expect(kaart).toBeInViewport();
+  // kaardil ringkonnale osutamine tõstab esile selle veeru
+  await kaart.locator('path[data-ringkond="4"]').first().hover();
+  await expect(page.getByTestId('ringkonna-nimi')).toHaveText('5. Hiiu-, Lääne- ja Saaremaa');
+  await expect(page.getByTestId('ruut-KESK-5')).toHaveClass(/aktiivne/);
   const muudEnne = Number((await page.getByTestId('muud-1').textContent())!.replace(',', '.'));
   expect(muudEnne).toBeGreaterThan(0);
   await page.getByTestId('ruut-REF-1').fill('90');
