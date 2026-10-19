@@ -6,6 +6,16 @@
 
 ### Changed
 
+  * Step-through mode: a dialog walks through one allocation (the example run
+  or the actual 2023 votes) in the order of § 62, by stage, district or single
+  seat. At the finest step each seat has a card with the numbers and a small
+  chart: the quota bars with the 0.75 mark, the candidates against the 10%
+  line, and the compensation comparison figures with their divisors. A 101-seat
+  bar fills as the seats are allocated. The compensation steps now record the
+  candidates who were skipped for having under 5% of the quota. The support
+  panel no longer marks a district red when its total exceeds 100% only by a
+  rounding error.
+
   * The support panel has a district map in its header, pinned while the party
   rows scroll. Pointing at a district column highlights the district on the
   map, and pointing at a district on the map highlights its column.

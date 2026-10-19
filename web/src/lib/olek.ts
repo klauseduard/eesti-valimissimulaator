@@ -8,6 +8,8 @@
 //   e      0: ära arvesta korduvates simulatsioonides küsitluse viga (vaikimisi arvestatakse)
 //   j      lihtne: jaga erakonna hääled kandidaatide vahel lihtsa juhusliku jaotusega (vaikimisi kalibreeritud)
 //   r      selgituses valitud ringkond (1–12)
+//   samm   samm-sammult vaade on avatud selle sammuga (0, 1, …; liiga suur arv piiratakse vaates)
+//   sammud samm-sammult vaate sammu suurus: etapp, ringkond või mandaat (vaikimisi mandaat)
 //   kaart  kaardi vaade: voitja või erakonna lühend (erakonna toetus)
 //   p.X    erakonna X muudetud toetus 12 ringkonnas, komaga eraldatud
 
@@ -15,6 +17,9 @@ export type Keel = 'et' | 'en';
 
 /** häälte jaotus kandidaatide vahel (vt docs/kandidaatide-mudel.md); nimed on samad mis Kotlini koodis */
 export type Jaotus = 'kalibreeritud' | 'lihtne';
+
+export type Sammusuurus = 'etapp' | 'ringkond' | 'mandaat';
+const SAMMUSUURUSED: Sammusuurus[] = ['etapp', 'ringkond', 'mandaat'];
 
 export const KAART_VÕITJA = 'voitja';
 export const RK2023 = 'rk2023';
@@ -31,6 +36,9 @@ export interface Olek {
   jaotus: Jaotus;
   ringkond: number;
   kaart: string;
+  /** samm-sammult vaate samm; null, kui vaade on suletud */
+  samm: number | null;
+  sammuSuurus: Sammusuurus;
 }
 
 export interface Teadaolevad {
@@ -50,6 +58,8 @@ export function vaikimisiOlek(teadaolevad: Teadaolevad, keel: Keel = 'et'): Olek
     jaotus: 'kalibreeritud',
     ringkond: 1,
     kaart: KAART_VÕITJA,
+    samm: null,
+    sammuSuurus: 'mandaat',
   };
 }
 
@@ -69,6 +79,10 @@ export function kodeeri(olek: Olek): string {
   if (olek.jaotus !== 'kalibreeritud') osad.push(`j=${olek.jaotus}`);
   osad.push(`r=${olek.ringkond}`);
   osad.push(`kaart=${encodeURIComponent(olek.kaart)}`);
+  if (olek.samm !== null) {
+    osad.push(`samm=${olek.samm}`);
+    if (olek.sammuSuurus !== 'mandaat') osad.push(`sammud=${olek.sammuSuurus}`);
+  }
   for (const [lühend, protsendid] of Object.entries(olek.muudatused)) {
     osad.push(`p.${encodeURIComponent(lühend)}=${protsendid.map((p) => ümarda(p)).join(',')}`);
   }
@@ -116,6 +130,13 @@ export function dekodeeri(fragment: string, teadaolevad: Teadaolevad, vaikimisiK
       else vead.push(osa);
     } else if (võti === 'j') {
       if (väärtus === 'kalibreeritud' || väärtus === 'lihtne') olek.jaotus = väärtus;
+      else vead.push(osa);
+    } else if (võti === 'samm') {
+      const samm = Number(väärtus);
+      if (väärtus !== '' && Number.isInteger(samm) && samm >= 0 && samm < 10_000) olek.samm = samm;
+      else vead.push(osa);
+    } else if (võti === 'sammud') {
+      if ((SAMMUSUURUSED as string[]).includes(väärtus)) olek.sammuSuurus = väärtus as Sammusuurus;
       else vead.push(osa);
     } else if (võti === 'r') {
       const ringkond = Number(väärtus);

@@ -40,6 +40,17 @@ describe('URL-i olek', () => {
     expect(dekodeeri('#j=muu', teadaolevad).vead).toEqual(['j=muu']);
   });
 
+  it('samm-sammult vaate samm ja sammu suurus on lingis ainult siis, kui vaade on avatud', () => {
+    expect(vaikimisiOlek(teadaolevad).samm).toBeNull();
+    expect(kodeeri(vaikimisiOlek(teadaolevad))).not.toContain('samm');
+    const olek = { ...vaikimisiOlek(teadaolevad), samm: 12, sammuSuurus: 'ringkond' as const };
+    expect(dekodeeri(kodeeri(olek), teadaolevad)).toEqual({ olek, vead: [] });
+    expect(dekodeeri('#samm=3', teadaolevad).olek).toMatchObject({ samm: 3, sammuSuurus: 'mandaat' });
+    expect(dekodeeri('#samm=-1', teadaolevad).vead).toEqual(['samm=-1']);
+    expect(dekodeeri('#samm=x', teadaolevad).vead).toEqual(['samm=x']);
+    expect(dekodeeri('#sammud=suur', teadaolevad).vead).toEqual(['sammud=suur']);
+  });
+
   it('tühi fragment annab vaikimisi oleku', () => {
     expect(dekodeeri('', teadaolevad)).toEqual({ olek: vaikimisiOlek(teadaolevad), vead: [] });
     expect(dekodeeri('#', teadaolevad, 'en').olek.keel).toBe('en');

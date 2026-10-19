@@ -103,4 +103,21 @@ class SelgitusTest {
     assertEquals(true, viik.single().viik)
     assertEquals("B", viik.single().erakond)
   }
+
+  @Test
+  fun `kompensatsioonimandaadi sammus on vahele jäetud kandidaadid`() {
+    // lihtkvoot 100: A saab ringkonnast 1 koha (1,63 kvooti); kompensatsioonimandaadi saab A, kelle
+    // üleriigilises nimekirjas on a2 eespool, kuid 3 häälega alla 5% lihtkvoodist, seega saab koha a3
+    val sammud = jaotaMandaadid(
+      listOf(
+        Kandidaat("a1", "A", 1, hääli = 150, jrkNr = 1),
+        Kandidaat("a2", "A", 1, hääli = 3, jrkNr = 2),
+        Kandidaat("a3", "A", 1, hääli = 10, jrkNr = 3),
+        Kandidaat("b1", "B", 1, hääli = 37, jrkNr = 1),
+      ),
+      listOf(Valimisringkond(1, "Esimene", 2)), mapOf(1 to 200), mandaateKokku = 2
+    ).kompensatsiooniSammud
+    assertEquals("a3", sammud.single().kandidaat.nimi)
+    assertEquals(listOf("a2"), sammud.single().vahelejäetud.map { it.nimi })
+  }
 }

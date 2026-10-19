@@ -26,6 +26,8 @@
   const summad = $derived(RINGKONNAD.map((_, j) => toetus.protsendid.reduce((s, r) => s + r[j], 0)));
   /** teised nimekirjad ja üksikkandidaadid: kehtivate häälte osa, mida ükski loetletud erakond ei saa */
   const muud = $derived(summad.map((s) => 100 - s));
+  /** sama piir mis Kotlini kontrolliToetust: ümardamise tõttu võib summa ületada 100% murdosa võrra */
+  const ülePiiri = (muu: number) => muu < -1e-9;
   const muudÜleriigiliselt = $derived(100 - read.reduce((s, r) => s + r.üleriigiline, 0));
 
   /** ringkond (0–11), mille veerule on hiir või fookus; selle nimi on päises ja veerg esile tõstetud */
@@ -139,7 +141,7 @@
     <span class="ruudud-pea" bind:clientWidth={ruuduRida}>
       <span class="numbrid">
         {#each RINGKONNAD as r, j (r.nr)}
-          <span title={r.nimetus} data-ringkond={j} class:vigane={muud[j] < 0} class:aktiivne={aktiivne === j}>{r.nr}</span>
+          <span title={r.nimetus} data-ringkond={j} class:vigane={ülePiiri(muud[j])} class:aktiivne={aktiivne === j}>{r.nr}</span>
         {/each}
       </span>
     </span>
@@ -178,7 +180,7 @@
           {@const stiil = ruuduStiil(rida.info.värv, väärtus, suurim)}
           <input
             class="ruut"
-            class:vigane={muud[j] < 0}
+            class:vigane={ülePiiri(muud[j])}
             class:aktiivne={aktiivne === j}
             data-ringkond={j}
             data-rida={rida.info.lühend}
@@ -210,13 +212,13 @@
       <span class="lühend">{t('sisend.muud')}</span>
       <span class="täisnimi vaike vaigne">{t('sisend.muud.täis')}</span>
     </span>
-    <span class="väärtus" class:vigane-tekst={muudÜleriigiliselt < 0}>{protsent(muudÜleriigiliselt)}</span>
+    <span class="väärtus" class:vigane-tekst={ülePiiri(muudÜleriigiliselt)}>{protsent(muudÜleriigiliselt)}</span>
     <div class="ruudud" role="group" aria-label={t('sisend.ruudud', { erakond: t('sisend.muud') })}>
       {#if aktiivneRida === 'muud' && aktiivne !== null}{@render silt(aktiivne)}{/if}
       {#each muud as väärtus, j}
         <span
           class="ruut muu"
-          class:vigane={väärtus < 0}
+          class:vigane={ülePiiri(väärtus)}
           class:aktiivne={aktiivne === j}
           data-ringkond={j}
           data-rida="muud"

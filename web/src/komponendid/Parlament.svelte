@@ -166,8 +166,8 @@
   {/if}
 </p>
 
-{#if !tegelikud}
-  <div class="juhtimine vaike">
+<div class="juhtimine vaike">
+  {#if !tegelikud}
     {#if eelseadistuseVeaga}
       <label class="lüliti">
         <input type="checkbox" bind:checked={olek.viga} data-testid="küsitluse-viga" />
@@ -182,8 +182,12 @@
       </label>
     {/if}
     <Seeme bind:olek nupuSilt={t('seeme.uuesti')} testid="-ülal" />
-  </div>
-{/if}
+  {/if}
+  <button class="samm-nupp" onclick={() => (olek.samm = 0)} data-testid="ava-samm">
+    <span aria-hidden="true">▶</span>
+    {t('samm.ava')}
+  </button>
+</div>
 
 <div class="tulemusala">
 <svg
@@ -316,6 +320,20 @@
     text-transform: uppercase;
     color: var(--tekst-3);
     margin-bottom: 0.5rem;
+  }
+
+  .samm-nupp {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+    background: var(--tekst);
+    color: var(--pind);
+    border-color: var(--tekst);
+    font-weight: 600;
+  }
+
+  .samm-nupp:hover {
+    opacity: 0.9;
   }
 
   .juhtimine {

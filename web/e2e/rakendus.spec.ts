@@ -166,6 +166,60 @@ test('ringkonna ruudu muutmine jõuab linki ja üle 100% annab hoiatuse', async 
   await expect(page.getByTestId('ruut-PP-2')).not.toHaveValue('abc');
 });
 
+test('samm-sammult vaade: avamine, liikumine, sammu suurus ja sulgemine', async ({ page }) => {
+  await page.goto('/#v=rk2023&h=1&k=et');
+  await page.getByTestId('ava-samm').click();
+  const dialoog = page.getByTestId('samm-haaval');
+  await expect(dialoog).toBeVisible();
+  await expect(page).toHaveURL(/samm=0/);
+  await expect(page.getByTestId('samm-kaart')).toHaveAttribute('data-liik', 'algus');
+  // nooleklahvid liiguvad mandaadi kaupa: algus, künnis, 1. ringkonna lihtkvoot
+  await page.keyboard.press('ArrowRight');
+  await expect(page.getByTestId('samm-kaart')).toHaveAttribute('data-liik', 'künnis');
+  await page.getByTestId('samm-järgmine').click();
+  await expect(page.getByTestId('samm-kaart')).toHaveAttribute('data-liik', 'kvoot');
+  await page.keyboard.press('ArrowLeft');
+  await expect(page.getByTestId('samm-kaart')).toHaveAttribute('data-liik', 'künnis');
+  // ringkonna kaupa: järgmine peatus on 1. ringkonna kokkuvõte
+  await dialoog.getByText('Ringkond', { exact: true }).click();
+  await expect(page).toHaveURL(/sammud=ringkond/);
+  await page.getByTestId('samm-järgmine').click();
+  await expect(page.getByTestId('samm-kaart')).toHaveAttribute('data-liik', 'ringkond-lõpp');
+  // etapi kaupa jõuab lõpuni, kus kõik 101 kohta on jagatud
+  await dialoog.getByText('Etapp', { exact: true }).click();
+  // etapi suurusega on kaart kõigi ringkondade kokkuvõte ja kõik ringkondade kohad on jagatud
+  await expect(page.getByTestId('samm-kaart')).toHaveAttribute('data-liik', 'ringkonnad-kokku');
+  while (await page.getByTestId('samm-järgmine').isEnabled()) await page.getByTestId('samm-järgmine').click();
+  await expect(page.getByTestId('samm-kaart')).toHaveAttribute('data-liik', 'lõpp');
+  await expect(dialoog).toContainText('Jagatud 101 / 101');
+  await page.keyboard.press('Escape');
+  await expect(dialoog).not.toBeVisible();
+  await expect(page).not.toHaveURL(/samm/);
+});
+
+for (const [laius, kõrgus] of [[390, 844], [1024, 768], [1440, 900]]) {
+  test(`samm-sammult vaade mahub laiusele ${laius}`, async ({ page }) => {
+    await page.setViewportSize({ width: laius, height: kõrgus });
+    await page.goto('/#v=rk2023&h=1&k=et&samm=0');
+    await expect(page.getByTestId('samm-haaval')).toBeVisible();
+    // kõik kaardiliigid: algus, künnis, lihtkvoot, isikumandaat, ringkonnamandaat, ... kompensatsioon, lõpp
+    const liigid = new Set<string>();
+    for (let i = 0; i < 129; i++) {
+      liigid.add((await page.getByTestId('samm-kaart').getAttribute('data-liik'))!);
+      const kärbitud = await page.getByTestId('samm-haaval').evaluate((d) =>
+        [d, ...d.querySelectorAll<HTMLElement>('*')]
+          .filter((el) => el === d || ['auto', 'scroll'].includes(getComputedStyle(el).overflowX))
+          .filter((el) => el.scrollWidth > el.clientWidth + 1)
+          .map((el) => `${el.tagName}.${[...el.classList].join('.')}`),
+      );
+      expect(kärbitud, `samm ${i}`).toEqual([]);
+      if (await page.getByTestId('samm-järgmine').isDisabled()) break;
+      await page.getByTestId('samm-järgmine').click();
+    }
+    expect([...liigid]).toEqual(expect.arrayContaining(['algus', 'künnis', 'kvoot', 'isikumandaat', 'ringkonnamandaat', 'ringkond-lõpp', 'kompensatsioon-algus', 'kompensatsioonimandaat', 'lõpp']));
+  });
+}
+
 test('kandidaatide piiril-filter', async ({ page }) => {
   await page.goto('/#v=koond-2023-03-03&s=1&k=et');
   await ootaKordusi(page);

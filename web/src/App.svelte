@@ -12,6 +12,7 @@
   import Kandidaadid from './komponendid/Kandidaadid.svelte';
   import Jalus from './komponendid/Jalus.svelte';
   import Kleepriba from './komponendid/Kleepriba.svelte';
+  import SammHaaval from './komponendid/SammHaaval.svelte';
   import { keskmineKoosseis } from './lib/koosseis';
   import { andmeTekstid } from './lib/andmed';
   import { ERAKONNAD } from './lib/erakonnad';
@@ -227,6 +228,10 @@
     </div>
   {/if}
 </main>
+
+{#if tulemus}
+  <SammHaaval {tulemus} bind:olek />
+{/if}
 
 <Jalus />
 

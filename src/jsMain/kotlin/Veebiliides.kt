@@ -81,6 +81,8 @@ class KompensatsiooniSammJs(
   val kandidaat: KandidaatJs,
   val viik: Boolean,
   val varureegel: Boolean,
+  /** üleriigilises nimekirjas eespool olnud, kuid alla 5% lihtkvoodist jäänud vabad kandidaadid */
+  val vahelejäetud: Array<KandidaatJs>,
 )
 
 @JsExport
@@ -341,6 +343,7 @@ class Simulaator(ringkondadeTekstid: Array<String>, üleriigilisedNimekirjad: St
           nimed.map { s.võrdlusarvud[it]!! }.toTypedArray(),
           nimed.map { s.jubaMandaate[it] ?: 0 }.toTypedArray(),
           s.erakond, js(s.kandidaat), s.viik, s.varureegel,
+          s.vahelejäetud.map { js(it) }.toTypedArray(),
         )
       }.toTypedArray(),
     )

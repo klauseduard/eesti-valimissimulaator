@@ -249,7 +249,9 @@ Veebileht on kaustas `web/` (Svelte, TypeScript, Vite). Mandaatide
 jagamise ja simuleerimise kood on Kotlinis kaustas `src/commonMain/` ja
 kompileeritakse nii JVM-i käsurea programmiks kui ka JavaScripti
 mooduliks, mida veebileht kasutab. Seega annavad käsurea programm ja
-veebileht sama seemne korral sama tulemuse. Leht `metoodika.html`
+veebileht sama seemne korral sama tulemuse. Nupp „Käi jaotus samm-sammult läbi"
+näitab ühe jaotuse (näidiskorduse või 2023. aasta tegelike häälte) samme
+seaduse § 62 järjekorras, iga koha kohta arvude ja diagrammiga. Leht `metoodika.html`
 kirjeldab eeldusi, kontrolle ja seda, mida simulaator ei modelleeri.
 Ringkondade piirid on
 failis `web/public/data/ringkonnad.topo.json`; nende allikas, litsents ja

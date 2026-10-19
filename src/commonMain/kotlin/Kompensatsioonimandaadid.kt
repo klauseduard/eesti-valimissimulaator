@@ -20,6 +20,11 @@ data class KompensatsiooniSamm(
   val viik: Boolean,
   /** kas kandidaat valiti varureegli järgi, sest 5% nõudele vastavaid kandidaate polnud (RKVS § 62 lg 7) */
   val varureegel: Boolean,
+  /**
+   * erakonna veel valimata kandidaadid, kes olid üleriigilises nimekirjas valitust eespool, kuid jäid alla 5%
+   * oma ringkonna lihtkvoodist (nimekirja järjekorras); varureegli korral kõik eespool olevad
+   */
+  val vahelejäetud: List<Kandidaat> = emptyList(),
 )
 
 /** Jagab kandidaatide vahel kompensatsioonimandaadid "modifitseeritud d'Hondti meetodil".
@@ -126,6 +131,7 @@ private fun jagaJärgmineMandaat(
     kandidaat = kandidaat,
     viik = erakondadeVõrdlusarvud.values.count { it == suurimVõrdlusarv } > 1,
     varureegel = nõuetele == null,
+    vahelejäetud = kandidaadidErakonnas.filter { it.jrkNr < kandidaat.jrkNr }.sortedBy { it.jrkNr },
   )
 }
 
