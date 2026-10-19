@@ -8,7 +8,8 @@
 
   * The district map in the support panel no longer jumps when the pointer
   moves from one district column to the next: the gaps between cells keep the
-  current district, and the caption has a fixed height.
+  current district, the caption has a fixed height, and the map has a fixed
+  size that does not shrink when a district name is long.
 
   * Step-through mode: a dialog walks through one allocation (the example run
   or the actual 2023 votes) in the order of § 62, by stage, district or single

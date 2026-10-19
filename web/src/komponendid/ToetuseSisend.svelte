@@ -136,7 +136,10 @@
   <!-- kleepuv päis: ringkondade kaart ja veergude numbrid jäävad erakondade ridu kerides nähtavaks -->
   <div class="kaardipea" data-testid="toetuse-kaart">
     <div class="kaardirida">
-      <Minikaart ringkond={aktiivne === null ? null : aktiivne + 1} silt={t('sisend.kaart')} laius={kaardiLaius} />
+      <!-- kaart on kindla suurusega; ainult tekstiveerg muutub nime pikkuse järgi -->
+      <div class="kaardi-kast" style:width="{kaardiLaius}px">
+        <Minikaart ringkond={aktiivne === null ? null : aktiivne + 1} silt={t('sisend.kaart')} laius={kaardiLaius} />
+      </div>
       <div class="kaardiinfo">
         <span class="pealdis">{t('sisend.ringkonnad')}</span>
         <span class="ringkonna-nimi" class:tühi={aktiivne === null} data-testid="ringkonna-nimi">
@@ -327,6 +330,14 @@
     align-items: center;
     gap: 0.9rem;
     margin-bottom: 0.3rem;
+  }
+
+  .kaardi-kast {
+    flex: none;
+  }
+
+  .kaardiinfo {
+    flex: 1 1 0;
   }
 
   /* kindla kõrgusega, et päis ei muudaks kõrgust, kui nimi on vihjest pikem või lühem */

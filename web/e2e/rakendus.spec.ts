@@ -228,12 +228,19 @@ for (const laius of [390, 1440]) {
     const päis = page.getByTestId('toetuse-kaart');
     const nimi = page.getByTestId('ringkonna-nimi');
     const kõrgus = async () => (await päis.boundingBox())!.height;
+    const kaart = päis.locator('svg');
+    const kaardiMõõdud = async () => {
+      const k = (await kaart.boundingBox())!;
+      return [k.x, k.width, k.height];
+    };
     const algne = await kõrgus();
-    // pikim nimi (1. ringkond) ja lühike nimi (7. ringkond) annavad sama kõrguse kui vihje
-    await page.getByTestId('ruut-REF-1').hover();
-    expect(await kõrgus()).toBe(algne);
-    await page.getByTestId('ruut-REF-7').hover();
-    expect(await kõrgus()).toBe(algne);
+    const algneKaart = await kaardiMõõdud();
+    // pikim nimi (1. ringkond) ja lühike nimi (7. ringkond) annavad sama kõrguse ja kaardi suuruse kui vihje
+    for (const ruut of ['ruut-REF-1', 'ruut-REF-7', 'ruut-REF-11']) {
+      await page.getByTestId(ruut).hover();
+      expect(await kõrgus(), ruut).toBe(algne);
+      expect(await kaardiMõõdud(), ruut).toEqual(algneKaart);
+    }
     // hiir liigub pikslite kaupa üle ruutude vahede: mõni ringkond on alati valitud
     const a = (await page.getByTestId('ruut-REF-4').boundingBox())!;
     const b = (await page.getByTestId('ruut-REF-8').boundingBox())!;
@@ -243,6 +250,7 @@ for (const laius of [390, 1440]) {
       await page.mouse.move(x, y);
       await expect(nimi).not.toHaveClass(/tühi/, { timeout: 200 });
       expect(await kõrgus()).toBe(algne);
+      expect(await kaardiMõõdud()).toEqual(algneKaart);
     }
   });
 }
