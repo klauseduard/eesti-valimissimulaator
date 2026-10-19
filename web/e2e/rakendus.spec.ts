@@ -220,6 +220,33 @@ for (const [laius, kõrgus] of [[390, 844], [1024, 768], [1440, 900]]) {
   });
 }
 
+for (const laius of [390, 1440]) {
+  test(`toetuse kaart ei hüple, kui hiir liigub veerult veerule (laius ${laius})`, async ({ page }) => {
+    await page.setViewportSize({ width: laius, height: 900 });
+    await page.goto('/#v=koond-2023-03-03&s=1&k=et');
+    await ootaKordusi(page);
+    const päis = page.getByTestId('toetuse-kaart');
+    const nimi = page.getByTestId('ringkonna-nimi');
+    const kõrgus = async () => (await päis.boundingBox())!.height;
+    const algne = await kõrgus();
+    // pikim nimi (1. ringkond) ja lühike nimi (7. ringkond) annavad sama kõrguse kui vihje
+    await page.getByTestId('ruut-REF-1').hover();
+    expect(await kõrgus()).toBe(algne);
+    await page.getByTestId('ruut-REF-7').hover();
+    expect(await kõrgus()).toBe(algne);
+    // hiir liigub pikslite kaupa üle ruutude vahede: mõni ringkond on alati valitud
+    const a = (await page.getByTestId('ruut-REF-4').boundingBox())!;
+    const b = (await page.getByTestId('ruut-REF-8').boundingBox())!;
+    const y = a.y + a.height / 2;
+    await page.mouse.move(a.x + 2, y);
+    for (let x = a.x + 2; x <= b.x + b.width - 2; x += 1) {
+      await page.mouse.move(x, y);
+      await expect(nimi).not.toHaveClass(/tühi/, { timeout: 200 });
+      expect(await kõrgus()).toBe(algne);
+    }
+  });
+}
+
 test('kandidaatide piiril-filter', async ({ page }) => {
   await page.goto('/#v=koond-2023-03-03&s=1&k=et');
   await ootaKordusi(page);

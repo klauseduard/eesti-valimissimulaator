@@ -35,9 +35,16 @@
   /** rida (erakonna lühend või „muud"), mille ruudule osutatakse; selle ruudu kohal on ringkonna nimi */
   let aktiivneRida = $state<string | null>(null);
   function valiRuut(sündmus: Event) {
-    const el = (sündmus.target as HTMLElement | null)?.closest<HTMLElement>('[data-ringkond]');
-    aktiivne = el ? Number(el.dataset.ringkond) : null;
-    aktiivneRida = el?.dataset.rida ?? null;
+    const siht = sündmus.target as Element | null;
+    const el = siht?.closest<HTMLElement>('[data-ringkond]');
+    if (el) {
+      aktiivne = Number(el.dataset.ringkond);
+      aktiivneRida = el.dataset.rida ?? null;
+      return;
+    }
+    // ruutude vahe või kaardil ringkondade vaheline ala: valik jääb samaks, et päis ei vilguks
+    if (siht?.closest('.ruudud, .numbrid, svg')) return;
+    tühjenda();
   }
   function tühjenda() {
     aktiivne = null;
@@ -322,10 +329,13 @@
     margin-bottom: 0.3rem;
   }
 
+  /* kindla kõrgusega, et päis ei muudaks kõrgust, kui nimi on vihjest pikem või lühem */
   .kaardiinfo {
     display: grid;
+    align-content: center;
     gap: 0.2rem;
     min-width: 0;
+    height: 5.4rem;
   }
 
   .ringkonna-nimi {
@@ -333,6 +343,11 @@
     font-size: 1.05rem;
     font-weight: 600;
     line-height: 1.25;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .ringkonna-nimi.tühi {
