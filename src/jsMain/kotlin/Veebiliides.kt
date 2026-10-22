@@ -248,6 +248,22 @@ class Simulaator(ringkondadeTekstid: Array<String>, üleriigilisedNimekirjad: St
     )
 
   /**
+   * Jagab mandaadid 2023. aasta tegelike häälte järgi, kui kandidaadid [regNrid] saavad lisaks [lisad] häält
+   * (uued valijad: ringkonna kehtivate häälte arv kasvab sama võrra). Välistele programmidele, nt taktikalise hääletamise mängule.
+   */
+  fun jaotaLisatudHäältega(regNrid: IntArray, lisad: IntArray): TulemusJs {
+    require(regNrid.size == lisad.size) { "Kandidaatide ja häälte arvud erinevad" }
+    val lisadMap = regNrid.indices.associate { regNrid[it] to lisad[it] }
+    val lisatudRingkonniti = kandidaadid.filter { it.regNr in lisadMap }
+      .groupBy({ it.valimisringkond }, { lisadMap[it.regNr]!! }).mapValues { (_, h) -> h.sum() }
+    val kehtivaid = tulemus2023.kehtivaidHääli.mapValues { (r, h) -> h + (lisatudRingkonniti[r] ?: 0) }
+    return tulemusJs(
+      jaotaLisatudHäältega(kandidaadidTegelikeHäältega(kandidaadid, tulemus2023), ringkonnad, tulemus2023.kehtivaidHääli, lisadMap),
+      kehtivaid
+    )
+  }
+
+  /**
    * Alustab korduvat simulatsiooni; kordused lisatakse meetodiga [KorduvSimulatsioonJs.korda].
    *
    * @param üleriigilineViga - küsitluse vea üleriigiline osa (vt [Küsitluseviga]); 0 tähendab veata

@@ -18,6 +18,17 @@ class VeebiliidesTest {
   private val norstat = simulaator.norstatiToetus(loeProjektiFail("$RESSURSID/$VAIKIMISI_REITINGUFAIL"))
 
   @Test
+  fun `lisatud hääled suurendavad kandidaadi hääli ja ringkonna kehtivaid hääli`() {
+    val alg = simulaator.jaotaTegelikeHäältega()
+    val k = alg.ringkonnad[0].erakonnad[0].valitud[0]
+    val uus = simulaator.jaotaLisatudHäältega(intArrayOf(k.regNr), intArrayOf(500))
+    assertEquals(alg.ringkonnad[0].kehtivaidHääli + 500, uus.ringkonnad[0].kehtivaidHääli)
+    assertEquals(k.hääli + 500, uus.valitud.single { it.regNr == k.regNr }.hääli)
+    assertEquals(101, uus.valitud.size)
+    assertFailsWith<IllegalArgumentException> { simulaator.jaotaLisatudHäältega(intArrayOf(k.regNr), intArrayOf(1, 2)) }
+  }
+
+  @Test
   fun `tegelike häältega jagatakse 2023 ametlikud mandaadid`() {
     val tulemus = simulaator.jaotaTegelikeHäältega()
     val mandaate = tulemus.erakonnad.filter { it.mandaate > 0 }.associate { it.erakond to it.mandaate }

@@ -6,6 +6,11 @@
 
 ### Changed
 
+  * The web module exposes `jaotaLisatudHäältega`: the allocation with the
+  actual 2023 votes plus extra votes for chosen candidates, counted as new
+  voters so the district quota rises too. It serves external programs such as
+  the tactical voting game, which is a separate project.
+
   * The district map in the support panel no longer jumps when the pointer
   moves from one district column to the next: the gaps between cells keep the
   current district, the caption has a fixed height, and the map has a fixed
