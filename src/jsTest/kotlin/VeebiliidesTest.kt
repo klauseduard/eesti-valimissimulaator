@@ -29,6 +29,25 @@ class VeebiliidesTest {
   }
 
   @Test
+  fun `mittevalitav kandidaat ei saa mandaati, kuid tema hääled jäävad erakonnale`() {
+    val alg = simulaator.jaotaTegelikeHäältega()
+    val tühjaga = simulaator.jaotaLisatudHäältegaMittevalitavatega(intArrayOf(), intArrayOf(), intArrayOf())
+    assertEquals(alg.valitud.map { it.regNr to it.mandaat }, tühjaga.valitud.map { it.regNr to it.mandaat })
+
+    val k = alg.valitud.first { it.mandaat == ISIKUMANDAAT }
+    val uus = simulaator.jaotaLisatudHäältegaMittevalitavatega(intArrayOf(k.regNr), intArrayOf(500), intArrayOf(k.regNr))
+    assertEquals(101, uus.valitud.size)
+    assertTrue(uus.valitud.none { it.regNr == k.regNr })
+    assertTrue(uus.ringkonnad.flatMap { it.isikumandaadid.toList() }.none { it.regNr == k.regNr })
+    val erakond = uus.erakonnad.single { it.erakond == k.erakond }
+    assertEquals(alg.erakonnad.single { it.erakond == k.erakond }.hääli + 500, erakond.hääli)
+    assertEquals(alg.erakonnad.single { it.erakond == k.erakond }.mandaate, erakond.mandaate)
+    assertFailsWith<IllegalArgumentException> {
+      simulaator.jaotaLisatudHäältegaMittevalitavatega(intArrayOf(), intArrayOf(), intArrayOf(1))
+    }
+  }
+
+  @Test
   fun `tegelike häältega jagatakse 2023 ametlikud mandaadid`() {
     val tulemus = simulaator.jaotaTegelikeHäältega()
     val mandaate = tulemus.erakonnad.filter { it.mandaate > 0 }.associate { it.erakond to it.mandaate }

@@ -251,14 +251,28 @@ class Simulaator(ringkondadeTekstid: Array<String>, üleriigilisedNimekirjad: St
    * Jagab mandaadid 2023. aasta tegelike häälte järgi, kui kandidaadid [regNrid] saavad lisaks [lisad] häält
    * (uued valijad: ringkonna kehtivate häälte arv kasvab sama võrra). Välistele programmidele, nt taktikalise hääletamise mängule.
    */
-  fun jaotaLisatudHäältega(regNrid: IntArray, lisad: IntArray): TulemusJs {
+  fun jaotaLisatudHäältega(regNrid: IntArray, lisad: IntArray): TulemusJs = jaotaLisatud(regNrid, lisad, emptySet())
+
+  /**
+   * Nagu [jaotaLisatudHäältega], kuid kandidaadid [mittevalitavad] (registreerimisnumbrid) ei saa mandaati, ehkki
+   * nende hääled jäävad erakonnale (RKVS § 62 lg 9: erakonna kandidaat suri pärast eelhääletamise algust). Nende
+   * hääled loetakse erakonna häälte hulka ringkonnas ja üle riigi; mandaadi saab järgmine nõuetele vastav kandidaat
+   * (ringkonnas häälte arvu järgi, kompensatsioonimandaadi üleriigilise nimekirja järjekorras). Üksikkandidaat ega
+   * tundmatu registreerimisnumber ei ole lubatud. Välistele programmidele, nt taktikalise hääletamise mängule.
+   */
+  fun jaotaLisatudHäältegaMittevalitavatega(regNrid: IntArray, lisad: IntArray, mittevalitavad: IntArray): TulemusJs =
+    jaotaLisatud(regNrid, lisad, mittevalitavad.toSet())
+
+  private fun jaotaLisatud(regNrid: IntArray, lisad: IntArray, mittevalitavad: Set<Int>): TulemusJs {
     require(regNrid.size == lisad.size) { "Kandidaatide ja häälte arvud erinevad" }
     val lisadMap = regNrid.indices.associate { regNrid[it] to lisad[it] }
     val lisatudRingkonniti = kandidaadid.filter { it.regNr in lisadMap }
       .groupBy({ it.valimisringkond }, { lisadMap[it.regNr]!! }).mapValues { (_, h) -> h.sum() }
     val kehtivaid = tulemus2023.kehtivaidHääli.mapValues { (r, h) -> h + (lisatudRingkonniti[r] ?: 0) }
     return tulemusJs(
-      jaotaLisatudHäältega(kandidaadidTegelikeHäältega(kandidaadid, tulemus2023), ringkonnad, tulemus2023.kehtivaidHääli, lisadMap),
+      jaotaLisatudHäältega(
+        kandidaadidTegelikeHäältega(kandidaadid, tulemus2023), ringkonnad, tulemus2023.kehtivaidHääli, lisadMap, mittevalitavad
+      ),
       kehtivaid
     )
   }
