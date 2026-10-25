@@ -257,6 +257,39 @@ Ringkondade piirid on
 failis `web/public/data/ringkonnad.topo.json`; nende allikas, litsents ja
 ehitamine on kirjeldatud failis `kaart/LOEMIND.md`.
 
+Kotlini JavaScripti moodul (`./gradlew jsBrowserProductionLibraryDistribution`,
+väljund kaustas `build/dist/js/productionLibrary/`) on ka liides välistele
+programmidele, näiteks eraldi projektina tehtud taktikalise hääletamise
+mängule. Klassi `Simulaator` meetod `jaotaLisatudHäältega(regNrid, lisad)`
+jagab mandaadid 2023. aasta tegelike häälte järgi, kui kandidaadid
+registreerimisnumbritega `regNrid` saavad lisaks `lisad` häält. Lisatud
+hääled on uued valijad, seega kasvab ka ringkonna lihtkvoot. Meetod
+`jaotaLisatudHäältegaMittevalitavatega(regNrid, lisad, mittevalitavad)` teeb
+sama, kuid erakonna kandidaadid registreerimisnumbritega `mittevalitavad` ei
+saa mandaati, ehkki nende hääled jäävad erakonnale. See on
+[Riigikogu valimise seaduse](https://www.riigiteataja.ee/akt/124052024010)
+(redaktsioon RT I, 24.05.2024, 10, kehtiv alates 01.10.2024) § 62 lõike 9
+juht: kui erakonna kandidaat sureb pärast eelhääletamise algust, jäävad tema
+hääled erakonnale. Need hääled loetakse erakonna häälte hulka ringkonnas ja
+üle riigi, seega ka 5% künnise ja lihtkvoodi alusel saadud mandaatide arvu
+juurde. Mandaadi saab järgmine nõuetele vastav kandidaat. Ringkonnas on see
+erakonna järgmine kandidaat häälte arvu järgi, kellel on vähemalt 10%
+lihtkvoodist (§ 62 lg 3). Kompensatsioonimandaadi saab üleriigilises
+nimekirjas järgmine kandidaat (§ 62 lg 6 ja 7). Kui sobivat kandidaati
+ringkonnas pole, läheb koht kompensatsioonimandaatide hulka. Asendusliikmete
+reegel (§ 75) siin ei rakendu, sest see määrab juba valitud liikme asendaja,
+surnud kandidaati aga ei valita.
+
+Sama lõige hõlmab kandidaati, kelle registreerimine tühistati (§ 32 lg 5;
+tühistada saab hiljemalt 13. päeval enne valimispäeva, § 32 lg 7). Siis
+jäävad erakonnale ainult talle välisriigis antud hääled. Kotlini funktsioon
+`jaotaMandaadid` teenib ka seda juhtu, kui kandidaadi häälteks on antud
+ainult välisriigis antud hääled. 2023. aasta andmetes pole neid hääli
+kandidaatide kaupa eraldi, seega modelleerib veebiliides ainult surma juhtu.
+Üksikkandidaadi hääli ei arvestata, kui ta sureb või tema registreerimine
+tühistatakse (§ 62 lg 9 viimane lause). Seda juhtu simulaator ei modelleeri
+ja üksikkandidaadi märkimine mittevalitavaks on viga.
+
 Veebilehe käivitamiseks oma arvutis on vaja ka Node.js-i (versioon 22
 või uuem):
 

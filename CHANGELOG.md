@@ -6,6 +6,20 @@
 
 ### Changed
 
+  * The allocation accepts a set of party candidates who cannot take a seat
+  while their votes stay with the party. RKVS § 62(9) requires this when a
+  candidate dies after advance voting has begun. The votes still count
+  towards the party's district and national totals, the 5% threshold and the
+  quota seats. The seat goes to the next eligible candidate: the next by
+  votes in the district (§ 62(3)), or the next on the national list for a
+  compensation seat (§ 62(6) and (7)). The web module exposes this as
+  `jaotaLisatudHäältegaMittevalitavatega(regNrid, lisad, mittevalitavad)`
+  next to `jaotaLisatudHäältega`, which is unchanged. The same mechanism
+  serves a cancelled registration (§ 32(5)), whose votes cast abroad stay
+  with the party, when the caller passes only those votes. An independent
+  candidate is rejected, because § 62(9) discards those votes. Without the
+  set every result is the same as before.
+
   * The web module exposes `jaotaLisatudHäältega`: the allocation with the
   actual 2023 votes plus extra votes for chosen candidates, counted as new
   voters so the district quota rises too. It serves external programs such as
