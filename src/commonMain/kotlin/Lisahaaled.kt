@@ -10,12 +10,15 @@ import mudel.Valimisringkond
 /**
  * Jagab mandaadid, kui [kandidaadid] (tegelike häältega) saavad lisaks hääli [lisad] järgi
  * (registreerimisnumber -> lisatud hääled). Lisatud hääled suurendavad oma ringkonna kehtivate häälte arvu.
+ * Kandidaadid [mittevalitavad] (registreerimisnumbrid) ei saa mandaati, kuid nende hääled jäävad erakonnale
+ * (RKVS § 62 lg 9, vt [jaotaMandaadid]).
  */
 fun jaotaLisatudHäältega(
   kandidaadid: List<Kandidaat>,
   ringkonnad: List<Valimisringkond>,
   kehtivaidHääli: Map<Int, Int>,
   lisad: Map<Int, Int>,
+  mittevalitavad: Set<Int> = emptySet(),
 ): Mandaadijaotus {
   require(lisad.values.all { it >= 0 }) { "Lisatud hääli ei saa olla negatiivselt" }
   val regNrJärgi = kandidaadid.associateBy { it.regNr }
@@ -24,7 +27,7 @@ fun jaotaLisatudHäältega(
   val lisatudRingkonniti = lisad.entries.groupBy({ regNrJärgi[it.key]!!.valimisringkond }, { it.value })
     .mapValues { (_, hääled) -> hääled.sum() }
   val kehtivaid = kehtivaidHääli.mapValues { (ringkond, hääli) -> hääli + (lisatudRingkonniti[ringkond] ?: 0) }
-  return jaotaMandaadid(muudetud, ringkonnad, kehtivaid)
+  return jaotaMandaadid(muudetud, ringkonnad, kehtivaid, mittevalitavad = mittevalitavad)
 }
 
 /** kõigi mandaadi saanud kandidaatide registreerimisnumbrid */

@@ -60,18 +60,33 @@ data class Mandaadijaotus(
  *   ringkonnamandaadid, millele nõuetele vastavat kandidaati ei leitud, jagatakse kompensatsioonimandaatidena.
  *   Üksikkandidaate ei käsitleta erakonna nimekirjana.
  * </p>
+ * <p>
+ *   Mittevalitavad kandidaadid ei saa ühtki mandaati, kuid nende hääled jäävad erakonnale (RKVS § 62 lg 9):
+ *   need loetakse erakonna häälte hulka ringkonnas ja üle riigi, seega ka 5% künnise ja lihtkvoodi alusel
+ *   saadud mandaatide arvu juurde. Mandaadi saab järgmine nõuetele vastav kandidaat tavareeglite järgi:
+ *   ringkonnas järgmine häälte arvu järgi (lg 3), kompensatsioonimandaadi järgmine üleriigilises nimekirjas
+ *   (lg 6 ja 7). Kui ringkonnas pole erakonnal järgmist kandidaati, kellel on vähemalt 10% lihtkvoodist, või
+ *   erakond ei ületanud künnist, läheb koht kompensatsioonimandaatide hulka nagu iga täitmata ringkonnamandaat.
+ * </p>
  *
  * @param kandidaadid - kandidaadid koos häälte arvu ja üleriigilise nimekirja järjekorranumbriga; ei muudeta
  * @param ringkonnad - valimisringkonnad koos mandaatide arvuga
  * @param kehtivaidHääli - ringkonna number -> kehtivate häälte arv ringkonnas
  * @param mandaateKokku - jagatavate mandaatide koguarv
+ * @param mittevalitavad - erakonna kandidaatide registreerimisnumbrid, kelle hääled jäävad erakonnale, kuid kes
+ *   ei saa mandaati (RKVS § 62 lg 9: kandidaat suri pärast eelhääletamise algust või tema registreerimine
+ *   tühistati ja arvesse lähevad ainult välisriigis antud hääled); tühi hulk annab tavalise jaotuse
  */
 fun jaotaMandaadid(
   kandidaadid: List<Kandidaat>,
   ringkonnad: List<Valimisringkond>,
   kehtivaidHääli: Map<Int, Int>,
-  mandaateKokku: Int = MANDAATE_KOKKU
+  mandaateKokku: Int = MANDAATE_KOKKU,
+  mittevalitavad: Set<Int> = emptySet(),
 ): Mandaadijaotus {
+  if (mittevalitavad.isNotEmpty()) kontrolliMittevalitavaid(kandidaadid, mittevalitavad)
+  fun valitav(k: Kandidaat) = k.regNr !in mittevalitavad
+
   val lihtkvoodid = ringkonnad.associate { it.nr to lihtkvoot(kehtivaidHääli[it.nr]!!, it.mandaatideArv) }
 
   // 5% künnise ületanud erakonnad
@@ -104,7 +119,8 @@ fun jaotaMandaadid(
     val erakondadeMandaadid = arvutaRingkonnaMandaadid(erakondadeHääled, kehtivaidHääli[ringkond.nr]!!, ringkond.mandaatideArv)
     val erakondadeArvutused = mutableListOf<ErakonnaRingkonnaArvutus>()
     for ((erakond, mandaate) in erakondadeMandaadid) {
-      val erakonnaKandidaadid = kandidaadidRingkonnas.filter { it.erakond == erakond }
+      // mittevalitav kandidaat jäetakse vahele, tema hääled on juba erakonna häälte hulgas (RKVS § 62 lg 9)
+      val erakonnaKandidaadid = kandidaadidRingkonnas.filter { it.erakond == erakond && valitav(it) }
       val valitud = erakonnaKandidaadid.filter { it.hääli >= 0.10 * kvoot }.take(mandaate)
       valitudRingkonnas.addAll(valitud)
       val hääli = erakondadeHääled[erakond]!!
@@ -122,7 +138,7 @@ fun jaotaMandaadid(
     }
 
     // isikumandaadid üksikkandidaatidele ja künnist mitte ületanud nimekirjade kandidaatidele
-    valitudRingkonnas.addAll(kandidaadidRingkonnas.filter { it.erakond !in künniseÜletanud && it.hääli >= kvoot })
+    valitudRingkonnas.addAll(kandidaadidRingkonnas.filter { it.erakond !in künniseÜletanud && it.hääli >= kvoot && valitav(it) })
 
     ringkonnamandaatideArv[ringkond.nr] = valitudRingkonnas.groupingBy { it.erakond }.eachCount()
     ringkonnamandaadid.addAll(valitudRingkonnas)
@@ -133,7 +149,7 @@ fun jaotaMandaadid(
         mandaate = ringkond.mandaatideArv,
         lihtkvoot = kvoot,
         erakonnad = erakondadeArvutused,
-        isikumandaadid = kandidaadidRingkonnas.filter { it.hääli >= kvoot },
+        isikumandaadid = kandidaadidRingkonnas.filter { it.hääli >= kvoot && valitav(it) },
       )
     )
   }
@@ -149,7 +165,7 @@ fun jaotaMandaadid(
   }
 
   val kompensatsiooniSammud = arvutaKompensatsiooniSammud(
-    nimekirjadeKandidaadid.filter { it.erakond in künniseÜletanud } - ringkonnamandaadid.toSet(),
+    nimekirjadeKandidaadid.filter { it.erakond in künniseÜletanud && valitav(it) } - ringkonnamandaadid.toSet(),
     jagamataMandaate = mandaateKokku - ringkonnamandaadid.size,
     jagatudMandaadidErakondadeKaupa,
     erakondadeHääledKoguRiigis,
@@ -161,6 +177,21 @@ fun jaotaMandaadid(
     ringkonnamandaatideArv, ringkonnamandaadid, kompensatsiooniSammud.map { it.kandidaat },
     erakondadeHääledKoguRiigis, künniseÜletanud, ringkonnaArvutused, kompensatsiooniSammud
   )
+}
+
+/**
+ * Kontrollib, et mittevalitavad on erakondade kandidaadid. Üksikkandidaadi hääli ei arvestata, kui ta sureb
+ * või tema registreerimine tühistatakse (RKVS § 62 lg 9 viimane lause); selle juhu jaoks tuleb tema hääled
+ * sisendist eemaldada, mittevalitavaks märkimine seda ei tee.
+ */
+private fun kontrolliMittevalitavaid(kandidaadid: List<Kandidaat>, mittevalitavad: Set<Int>) {
+  val regNrJärgi = kandidaadid.associateBy { it.regNr }
+  for (regNr in mittevalitavad) {
+    val kandidaat = requireNotNull(regNrJärgi[regNr]) { "Tundmatu kandidaat $regNr" }
+    require(kandidaat.erakond != ÜKSIKKANDIDAADID) {
+      "Üksikkandidaadi $regNr hääli ei arvestata (RKVS § 62 lg 9), teda ei saa märkida mittevalitavaks"
+    }
+  }
 }
 
 /** mandaadi saanud kandidaadid tekstina, üks kandidaat reas; see on ka runs/ kausta failide vorming */
